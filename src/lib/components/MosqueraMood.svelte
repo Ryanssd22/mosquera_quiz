@@ -19,42 +19,42 @@
   // Use the clean, high-resolution, natural photo of Dr. Mosquera (no weird melted warping)
   const mosqueraImg = '/assets/mosquera_cutout.png';
 
-  // Short, punchy VLSI professor remarks
+  // Authentic Peninsular Spanish (Castellano) VLSI professor remarks
   const quotes = {
     enraged: [
-      "Review the lecture slides on interconnect delay!",
-      "Incorrect. Recheck your boundary conditions.",
-      "No?!",
-      "ES TERRIBLE! ES TERRIBLE! ES TERRIBLE!",
-      "If you were Ian, I would be laughing uncontrollaby right now"
+      "¡ES TERRIBLE! ¡ES TERRIBLE! ¡Pero hombre, cómo me pones eso!",
+      "¡Madre mía! ¡Vaya chapuza! ¡A repasar las transparencias pero ya!",
+      "¡No me jodas! Si fueras Ian me estaría descojonando ahora mismo.",
+      "¡Pero chaval! ¿Cómo calculas ese retardo? ¡A septiembre directo!",
+      "¿Pero qué me estás contando? ¡Eso no tiene ni pies ni cabeza!"
     ],
     sad: [
-      "Not quite. Think about the physical capacitive coupling.",
-      "Check your Elmore delay path sum again.",
-      "Remember: velocity saturation changes the I-V curve.",
-      "Complex no?",
-      "ES TERRIBLE!"
+      "¡Vaya tela, chaval! Piensa en el acoplo capacitivo, hombre.",
+      "¡Hostia qué fallo! Recuerda el efecto de la saturación de velocidad.",
+      "Complex no? ¡ES TERRIBLE! Vuelve a mirar la ruta de retardo de Elmore.",
+      "Uy uy uy... flojito, flojito. Dale otra vuelta a la teoría de hilos.",
+      "No hombre, no... Con ese dieléctrico no vamos a ninguna parte."
     ],
     neutral: [
-      "Digital CMOS VLSI Design - Lecture Quiz",
-      "Analyze the circuit parameters carefully.",
-      "Select the best conceptual choice.",
-      "Evaluate the design trade-offs.",
-      "Next question. Focus on the core theory."
+      "Diseño VLSI CMOS Digital — Concéntrate, chaval.",
+      "Venga, ojo al dato: analiza con calma los parámetros del circuito.",
+      "A ver qué eliges. Piensa despacio antes de meter la pata.",
+      "Siguiente cuestión. Céntrate en la física del silicio.",
+      "Evalúa bien el compromiso entre retardo y consumo de potencia."
     ],
     happy: [
-      "Correct! Outstanding VLSI reasoning!",
-      "Precisely right. You understand the device physics!",
-      "Accurate analysis of interconnect parasitics!",
-      "Excellent. You have mastered this concept!",
-      "Spot on! Keep this momentum going!"
+      "¡Olé ahí! ¡Fenómeno, chaval! ¡Lo has clavao!",
+      "¡Qué máquina! ¡Dominas la física del dispositivo a la perfección!",
+      "¡De categoría! ¡Ese análisis de parásitos está impecable!",
+      "¡Muy bien visto! Así se diseña en tecnología submicrónica.",
+      "¡Hombre, por fin! ¡Eso sí que es entender el retardo de Elmore!"
     ],
     ascended: [
-      "Flawless mastery of Digital CMOS VLSI Design!",
-      "Outstanding! 100% precision across all device physics!",
-      "Phenomenal clinical & circuit acumen!",
-      "Top of the class! Perfect conceptual execution!",
-      "Dr. Mosquera is thoroughly impressed!"
+      "¡MADRE MÍA! ¡ERES EL PUTO AMO DEL CMOS VLSI!",
+      "¡Flipante! ¡Matrícula de honor para este chaval!",
+      "¡Qué barbaridad! ¡Ni en la Escuela Politécnica se ve tanto nivel!",
+      "¡Brutal! ¡El silicio se rinde a tus pies, auténtico genio!",
+      "¡Don Fernando Mosquera se quita el sombrero ante ti!"
     ]
   };
 
@@ -128,15 +128,15 @@
     <div class="mood-label-row">
       <span class="mood-title">
         {#if moodTier === 'enraged'}
-          FUMING / ENRAGED
+          ¡CABREADO! / FUMANDO EN PIPA
         {:else if moodTier === 'sad'}
-          DISAPPOINTED
+          DISGUSTADO / BAJÓN
         {:else if moodTier === 'neutral'}
-          FOCUSED
+          CONCENTRADO
         {:else if moodTier === 'happy'}
-          HAPPY & SATISFIED
+          ¡FENÓMENO! / SATISFECHO
         {:else}
-          ASCENDED / MAX HAPPINESS
+          ¡EL PUTO AMO! / ASCENDIDO
         {/if}
       </span>
       <span class="mood-pct">{Math.round(happiness)}%</span>

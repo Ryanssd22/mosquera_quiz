@@ -32,7 +32,7 @@
         <img src="/assets/glitter_star.gif" alt="Sparkle" class="star-gif left" />
         <div class="title-text-group">
           <h1 class="game-title">Dr. Mosquerra's Practice VLSI Exam</h1>
-          <p class="subtitle">Do you dare answer these questions?</p>
+          <p class="subtitle">¿Te atreves con estas preguntas de examen?</p>
         </div>
         <img src="/assets/glitter_star.gif" alt="Sparkle" class="star-gif right" />
       </div>
@@ -45,7 +45,7 @@
   <div class="center-stage-box">
     <div class="speech-plaque">
       <span class="speech-text">
-        "Welcome to Digital CMOS VLSI Design. Answer correctly to make me proud and reach 100% happiness!"
+        "¡Bienvenidos a Diseño VLSI CMOS Digital! A ver si respondéis bien, hacéis que me sienta orgulloso y llegáis al 100% de felicidad, chavales."
       </span>
     </div>
 
@@ -67,17 +67,17 @@
   <div class="session-info-bar">
     <div class="info-pill">
       <Icon icon="mdi:book-open-page-variant" width="18" class="info-icon" />
-      <span>Topics: <strong>{selectedTopicsCount}</strong></span>
+      <span>Temas: <strong>{selectedTopicsCount}</strong></span>
     </div>
     <div class="pill-divider"></div>
     <div class="info-pill">
       <Icon icon="mdi:help-circle-outline" width="18" class="info-icon" />
-      <span>Questions: <strong>{totalQuestionsCount}</strong> (Randomized)</span>
+      <span>Preguntas: <strong>{totalQuestionsCount}</strong> (Aleatorias)</span>
     </div>
     <div class="pill-divider"></div>
     <div class="info-pill">
       <Icon icon="mdi:timer-outline" width="18" class="info-icon" />
-      <span>Timer: <strong>{hasTimeLimit ? `${timeLimitSeconds}s` : 'Off'}</strong></span>
+      <span>Temporizador: <strong>{hasTimeLimit ? `${timeLimitSeconds}s` : 'Desactivado'}</strong></span>
     </div>
   </div>
 
@@ -89,7 +89,7 @@
       <button class="lozenge-outer play-lozenge-btn" onclick={handlePlay}>
         <div class="lozenge-inner play-inner">
           <Icon icon="mdi:play" width="30" class="play-icon" />
-          <span class="play-text">START STUDYING (HOT SEAT)</span>
+          <span class="play-text">COMENZAR EXAMEN (AL BANQUILLO)</span>
         </div>
       </button>
 
@@ -98,7 +98,7 @@
 
     <button class="btn-settings-sleek" onclick={handleSettings}>
       <Icon icon="mdi:cog" width="16" />
-      <span>Settings & Choose Topics</span>
+      <span>Ajustes y Elegir Temas</span>
     </button>
   </div>
 </div>

@@ -38,10 +38,6 @@
   // { [questionId]: number }
   let questionWrongAttempts = $state({});
 
-  // Track the first wrong option that was marked red:
-  // { [questionId]: string | null }
-  let firstWrongOptionMap = $state({});
-
   // Countdown timer
   let timeLeft = $state(0);
   let timerInterval = null;
@@ -134,19 +130,6 @@
       rawNextQ = unmastered[randIdx];
     }
 
-    // If this question had a first wrong option from a previous encounter,
-    // move it into disabledOptionsMap so it renders as blacked out on retry!
-    if (firstWrongOptionMap[rawNextQ.id]) {
-      const prevDisabled = disabledOptionsMap[rawNextQ.id] || [];
-      const firstWrong = firstWrongOptionMap[rawNextQ.id];
-      if (!prevDisabled.includes(firstWrong)) {
-        disabledOptionsMap = {
-          ...disabledOptionsMap,
-          [rawNextQ.id]: [...prevDisabled, firstWrong]
-        };
-      }
-    }
-
     // Lock option positions with prepareQuestionWithShuffledOptions so solutions NEVER move positions!
     currentQuestion = prepareQuestionWithShuffledOptions(rawNextQ);
     selectedOptionIndex = null;
@@ -191,9 +174,8 @@
     const qId = currentQuestion?.id;
     if (!qId || !optionText) return;
 
-    // Prevent clicking already blacked-out or red-marked wrong options
+    // Prevent clicking already blacked-out wrong options
     if (disabledOptionsMap[qId]?.includes(optionText)) return;
-    if (firstWrongOptionMap[qId] === optionText) return;
 
     playClick();
     submitAnswer(index, false);
@@ -232,25 +214,19 @@
       const newCount = prevCount + 1;
       questionWrongAttempts = { ...questionWrongAttempts, [qId]: newCount };
 
-      const existingDisabled = disabledOptionsMap[qId] || [];
-
+      // Immediately shade out the wrong option in place without turning red!
       if (optionText) {
-        if (newCount === 1) {
-          // 1st one wrong: turn red!
-          firstWrongOptionMap = { ...firstWrongOptionMap, [qId]: optionText };
-        } else {
-          // 2nd (and subsequent) wrong: JUST BLACK OUT instead of turning red!
-          if (!existingDisabled.includes(optionText)) {
-            disabledOptionsMap = {
-              ...disabledOptionsMap,
-              [qId]: [...existingDisabled, optionText]
-            };
-          }
+        const existingDisabled = disabledOptionsMap[qId] || [];
+        if (!existingDisabled.includes(optionText)) {
+          disabledOptionsMap = {
+            ...disabledOptionsMap,
+            [qId]: [...existingDisabled, optionText]
+          };
         }
       }
 
       if (isTimeout) {
-        lastMessage = "Time expired.";
+        lastMessage = "¡Se acabó el tiempo, chaval!";
         isAnswered = true;
       }
 
@@ -298,8 +274,22 @@
     });
   });
 
+  function handleKeyDown(e) {
+    if (isCorrect && (e.key === 'Enter' || e.key === ' ')) {
+      e.preventDefault();
+      handleNextClick();
+    }
+  }
+
+  onMount(() => {
+    window.addEventListener('keydown', handleKeyDown);
+  });
+
   onDestroy(() => {
     if (timerInterval) clearInterval(timerInterval);
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('keydown', handleKeyDown);
+    }
   });
 
   let topicStats = $derived.by(() => {
@@ -332,7 +322,7 @@
   <div class="top-nav-bar">
     <button class="nav-btn" onclick={onBackToMenu}>
       <Icon icon="mdi:arrow-left" width="16" />
-      <span>Menu</span>
+      <span>Menú</span>
     </button>
 
     <div class="active-topic-badge">
@@ -348,14 +338,14 @@
       </div>
 
       {#if availableTopics.length > 1}
-        <button class="nav-btn switch-btn" onclick={promptSwitchTopic} title="Switch Topic">
+        <button class="nav-btn switch-btn" onclick={promptSwitchTopic} title="Cambiar Tema">
           <Icon icon="mdi:swap-horizontal" width="16" />
-          <span>Switch Topic</span>
+          <span>Cambiar Tema</span>
         </button>
       {/if}
       <button class="nav-btn" onclick={handleSkipQuestion} disabled={isAnswered}>
         <Icon icon="mdi:skip-next" width="16" />
-        <span>Skip</span>
+        <span>Pasar</span>
       </button>
     </div>
   </div>
@@ -372,39 +362,6 @@
           {lastMessage}
         />
       </div>
-
-      <!-- Feedback Banner (When Solved Correctly or When Trying Again) -->
-      {#if isCorrect}
-        <div class="feedback-banner correct">
-          <div class="feedback-left">
-            <Icon icon="mdi:check-circle" width="28" class="feedback-icon" />
-            <div class="feedback-text-group">
-              <span class="feedback-title">Correct!</span>
-              {#if currentQuestion.explanation}
-                <p class="feedback-explanation">{currentQuestion.explanation}</p>
-              {/if}
-            </div>
-          </div>
-          <button class="btn-continue" onclick={handleNextClick}>
-            <span>Next</span>
-            <Icon icon="mdi:arrow-right" width="18" />
-          </button>
-        </div>
-      {:else if (questionWrongAttempts[currentQuestion.id] || 0) > 0}
-        <div class="feedback-banner wrong-hint">
-          <div class="feedback-left">
-            <Icon icon="mdi:alert-circle" width="28" class="feedback-icon" />
-            <div class="feedback-text-group">
-              <span class="feedback-title">Incorrect — Try another option!</span>
-              <p class="feedback-explanation">Eliminated wrong options are disabled. Pick another answer or skip.</p>
-            </div>
-          </div>
-          <button class="btn-continue skip-continue" onclick={handleSkipQuestion}>
-            <span>Skip</span>
-            <Icon icon="mdi:skip-next" width="18" />
-          </button>
-        </div>
-      {/if}
 
       <!-- Lower Stage: The Iconic Millionaire Quiz Interface -->
       <div class="quiz-controls-stage">
@@ -434,8 +391,7 @@
 
           {#each row1Options as item, i}
             {@const opt = currentQuestion.options[item.idx]}
-            {@const isRedWrong = firstWrongOptionMap[currentQuestion.id] === opt}
-            {@const isBlackedOut = (disabledOptionsMap[currentQuestion.id] || []).includes(opt) && !isRedWrong}
+            {@const isBlackedOut = (disabledOptionsMap[currentQuestion.id] || []).includes(opt)}
             {@const isSelected = selectedOptionIndex === item.idx}
             {@const isCorrectOpt = item.idx === currentQuestion.correctIndex}
 
@@ -448,10 +404,10 @@
               class:answered={isCorrect}
               class:selected={isSelected}
               class:reveal-correct={isCorrect && isCorrectOpt}
-              class:reveal-wrong={isRedWrong}
+              class:shaded-rest={isCorrect && !isCorrectOpt}
               class:blacked-out={isBlackedOut}
               onclick={() => handleOptionClick(item.idx)}
-              disabled={isCorrect || isRedWrong || isBlackedOut}
+              disabled={isCorrect || isBlackedOut}
             >
               <div class="lozenge-inner answer-inner">
                 <div class="option-badge">
@@ -471,8 +427,7 @@
 
           {#each row2Options as item, i}
             {@const opt = currentQuestion.options[item.idx]}
-            {@const isRedWrong = firstWrongOptionMap[currentQuestion.id] === opt}
-            {@const isBlackedOut = (disabledOptionsMap[currentQuestion.id] || []).includes(opt) && !isRedWrong}
+            {@const isBlackedOut = (disabledOptionsMap[currentQuestion.id] || []).includes(opt)}
             {@const isSelected = selectedOptionIndex === item.idx}
             {@const isCorrectOpt = item.idx === currentQuestion.correctIndex}
 
@@ -485,10 +440,10 @@
               class:answered={isCorrect}
               class:selected={isSelected}
               class:reveal-correct={isCorrect && isCorrectOpt}
-              class:reveal-wrong={isRedWrong}
+              class:shaded-rest={isCorrect && !isCorrectOpt}
               class:blacked-out={isBlackedOut}
               onclick={() => handleOptionClick(item.idx)}
-              disabled={isCorrect || isRedWrong || isBlackedOut}
+              disabled={isCorrect || isBlackedOut}
             >
               <div class="lozenge-inner answer-inner">
                 <div class="option-badge">
@@ -503,6 +458,35 @@
         </div>
       </div>
     </div>
+
+    <!-- Side Feedback Panel (Zero Layout Shift - Fixed on upper-right side) -->
+    {#if isCorrect}
+      <aside class="side-feedback-panel" aria-live="polite">
+        <div class="feedback-card-header">
+          <Icon icon="mdi:check-decagram" width="28" class="feedback-success-icon" />
+          <div class="header-titles">
+            <span class="feedback-badge">¡CLAVADO!</span>
+            <span class="feedback-sub">Respuesta Correcta</span>
+          </div>
+        </div>
+
+        {#if currentQuestion.explanation}
+          <div class="explanation-box">
+            <div class="explanation-label">
+              <Icon icon="mdi:lightbulb-on-outline" width="16" />
+              <span>Explicación del Profesor:</span>
+            </div>
+            <p class="explanation-text">{currentQuestion.explanation}</p>
+          </div>
+        {/if}
+
+        <button class="btn-next-question" onclick={handleNextClick}>
+          <span>SIGUIENTE PREGUNTA</span>
+          <Icon icon="mdi:arrow-right-thick" width="20" />
+        </button>
+        <span class="next-key-hint">Pulsa Intro ↵ para avanzar</span>
+      </aside>
+    {/if}
   {/if}
 </div>
 
@@ -642,88 +626,121 @@
     flex-shrink: 0;
   }
 
-  /* Feedback Banner */
-  .feedback-banner {
+  /* Side Feedback Panel (Floating upper-right, zero layout shift in stage) */
+  .side-feedback-panel {
+    position: fixed;
+    top: 96px;
+    right: 24px;
+    width: 380px;
+    max-width: calc(100vw - 32px);
+    background: linear-gradient(180deg, rgba(16, 42, 30, 0.96) 0%, rgba(8, 24, 18, 0.98) 100%);
+    border: 2px solid #22c55e;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85), 0 0 20px rgba(34, 197, 94, 0.35);
+    padding: 20px;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 8px 24px;
-    border-radius: 8px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
-    animation: bannerPop 0.25s ease-out;
-    z-index: 15;
-  }
-
-  .feedback-banner.correct {
-    background: linear-gradient(180deg, #15803d 0%, #166534 100%);
-    border: 2px solid #4ade80;
-    color: #ffffff;
-  }
-
-  .feedback-banner.wrong-hint {
-    background: linear-gradient(180deg, #854d0e 0%, #713f12 100%);
-    border: 2px solid #facc15;
-    color: #ffffff;
-  }
-
-  .feedback-left {
-    display: flex;
-    align-items: center;
+    flex-direction: column;
     gap: 14px;
+    z-index: 90;
+    animation: sideSlideIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .feedback-text-group {
+  @keyframes sideSlideIn {
+    0% { transform: translateX(30px); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
+  }
+
+  .feedback-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid rgba(74, 222, 128, 0.25);
+    padding-bottom: 10px;
+  }
+
+  :global(.feedback-success-icon) {
+    color: #4ade80;
+    filter: drop-shadow(0 0 8px rgba(74, 222, 128, 0.8));
+    flex-shrink: 0;
+  }
+
+  .header-titles {
     display: flex;
     flex-direction: column;
     gap: 2px;
   }
 
-  .feedback-title {
-    font-size: 16px;
+  .feedback-badge {
+    color: #4ade80;
+    font-size: 20px;
     font-weight: bold;
+    letter-spacing: 0.5px;
+    text-shadow: 0 0 8px rgba(74, 222, 128, 0.6);
   }
 
-  .feedback-explanation {
+  .feedback-sub {
+    color: #a7f3d0;
+    font-size: 13px;
+    opacity: 0.9;
+  }
+
+  .explanation-box {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(74, 222, 128, 0.2);
+    border-radius: 6px;
+    padding: 10px 12px;
+  }
+
+  .explanation-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #fce69a;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 4px;
+  }
+
+  .explanation-text {
     margin: 0;
     font-size: 13px;
-    opacity: 0.95;
-    line-height: 1.35;
+    color: #f1f5f9;
+    line-height: 1.4;
   }
 
-  .btn-continue {
-    background: #ffffff;
-    color: #0f1c3f;
-    border: none;
-    border-radius: 4px;
+  .btn-next-question {
+    background: linear-gradient(180deg, #4ade80 0%, #22c55e 50%, #16a34a 100%);
+    border: 2px solid #bbf7d0;
+    border-radius: 8px;
+    color: #052e16;
     font-family: 'Comic Sans MS', cursive, sans-serif;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: bold;
-    padding: 8px 20px;
+    padding: 12px 20px;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 8px;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
-    white-space: nowrap;
-    transition: transform 0.1s;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.6);
+    transition: transform 0.12s, box-shadow 0.12s;
+    letter-spacing: 0.5px;
   }
 
-  .btn-continue:hover {
-    transform: scale(1.04);
+  .btn-next-question:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 6px 20px rgba(34, 197, 94, 0.6);
   }
 
-  .btn-continue.skip-continue {
-    background: #182852;
-    border: 1px solid #d4af37;
-    color: #fce69a;
+  .btn-next-question:active {
+    transform: translateY(1px);
   }
 
-  .btn-continue.skip-continue:hover {
-    background: #253e7a;
-    transform: scale(1.04);
+  .next-key-hint {
+    text-align: center;
+    font-size: 11px;
+    color: #86efac;
+    opacity: 0.75;
   }
 
   /* Quiz Controls Stage (Millionaire Studio Design) */
@@ -928,28 +945,26 @@
       linear-gradient(180deg, #16a34a 0%, #15803d 35%, #14532d 100%) !important;
   }
 
-  .answer-lozenge.reveal-wrong {
-    background: linear-gradient(180deg, #fecaca 0%, #ef4444 40%, #b91c1c 100%) !important;
-    filter: drop-shadow(0 0 20px rgba(239, 68, 68, 0.9)) !important;
-  }
-
-  .answer-lozenge.reveal-wrong .lozenge-inner {
-    background:
-      radial-gradient(ellipse 85% 65% at 50% 18%, rgba(254, 202, 202, 0.6) 0%, transparent 70%),
-      linear-gradient(180deg, #dc2626 0%, #b91c1c 35%, #7f1d1d 100%) !important;
-  }
-
-  /* Blacked out wrong choices on retry */
-  .answer-lozenge.blacked-out {
-    background: #1e293b !important;
-    filter: grayscale(1) !important;
+  /* Shaded out non-correct choices when question is solved */
+  .answer-lozenge.shaded-rest {
     opacity: 0.22 !important;
+    filter: grayscale(0.85) brightness(0.6) !important;
+    pointer-events: none !important;
+    cursor: not-allowed !important;
+    transition: opacity 0.3s ease, filter 0.3s ease;
+  }
+
+  /* Blacked out wrong choices: shaded out, strikethrough, disabled in place (no red) */
+  .answer-lozenge.blacked-out {
+    background: #141d2e !important;
+    filter: grayscale(1) !important;
+    opacity: 0.25 !important;
     pointer-events: none !important;
     cursor: not-allowed !important;
   }
 
   .answer-lozenge.blacked-out .lozenge-inner {
-    background: #060b14 !important;
+    background: #050a14 !important;
   }
 
   .answer-lozenge.blacked-out .option-text {
@@ -961,8 +976,8 @@
     color: #334155 !important;
   }
 
-  .answer-lozenge.answered:not(.reveal-correct):not(.reveal-wrong):not(.blacked-out) {
-    opacity: 0.45;
+  .answer-lozenge.answered:not(.reveal-correct):not(.blacked-out) {
+    opacity: 0.35;
   }
 
   @keyframes flamePulse {
@@ -973,11 +988,6 @@
   @keyframes timerPulse {
     0% { transform: scale(1); }
     100% { transform: scale(1.1); }
-  }
-
-  @keyframes bannerPop {
-    0% { transform: translateY(-8px); opacity: 0; }
-    100% { transform: translateY(0); opacity: 1; }
   }
 
   @keyframes correctFlash {
