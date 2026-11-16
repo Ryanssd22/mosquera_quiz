@@ -3,6 +3,7 @@
   import Icon from '@iconify/svelte';
   import MosqueraMood from './MosqueraMood.svelte';
   import { playCorrect, playWrong, playCombo, playTick, playClick } from '#lib/audio/soundFx.js';
+  import glossaryData from '#lib/data/glossary.json';
 
   let {
     questions = [],
@@ -265,6 +266,97 @@
     }
   }
 
+  // Term definition popup state
+  let activeModalTerm = $state(null);
+
+  // Precompile sorted glossary candidates (longest alias first for greedy matching)
+  const sortedGlossaryCandidates = (() => {
+    const list = [];
+    for (const entry of glossaryData) {
+      const allPhrases = new Set([entry.term, ...(entry.aliases || [])]);
+      for (const phrase of allPhrases) {
+        const trimmed = phrase.trim();
+        if (trimmed.length >= 2) {
+          list.push({ alias: trimmed, entry });
+        }
+      }
+    }
+    list.sort((a, b) => b.alias.length - a.alias.length);
+    return list;
+  })();
+
+  function escapeRegex(str) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  // Parse current question text into plain text vs clickable VLSI terms
+  let questionSegments = $derived.by(() => {
+    const text = currentQuestion?.question;
+    if (!text) return [];
+
+    const matches = [];
+    for (const cand of sortedGlossaryCandidates) {
+      const pattern = new RegExp(`\\b${escapeRegex(cand.alias)}\\b`, 'gi');
+      let m;
+      while ((m = pattern.exec(text)) !== null) {
+        matches.push({
+          start: m.index,
+          end: m.index + m[0].length,
+          text: m[0],
+          term: cand.entry
+        });
+      }
+    }
+
+    // Sort matches: start ascending, then length descending
+    matches.sort((a, b) => {
+      if (a.start !== b.start) return a.start - b.start;
+      return (b.end - b.start) - (a.end - a.start);
+    });
+
+    // Greedily pick non-overlapping matches
+    const chosen = [];
+    let lastEnd = 0;
+    for (const m of matches) {
+      if (m.start >= lastEnd) {
+        chosen.push(m);
+        lastEnd = m.end;
+      }
+    }
+
+    const segments = [];
+    let curr = 0;
+    for (const m of chosen) {
+      if (m.start > curr) {
+        segments.push({ text: text.slice(curr, m.start), isTerm: false });
+      }
+      segments.push({
+        text: m.text,
+        isTerm: true,
+        term: m.term
+      });
+      curr = m.end;
+    }
+    if (curr < text.length) {
+      segments.push({ text: text.slice(curr), isTerm: false });
+    }
+
+    return segments;
+  });
+
+  function handleOpenTerm(term, event) {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    playClick();
+    activeModalTerm = term;
+  }
+
+  function handleCloseTerm() {
+    activeModalTerm = null;
+  }
+
   $effect(() => {
     const topic = activeTopic;
     untrack(() => {
@@ -275,7 +367,12 @@
   });
 
   function handleKeyDown(e) {
-    if (isCorrect && (e.key === 'Enter' || e.key === ' ')) {
+    if (activeModalTerm && e.key === 'Escape') {
+      e.preventDefault();
+      handleCloseTerm();
+      return;
+    }
+    if (isCorrect && !activeModalTerm && (e.key === 'Enter' || e.key === ' ')) {
       e.preventDefault();
       handleNextClick();
     }
@@ -318,21 +415,23 @@
 </script>
 
 <div class="millionaire-screen">
-  <!-- Top Navigation & Stage HUD -->
+  <!-- Top Navigation & Stage HUD (Responsive Grid: impossible to overlap) -->
   <div class="top-nav-bar">
-    <button class="nav-btn" onclick={onBackToMenu}>
-      <Icon icon="mdi:arrow-left" width="16" />
-      <span>Menú</span>
-    </button>
+    <div class="nav-left-actions">
+      <button class="nav-btn" onclick={onBackToMenu} title="Volver al Menú">
+        <Icon icon="mdi:arrow-left" width="16" />
+        <span class="btn-label-desktop">Menú</span>
+      </button>
+    </div>
 
     <div class="active-topic-badge">
-      <span class="topic-name">{activeTopic}</span>
+      <span class="topic-name" title="{activeTopic}">{activeTopic}</span>
       <span class="topic-count">[{topicStats.mastered}/{topicStats.total}]</span>
     </div>
 
     <div class="nav-right-actions">
       <!-- Streak Display: Flame Icon and Number Only (no box, no text) -->
-      <div class="streak-clean-display">
+      <div class="streak-clean-display" title="Racha: {streak}">
         <Icon icon="mdi:fire" width="28" class="flame-icon" />
         <span class="streak-num">{streak}</span>
       </div>
@@ -340,12 +439,12 @@
       {#if availableTopics.length > 1}
         <button class="nav-btn switch-btn" onclick={promptSwitchTopic} title="Cambiar Tema">
           <Icon icon="mdi:swap-horizontal" width="16" />
-          <span>Cambiar Tema</span>
+          <span class="btn-label-desktop">Cambiar Tema</span>
         </button>
       {/if}
-      <button class="nav-btn" onclick={handleSkipQuestion} disabled={isAnswered}>
+      <button class="nav-btn" onclick={handleSkipQuestion} disabled={isAnswered} title="Pasar Pregunta">
         <Icon icon="mdi:skip-next" width="16" />
-        <span>Pasar</span>
+        <span class="btn-label-desktop">Pasar</span>
       </button>
     </div>
   </div>
@@ -376,7 +475,23 @@
                 {#if hasTimeLimit}
                   <span class="timer-tag" class:urgent={timeLeft <= 5}>[{timeLeft}s]</span>
                 {/if}
-                <h2 class="question-text">{currentQuestion.question}</h2>
+                <h2 class="question-text">
+                  {#each questionSegments as seg}
+                    {#if seg.isTerm}
+                      <button
+                        type="button"
+                        class="question-term-btn"
+                        onclick={(e) => handleOpenTerm(seg.term, e)}
+                        title="Haz clic para ver la definición y aplicación VLSI de {seg.term.term}"
+                      >
+                        <span class="term-text">{seg.text}</span>
+                        <span class="term-sparkle">✦</span>
+                      </button>
+                    {:else}
+                      <span>{seg.text}</span>
+                    {/if}
+                  {/each}
+                </h2>
               </div>
               <span class="question-qmark right">?</span>
             </div>
@@ -488,6 +603,75 @@
       </aside>
     {/if}
   {/if}
+
+  <!-- Term Definition & VLSI Application Popup Modal (Clickable Question Terms) -->
+  {#if activeModalTerm}
+    <div
+      class="term-modal-backdrop"
+      onclick={handleCloseTerm}
+      onkeydown={(e) => { if (e.key === 'Escape') handleCloseTerm(); }}
+      role="button"
+      tabindex="0"
+      aria-label="Cerrar modal de término"
+    >
+      <div
+        class="term-modal-card"
+        onclick={(e) => e.stopPropagation()}
+        onkeydown={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="term-modal-title"
+        tabindex="-1"
+      >
+        <!-- Gold Luxury Accent Bar -->
+        <div class="modal-gold-bar"></div>
+
+        <div class="modal-card-header">
+          <div class="modal-title-left">
+            <span class="modal-category-tag">
+              <Icon icon="mdi:chip" width="14" />
+              <span>{activeModalTerm.category}</span>
+            </span>
+            <h3 id="term-modal-title" class="modal-term-name">{activeModalTerm.term}</h3>
+          </div>
+          <button
+            class="modal-close-icon-btn"
+            onclick={handleCloseTerm}
+            aria-label="Cerrar modal"
+          >
+            <Icon icon="mdi:close" width="22" />
+          </button>
+        </div>
+
+        <div class="modal-card-body">
+          <!-- Section 1: Definition / Conceptual Meaning -->
+          <div class="term-info-block definition-block">
+            <div class="block-header">
+              <Icon icon="mdi:book-open-page-variant-outline" width="18" class="block-icon gold" />
+              <span class="block-label">¿QUÉ SIGNIFICA? (DEFINICIÓN)</span>
+            </div>
+            <p class="block-content">{activeModalTerm.brief}</p>
+          </div>
+
+          <!-- Section 2: Application in VLSI Design -->
+          <div class="term-info-block application-block">
+            <div class="block-header">
+              <Icon icon="mdi:lightning-bolt-circle" width="18" class="block-icon cyan" />
+              <span class="block-label">APLICACIÓN EN DISEÑO VLSI (IMPACTO & COMPROMISOS)</span>
+            </div>
+            <p class="block-content">{activeModalTerm.vlsiApplication}</p>
+          </div>
+        </div>
+
+        <div class="modal-card-footer">
+          <button class="btn-modal-close" onclick={handleCloseTerm}>
+            <Icon icon="mdi:check-circle-outline" width="18" />
+            <span>ENTENDIDO / VOLVER AL EXAMEN</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  {/if}
 </div>
 
 <style>
@@ -504,19 +688,28 @@
     padding: 8px 0 16px;
   }
 
-  /* Top Navigation Bar with Centered Topic Title */
+  /* Top Navigation Bar with Responsive Grid (Cannot Clip or Overlap) */
   .top-nav-bar {
     position: relative;
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
+    gap: 12px;
     background: linear-gradient(180deg, rgba(16, 30, 66, 0.95) 0%, rgba(9, 18, 40, 0.95) 100%);
     border: 1px solid #d4af37;
     border-radius: 8px;
-    padding: 8px 24px;
+    padding: 8px 18px;
     margin: 0 16px 4px 16px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
     z-index: 20;
+    min-height: 46px;
+  }
+
+  .nav-left-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 2;
   }
 
   .nav-btn {
@@ -533,6 +726,7 @@
     align-items: center;
     gap: 6px;
     transition: background 0.15s, transform 0.1s;
+    white-space: nowrap;
     z-index: 2;
   }
 
@@ -547,20 +741,21 @@
     color: #ffffff;
   }
 
-  /* Centered Topic Badge */
+  /* Centered Topic Badge: Grid center cell with guaranteed non-overlapping truncation */
   .active-topic-badge {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    position: static;
+    transform: none;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 8px;
     font-size: 15px;
     color: #ffffff;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
     pointer-events: none;
-    max-width: 65%;
+    min-width: 0;
+    width: 100%;
+    overflow: hidden;
   }
 
   .topic-name {
@@ -569,18 +764,21 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    min-width: 0;
+    text-align: center;
   }
 
   .topic-count {
     color: #4ade80;
     font-weight: bold;
     flex-shrink: 0;
+    white-space: nowrap;
   }
 
   .nav-right-actions {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 12px;
     z-index: 2;
   }
 
@@ -861,8 +1059,51 @@
     font-weight: bold;
     color: #ffffff;
     margin: 0;
-    line-height: 1.35;
+    line-height: 1.45;
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95);
+  }
+
+  /* Interactive VLSI Term Buttons inside the Question */
+  .question-term-btn {
+    background: rgba(254, 240, 138, 0.12);
+    border: none;
+    border-bottom: 2px dashed #fef08a;
+    border-radius: 4px;
+    padding: 1px 7px 2px 7px;
+    margin: 0 3px;
+    color: #fef08a;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: bold;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    vertical-align: baseline;
+    transition: background 0.15s, color 0.15s, transform 0.1s, box-shadow 0.15s, border-bottom 0.15s;
+    text-shadow: 0 0 8px rgba(254, 240, 138, 0.6);
+  }
+
+  .question-term-btn:hover {
+    background: rgba(254, 240, 138, 0.32);
+    color: #ffffff;
+    border-bottom-style: solid;
+    border-bottom-color: #ffd700;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(254, 240, 138, 0.45);
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.95);
+  }
+
+  .question-term-btn:active {
+    transform: translateY(0);
+  }
+
+  .term-sparkle {
+    font-size: 13px;
+    color: #ffd700;
+    opacity: 0.9;
+    animation: sparkleSpin 4s infinite linear;
+    flex-shrink: 0;
   }
 
   /* Answers Lozenge */
@@ -993,5 +1234,535 @@
   @keyframes correctFlash {
     0% { filter: brightness(1.6) drop-shadow(0 0 25px rgba(255, 255, 255, 1)); }
     100% { filter: drop-shadow(0 0 20px rgba(34, 197, 94, 0.9)); }
+  }
+
+  @keyframes sparkleSpin {
+    0% { transform: rotate(0deg) scale(0.9); }
+    50% { transform: rotate(180deg) scale(1.15); }
+    100% { transform: rotate(360deg) scale(0.9); }
+  }
+
+  @keyframes modalFadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+
+  @keyframes modalZoomIn {
+    0% { transform: scale(0.92); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  /* Term Glossary Modal Backdrop & Card */
+  .term-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(3, 7, 18, 0.78);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    padding: 20px;
+    animation: modalFadeIn 0.2s ease-out;
+  }
+
+  .term-modal-card {
+    position: relative;
+    width: 100%;
+    max-width: 640px;
+    background: linear-gradient(180deg, #13244e 0%, #0d1736 60%, #070e24 100%);
+    border: 2px solid #d4af37;
+    border-radius: 12px;
+    box-shadow:
+      0 12px 40px rgba(0, 0, 0, 0.9),
+      0 0 25px rgba(212, 175, 55, 0.35);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    animation: modalZoomIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .modal-gold-bar {
+    height: 4px;
+    width: 100%;
+    background: linear-gradient(90deg, #d4af37, #fef08a, #d4af37);
+  }
+
+  .modal-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 16px 22px 12px;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+    background: rgba(0, 0, 0, 0.25);
+  }
+
+  .modal-title-left {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .modal-category-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: bold;
+    color: #38bdf8;
+    background: rgba(56, 189, 248, 0.12);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    padding: 2px 8px;
+    border-radius: 4px;
+    width: fit-content;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .modal-term-name {
+    margin: 0;
+    color: #fce69a;
+    font-size: 24px;
+    font-weight: bold;
+    text-shadow: 0 0 12px rgba(252, 230, 154, 0.7);
+    letter-spacing: 0.5px;
+  }
+
+  .modal-close-icon-btn {
+    background: transparent;
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    border-radius: 6px;
+    color: #fce69a;
+    cursor: pointer;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, transform 0.1s, border-color 0.15s;
+  }
+
+  .modal-close-icon-btn:hover {
+    background: rgba(239, 68, 68, 0.25);
+    border-color: #ef4444;
+    color: #f87171;
+    transform: scale(1.08);
+  }
+
+  .modal-card-body {
+    padding: 18px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+
+  .term-info-block {
+    background: rgba(0, 0, 0, 0.35);
+    border-radius: 8px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .definition-block {
+    border-left: 3px solid #facc15;
+  }
+
+  .application-block {
+    border-left: 3px solid #38bdf8;
+    background: rgba(8, 24, 48, 0.45);
+  }
+
+  .block-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  :global(.block-icon.gold) {
+    color: #facc15;
+  }
+
+  :global(.block-icon.cyan) {
+    color: #38bdf8;
+  }
+
+  .block-label {
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    color: #e2e8f0;
+  }
+
+  .block-content {
+    margin: 0;
+    font-size: 14px;
+    color: #f1f5f9;
+    line-height: 1.45;
+  }
+
+  .modal-card-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 12px 22px 16px;
+    border-top: 1px solid rgba(212, 175, 55, 0.2);
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  .btn-modal-close {
+    background: linear-gradient(180deg, #1e3a8a 0%, #172554 100%);
+    border: 1px solid #d4af37;
+    border-radius: 6px;
+    color: #fce69a;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 9px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  }
+
+  .btn-modal-close:hover {
+    background: linear-gradient(180deg, #2563eb 0%, #1e40af 100%);
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.4);
+  }
+
+  /* ==========================================================================
+     Responsive Mobile Viewport (Dynamic Single-Screen Fit - ZERO Vertical Scroll)
+     ========================================================================== */
+  @media (max-width: 768px), (max-height: 720px) {
+    .millionaire-screen {
+      height: 100vh;
+      height: 100dvh;
+      max-height: 100dvh;
+      overflow: hidden;
+      justify-content: space-between;
+      padding: 2px 0 4px;
+    }
+
+    /* Top Nav Bar Mobile Optimization */
+    .top-nav-bar {
+      margin: 2px 4px;
+      padding: 4px 8px;
+      gap: 4px;
+      min-height: 36px;
+      border-radius: 6px;
+    }
+
+    .nav-left-actions {
+      gap: 4px;
+    }
+
+    .nav-btn {
+      padding: 4px 6px;
+      font-size: 11px;
+      gap: 3px;
+      border-radius: 4px;
+    }
+
+    .btn-label-desktop {
+      display: none; /* Icon-only on mobile gives maximum breathing room to topic title */
+    }
+
+    .active-topic-badge {
+      font-size: 11px;
+      gap: 4px;
+    }
+
+    .topic-name {
+      font-size: 11px;
+      max-width: 150px;
+    }
+
+    .topic-count {
+      font-size: 10px;
+    }
+
+    .nav-right-actions {
+      gap: 6px;
+    }
+
+    .streak-clean-display {
+      font-size: 14px;
+      gap: 2px;
+    }
+
+    .streak-num {
+      font-size: 14px;
+    }
+
+    :global(.flame-icon) {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* Center Stage Cluster - Extended to screen edges, Kahoot-like presence */
+    .stage-cohesive-cluster {
+      gap: 6px;
+      width: 100%;
+      max-width: 100%;
+      padding: 0 8px;
+      flex: 1;
+      justify-content: center;
+      margin: 0 auto;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    .quiz-controls-stage {
+      gap: 6px;
+      width: 100%;
+    }
+
+    .millionaire-row {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .question-row {
+      width: 100%;
+    }
+
+    .option-row {
+      width: 100%;
+      gap: 6px;
+    }
+
+    /* Hide wing lines on mobile so buttons extend out to the border of the screen */
+    .gold-wing-line {
+      display: none;
+    }
+
+    .center-gold-line {
+      display: none;
+    }
+
+    /* Question Lozenge Mobile - Full width, large readable text */
+    .question-lozenge {
+      width: 100%;
+      max-width: 100%;
+      padding: 2.5px;
+      border-radius: 8px;
+      clip-path: polygon(
+        10px 0%,
+        calc(100% - 10px) 0%,
+        100% 50%,
+        calc(100% - 10px) 100%,
+        10px 100%,
+        0% 50%
+      );
+    }
+
+    .question-inner {
+      min-height: 68px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      clip-path: polygon(
+        9px 0%,
+        calc(100% - 9px) 0%,
+        100% 50%,
+        calc(100% - 9px) 100%,
+        9px 100%,
+        0% 50%
+      );
+    }
+
+    .question-qmark {
+      font-size: 18px;
+      padding: 0 4px;
+    }
+
+    .question-content {
+      padding: 0 4px;
+    }
+
+    .question-text {
+      font-size: 15px;
+      font-weight: bold;
+      line-height: 1.35;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.95);
+    }
+
+    .question-term-btn {
+      font-size: 15px;
+      padding: 1px 4px;
+      margin: 0 2px;
+    }
+
+    .term-sparkle {
+      font-size: 11px;
+    }
+
+    .timer-tag {
+      font-size: 10px;
+      margin-bottom: 2px;
+    }
+
+    /* Answer Lozenges Mobile - Big, wide, high-contrast, Kahoot-like prominence */
+    .answer-lozenge {
+      flex: 1;
+      width: calc(50% - 3px);
+      max-width: 100%;
+      padding: 2.5px;
+      border-radius: 8px;
+      clip-path: polygon(
+        10px 0%,
+        calc(100% - 10px) 0%,
+        100% 50%,
+        calc(100% - 10px) 100%,
+        10px 100%,
+        0% 50%
+      );
+    }
+
+    .answer-inner {
+      min-height: 76px;
+      padding: 6px 10px 6px 6px;
+      border-radius: 6px;
+      clip-path: polygon(
+        9px 0%,
+        calc(100% - 9px) 0%,
+        100% 50%,
+        calc(100% - 9px) 100%,
+        9px 100%,
+        0% 50%
+      );
+    }
+
+    .option-badge {
+      margin-right: 5px;
+      padding-left: 2px;
+    }
+
+    .badge-letter {
+      font-size: 16px;
+    }
+
+    .option-text {
+      font-size: 13.5px;
+      font-weight: bold;
+      line-height: 1.3;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.95);
+    }
+
+    /* Side Feedback Panel docked as sleek Mobile Bottom Sheet */
+    .side-feedback-panel {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      top: auto;
+      width: 100%;
+      max-width: 100%;
+      border-radius: 14px 14px 0 0;
+      padding: 10px 14px 12px;
+      gap: 6px;
+      z-index: 10000;
+      box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.95);
+      animation: sideSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .feedback-card-header {
+      gap: 6px;
+      padding-bottom: 4px;
+    }
+
+    .feedback-badge {
+      font-size: 14px;
+    }
+
+    .feedback-sub {
+      font-size: 10px;
+    }
+
+    .explanation-box {
+      padding: 6px 8px;
+      max-height: 60px;
+      overflow-y: auto;
+    }
+
+    .explanation-label {
+      font-size: 10px;
+      margin-bottom: 2px;
+    }
+
+    .explanation-text {
+      font-size: 10px;
+      line-height: 1.2;
+    }
+
+    .btn-next-question {
+      padding: 8px 12px;
+      font-size: 13px;
+    }
+
+    .next-key-hint {
+      display: none;
+    }
+
+    /* Term Modal Mobile Tuning */
+    .term-modal-backdrop {
+      padding: 8px;
+    }
+
+    .term-modal-card {
+      max-width: 96vw;
+      max-height: 88vh;
+    }
+
+    .modal-card-header {
+      padding: 8px 12px;
+    }
+
+    .modal-term-name {
+      font-size: 16px;
+    }
+
+    .modal-card-body {
+      padding: 10px 12px;
+      gap: 8px;
+      max-height: 55vh;
+    }
+
+    .term-info-block {
+      padding: 8px 10px;
+      gap: 4px;
+    }
+
+    .block-label {
+      font-size: 10px;
+    }
+
+    .block-content {
+      font-size: 11px;
+      line-height: 1.3;
+    }
+
+    .modal-card-footer {
+      padding: 8px 12px 10px;
+    }
+
+    .btn-modal-close {
+      padding: 6px 14px;
+      font-size: 12px;
+    }
+  }
+
+  @keyframes sideSlideUp {
+    0% { transform: translateY(100%); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
   }
 </style>

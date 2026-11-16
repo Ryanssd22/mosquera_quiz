@@ -413,4 +413,118 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
+
+  /* Responsive Mobile / Single Screen Fitting (ZERO Scroll) */
+  @media (max-width: 768px), (max-height: 720px) {
+    .start-menu-stage {
+      height: 100vh;
+      height: 100dvh;
+      max-height: 100dvh;
+      overflow: hidden;
+      padding: 6px 0 8px;
+      justify-content: space-between;
+    }
+
+    .millionaire-title-row {
+      margin-bottom: 4px;
+    }
+
+    .title-lozenge {
+      width: 96%;
+      clip-path: polygon(14px 0%, calc(100% - 14px) 0%, 100% 50%, calc(100% - 14px) 100%, 14px 100%, 0% 50%);
+    }
+
+    .title-inner {
+      min-height: 48px;
+      padding: 6px 12px;
+      clip-path: polygon(13px 0%, calc(100% - 13px) 0%, 100% 50%, calc(100% - 13px) 100%, 13px 100%, 0% 50%);
+    }
+
+    .game-title {
+      font-size: 16px;
+    }
+
+    .subtitle {
+      font-size: 10px;
+      margin-top: 2px;
+    }
+
+    .star-gif {
+      width: 20px;
+      height: 20px;
+    }
+
+    .center-stage-box {
+      margin: 4px 0;
+    }
+
+    .speech-plaque {
+      padding: 4px 10px;
+      font-size: 10px;
+      margin-bottom: 4px;
+      max-width: 94%;
+    }
+
+    .gold-rim-inner {
+      width: 90px;
+      height: 90px;
+      padding: 2px;
+    }
+
+    .corner-sun {
+      width: 38px;
+      bottom: -8px;
+      right: -8px;
+    }
+
+    .rim-glint {
+      display: none;
+    }
+
+    .session-info-bar {
+      padding: 4px 12px;
+      font-size: 10px;
+      gap: 8px;
+      margin: 4px 0;
+    }
+
+    .info-pill {
+      gap: 4px;
+    }
+
+    :global(.info-icon) {
+      width: 14px;
+      height: 14px;
+    }
+
+    .play-lozenge-btn {
+      width: 88%;
+      clip-path: polygon(14px 0%, calc(100% - 14px) 0%, 100% 50%, calc(100% - 14px) 100%, 14px 100%, 0% 50%);
+    }
+
+    .play-inner {
+      min-height: 48px;
+      padding: 6px 14px;
+      gap: 8px;
+      clip-path: polygon(13px 0%, calc(100% - 13px) 0%, 100% 50%, calc(100% - 13px) 100%, 13px 100%, 0% 50%);
+    }
+
+    .play-text {
+      font-size: 14px;
+    }
+
+    :global(.play-icon) {
+      width: 22px;
+      height: 22px;
+    }
+
+    .btn-settings-sleek {
+      font-size: 11px;
+      padding: 6px 14px;
+    }
+
+    .menu-actions {
+      margin-bottom: 26px; /* Clearance for bottom mini jukebox */
+    }
+  }
 </style>

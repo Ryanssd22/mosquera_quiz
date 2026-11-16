@@ -30,13 +30,13 @@
     "topic": "Wire Geometry, Layer Stack & Interconnect Parasitics",
     "question": "How did wire aspect ratio (AR) evolve from older planar processes to modern deep-submicron processes?",
     "options": [
-      "Old processes had AR << 1, while modern processes have AR \u2248 2",
-      "Old processes had AR \u2248 2, while modern processes have AR << 1",
+      "Old processes had AR << 1, while modern processes have AR ≈ 2",
+      "Old processes had AR ≈ 2, while modern processes have AR << 1",
       "Aspect ratio has remained constant at exactly 1.0",
       "Modern processes reduce aspect ratio to zero"
     ],
     "correctIndex": 0,
-    "explanation": "Older planar processes had wide, thin wires (AR << 1). Modern processes pack many skinny, tall wires with AR \u2248 2 to increase routing density without drastically increasing resistance."
+    "explanation": "Older planar processes had wide, thin wires (AR << 1). Modern processes pack many skinny, tall wires with AR ≈ 2 to increase routing density without drastically increasing resistance."
   },
   {
     "id": "vlsi_004",
@@ -158,7 +158,7 @@
   {
     "id": "vlsi_013",
     "topic": "Wire Geometry, Layer Stack & Interconnect Parasitics",
-    "question": "How does the number of metal layers in modern deep-submicron processes compare to early CMOS technologies like AMI 0.6 \u00b5m?",
+    "question": "How does the number of metal layers in modern deep-submicron processes compare to early CMOS technologies like AMI 0.6 µm?",
     "options": [
       "Early processes used 2-3 metal layers, whereas modern processes use 10 to 15+ metal layers",
       "Early processes used 15 layers, whereas modern processes use only 2",
@@ -166,7 +166,7 @@
       "Modern processes have eliminated metal layers in favor of carbon tracks"
     ],
     "correctIndex": 0,
-    "explanation": "Legacy technologies such as AMI 0.6 \u00b5m used 3 metal layers, while advanced nanometer nodes utilize 10 to 16+ copper/ruthenium interconnect layers."
+    "explanation": "Legacy technologies such as AMI 0.6 µm used 3 metal layers, while advanced nanometer nodes utilize 10 to 16+ copper/ruthenium interconnect layers."
   },
   {
     "id": "vlsi_014",
@@ -283,12 +283,12 @@
       "It increases supply voltage tolerance"
     ],
     "correctIndex": 0,
-    "explanation": "Since capacitance C is proportional to permittivity (C = \u03b5A/d), using low-k dielectrics directly reduces wire capacitance, leading to lower RC delays and lower dynamic power."
+    "explanation": "Since capacitance C is proportional to permittivity (C = εA/d), using low-k dielectrics directly reduces wire capacitance, leading to lower RC delays and lower dynamic power."
   },
   {
     "id": "vlsi_023",
     "topic": "Wire Geometry, Layer Stack & Interconnect Parasitics",
-    "question": "Why did the semiconductor industry transition from SiO2 (k \u2248 3.9) to low-k materials (k < 3.0)?",
+    "question": "Why did the semiconductor industry transition from SiO2 (k ≈ 3.9) to low-k materials (k < 3.0)?",
     "options": [
       "To combat increasing RC interconnect delay and interwire crosstalk in scaled nodes",
       "Because SiO2 is toxic to handle in fabrication",
@@ -335,7 +335,7 @@
       "Diffusion only conducts when exposed to ultraviolet light"
     ],
     "correctIndex": 0,
-    "explanation": "Diffusion runners have high sheet resistance (50-200 \u03a9/sq un-silicided) and large junction capacitance, making them terrible interconnects."
+    "explanation": "Diffusion runners have high sheet resistance (50-200 Ω/sq un-silicided) and large junction capacitance, making them terrible interconnects."
   },
   {
     "id": "vlsi_027",
@@ -348,7 +348,7 @@
       "Polysilicon expands and cracks the oxide layer"
     ],
     "correctIndex": 0,
-    "explanation": "Even silicided polysilicon has significantly higher sheet resistance (3-10 \u03a9/sq) than metal (0.02-0.08 \u03a9/sq), making it unsuitable for long signal nets."
+    "explanation": "Even silicided polysilicon has significantly higher sheet resistance (3-10 Ω/sq) than metal (0.02-0.08 Ω/sq), making it unsuitable for long signal nets."
   },
   {
     "id": "vlsi_028",
@@ -384,7 +384,7 @@
       "Transistors become faster with scaling, but interconnect delay increases, dominating total delay",
       "Both transistors and wires become exponentially faster at identical rates",
       "Interconnect delay decreases to zero while transistors become slower",
-      "Interconnect parasitics have zero impact below the 1 \u00b5m node"
+      "Interconnect parasitics have zero impact below the 1 µm node"
     ],
     "correctIndex": 0,
     "explanation": "Transistor intrinsic switching delay decreases with scaling, but wire RC delay increases due to narrower cross-sections and closer spacing, making interconnect the dominant performance limiter."
@@ -394,13 +394,13 @@
     "topic": "Wire Geometry, Layer Stack & Interconnect Parasitics",
     "question": "Which parameter defines the capacitance per unit area between two parallel conductive plates?",
     "options": [
-      "\u03b5 / d (dielectric permittivity divided by dielectric thickness)",
-      "d / \u03b5 (thickness divided by permittivity)",
-      "\u03b5 * d (permittivity multiplied by thickness)",
-      "\u03c1 / d (resistivity divided by thickness)"
+      "ε / d (dielectric permittivity divided by dielectric thickness)",
+      "d / ε (thickness divided by permittivity)",
+      "ε * d (permittivity multiplied by thickness)",
+      "ρ / d (resistivity divided by thickness)"
     ],
     "correctIndex": 0,
-    "explanation": "Parallel-plate capacitance per unit area is C/A = \u03b5 / d, where \u03b5 is the permittivity and d is the insulating layer thickness."
+    "explanation": "Parallel-plate capacitance per unit area is C/A = ε / d, where ε is the permittivity and d is the insulating layer thickness."
   },
   {
     "id": "vlsi_032",
@@ -426,7 +426,7 @@
       "0.0"
     ],
     "correctIndex": 0,
-    "explanation": "By definition, the relative permittivity of vacuum (free space) is \u03b5r = 1.0."
+    "explanation": "By definition, the relative permittivity of vacuum (free space) is εr = 1.0."
   },
   {
     "id": "vlsi_034",
@@ -582,7 +582,7 @@
       "MCF = 4"
     ],
     "correctIndex": 0,
-    "explanation": "When both wires switch in the same direction at the same time, the potential difference across Cadj remains zero (\u0394V = 0), so no coupling current flows and Ceff = Cgnd (MCF = 0)."
+    "explanation": "When both wires switch in the same direction at the same time, the potential difference across Cadj remains zero (ΔV = 0), so no coupling current flows and Ceff = Cgnd (MCF = 0)."
   },
   {
     "id": "vlsi_046",
@@ -602,13 +602,13 @@
     "topic": "Fringing & Interwire Capacitance, Crosstalk & Noise",
     "question": "If a victim wire is floating (undriven), how can the crosstalk voltage glitch be modeled?",
     "options": [
-      "As a capacitive voltage divider: \u0394Vvictim = \u0394Vaggressor * [Cadj / (Cgnd-v + Cadj)]",
+      "As a capacitive voltage divider: ΔVvictim = ΔVaggressor * [Cadj / (Cgnd-v + Cadj)]",
       "As an ideal operational amplifier",
       "As a simple resistive Ohm's law circuit",
       "As a resonant LC tank with zero damping"
     ],
     "correctIndex": 0,
-    "explanation": "A floating victim wire has no DC path to ground, so noise couples according to the ratio of coupling capacitance to total capacitance: \u0394Vvictim = \u0394Vaggressor * [Cadj / (Cgnd-v + Cadj)]."
+    "explanation": "A floating victim wire has no DC path to ground, so noise couples according to the ratio of coupling capacitance to total capacitance: ΔVvictim = ΔVaggressor * [Cadj / (Cgnd-v + Cadj)]."
   },
   {
     "id": "vlsi_048",
@@ -914,39 +914,39 @@
     "topic": "Wire Resistance, Sheet Resistance & Repeaters",
     "question": "What is the general formula for the DC resistance of a uniform rectangular wire?",
     "options": [
-      "R = \u03c1 * (l / (t * w))",
-      "R = \u03c1 * (t * w / l)",
-      "R = (t * w) / (\u03c1 * l)",
-      "R = \u03c1 * l * t * w"
+      "R = ρ * (l / (t * w))",
+      "R = ρ * (t * w / l)",
+      "R = (t * w) / (ρ * l)",
+      "R = ρ * l * t * w"
     ],
     "correctIndex": 0,
-    "explanation": "Resistance equals resistivity \u03c1 multiplied by length l and divided by cross-sectional area (thickness t times width w): R = \u03c1*l/(t*w)."
+    "explanation": "Resistance equals resistivity ρ multiplied by length l and divided by cross-sectional area (thickness t times width w): R = ρ*l/(t*w)."
   },
   {
     "id": "vlsi_072",
     "topic": "Wire Resistance, Sheet Resistance & Repeaters",
     "question": "How is sheet resistance (R_square) defined in planar technology?",
     "options": [
-      "R_square = \u03c1 / t (resistivity divided by thickness)",
-      "R_square = \u03c1 * t (resistivity times thickness)",
-      "R_square = \u03c1 / w (resistivity divided by width)",
+      "R_square = ρ / t (resistivity divided by thickness)",
+      "R_square = ρ * t (resistivity times thickness)",
+      "R_square = ρ / w (resistivity divided by width)",
       "R_square = l / (w * t)"
     ],
     "correctIndex": 0,
-    "explanation": "Sheet resistance is the resistance of a square sheet of conductive material of uniform thickness t: R_square = \u03c1 / t."
+    "explanation": "Sheet resistance is the resistance of a square sheet of conductive material of uniform thickness t: R_square = ρ / t."
   },
   {
     "id": "vlsi_073",
     "topic": "Wire Resistance, Sheet Resistance & Repeaters",
     "question": "What are the standard units of sheet resistance (R_square)?",
     "options": [
-      "Ohms per square (\u03a9/sq), where square is a dimensionless geometric quantity",
-      "Ohms per meter (\u03a9/m)",
-      "Farads per square meter (F/m\u00b2)",
+      "Ohms per square (Ω/sq), where square is a dimensionless geometric quantity",
+      "Ohms per meter (Ω/m)",
+      "Farads per square meter (F/m²)",
       "Volts per square (V/sq)"
     ],
     "correctIndex": 0,
-    "explanation": "Sheet resistance is expressed in ohms per square (\u03a9/sq or \u03a9/\u25a1). A 'square' is dimensionless because length equals width (L/W = 1)."
+    "explanation": "Sheet resistance is expressed in ohms per square (Ω/sq or Ω/□). A 'square' is dimensionless because length equals width (L/W = 1)."
   },
   {
     "id": "vlsi_074",
@@ -964,7 +964,7 @@
   {
     "id": "vlsi_075",
     "topic": "Wire Resistance, Sheet Resistance & Repeaters",
-    "question": "If a wire is 100 \u00b5m long and 2 \u00b5m wide, how many squares of sheet resistance does it contain?",
+    "question": "If a wire is 100 µm long and 2 µm wide, how many squares of sheet resistance does it contain?",
     "options": [
       "50 squares",
       "200 squares",
@@ -972,7 +972,7 @@
       "5000 squares"
     ],
     "correctIndex": 0,
-    "explanation": "The number of squares is Length / Width = 100 \u00b5m / 2 \u00b5m = 50 squares."
+    "explanation": "The number of squares is Length / Width = 100 µm / 2 µm = 50 squares."
   },
   {
     "id": "vlsi_076",
@@ -992,7 +992,7 @@
     "topic": "Wire Resistance, Sheet Resistance & Repeaters",
     "question": "Why did modern semiconductor fabrication transition from aluminum to copper interconnects around the 180 nm node?",
     "options": [
-      "Copper has lower bulk resistivity (1.7 \u00b5\u03a9*cm) than aluminum (2.8 \u00b5\u03a9*cm) and superior electromigration resistance",
+      "Copper has lower bulk resistivity (1.7 µΩ*cm) than aluminum (2.8 µΩ*cm) and superior electromigration resistance",
       "Copper is an insulator that prevents capacitive coupling",
       "Aluminum is radioactive and banned in consumer electronics",
       "Copper is transparent to optical lithography"
@@ -1018,18 +1018,18 @@
     "topic": "Wire Resistance, Sheet Resistance & Repeaters",
     "question": "What material has the lowest bulk resistivity among common interconnect metals?",
     "options": [
-      "Silver (Ag, 1.6 \u00b5\u03a9*cm)",
-      "Aluminum (Al, 2.8 \u00b5\u03a9*cm)",
-      "Tungsten (W, 5.3 \u00b5\u03a9*cm)",
-      "Polysilicon (1000 \u00b5\u03a9*cm)"
+      "Silver (Ag, 1.6 µΩ*cm)",
+      "Aluminum (Al, 2.8 µΩ*cm)",
+      "Tungsten (W, 5.3 µΩ*cm)",
+      "Polysilicon (1000 µΩ*cm)"
     ],
     "correctIndex": 0,
-    "explanation": "Silver has the lowest bulk resistivity (1.6 \u00b5\u03a9*cm), followed closely by copper (1.7 \u00b5\u03a9*cm), but silver suffers from severe electrochemical migration."
+    "explanation": "Silver has the lowest bulk resistivity (1.6 µΩ*cm), followed closely by copper (1.7 µΩ*cm), but silver suffers from severe electrochemical migration."
   },
   {
     "id": "vlsi_080",
     "topic": "Wire Resistance, Sheet Resistance & Repeaters",
-    "question": "Why is tungsten (W) commonly used for vertical contact plugs despite having higher resistivity (5.3 \u00b5\u03a9*cm) than copper or aluminum?",
+    "question": "Why is tungsten (W) commonly used for vertical contact plugs despite having higher resistivity (5.3 µΩ*cm) than copper or aluminum?",
     "options": [
       "Tungsten can be deposited conformally via chemical vapor deposition (CVD) to fill high-aspect-ratio contact holes without voids",
       "Tungsten is a superconductor at room temperature",
@@ -1057,13 +1057,13 @@
     "topic": "Wire Resistance, Sheet Resistance & Repeaters",
     "question": "How does the resistance of contact plugs and vias compare to bulk metal line resistance?",
     "options": [
-      "Contacts and vias have significant resistance (typically 2 to 20 \u03a9 each) and represent localized resistance bottlenecks",
+      "Contacts and vias have significant resistance (typically 2 to 20 Ω each) and represent localized resistance bottlenecks",
       "Contacts and vias have zero resistance",
       "Contacts have negative resistance that speeds up signals",
       "Via resistance is always higher than 1 Megaohm"
     ],
     "correctIndex": 0,
-    "explanation": "Individual vias and contacts have parasitic resistances of 2-20 \u03a9. In high-speed paths, multiple parallel vias are used to reduce total resistance."
+    "explanation": "Individual vias and contacts have parasitic resistances of 2-20 Ω. In high-speed paths, multiple parallel vias are used to reduce total resistance."
   },
   {
     "id": "vlsi_083",
@@ -1083,18 +1083,18 @@
     "topic": "Wire Resistance, Sheet Resistance & Repeaters",
     "question": "How does the RC delay of an unbuffered uniform wire scale with its length l?",
     "options": [
-      "RC delay is proportional to the square of the length (l\u00b2)",
+      "RC delay is proportional to the square of the length (l²)",
       "RC delay is directly proportional to length (l)",
       "RC delay is inversely proportional to length (1/l)",
       "RC delay is independent of length"
     ],
     "correctIndex": 0,
-    "explanation": "Both resistance R and capacitance C scale linearly with wire length l. Therefore, their product RC scales quadratically: RC \u221d l * l = l\u00b2."
+    "explanation": "Both resistance R and capacitance C scale linearly with wire length l. Therefore, their product RC scales quadratically: RC ∝ l * l = l²."
   },
   {
     "id": "vlsi_085",
     "topic": "Wire Resistance, Sheet Resistance & Repeaters",
-    "question": "Why is the quadratic scaling (l\u00b2) of unbuffered wire RC delay unacceptable for long global chip interconnects?",
+    "question": "Why is the quadratic scaling (l²) of unbuffered wire RC delay unacceptable for long global chip interconnects?",
     "options": [
       "As wire length doubles, the delay quadruples, making long wires overwhelmingly slow",
       "Because quadratic delay causes wire resistance to drop to zero",
@@ -1102,7 +1102,7 @@
       "Because it forces chip area to increase with length cubed"
     ],
     "correctIndex": 0,
-    "explanation": "A quadratic delay growth (l\u00b2) means doubling wire length multiplies delay by four, creating an intolerable performance bottleneck for cross-chip buses."
+    "explanation": "A quadratic delay growth (l²) means doubling wire length multiplies delay by four, creating an intolerable performance bottleneck for cross-chip buses."
   },
   {
     "id": "vlsi_086",
@@ -1115,7 +1115,7 @@
       "They convert electrical signals into microwave radio waves"
     ],
     "correctIndex": 0,
-    "explanation": "By breaking a wire of length l into N segments of length l/N and driving each segment, the quadratic delay per segment is (l/N)\u00b2, and total delay is N * (l/N)\u00b2 \u221d l\u00b2/N, which scales linearly with total length l."
+    "explanation": "By breaking a wire of length l into N segments of length l/N and driving each segment, the quadratic delay per segment is (l/N)², and total delay is N * (l/N)² ∝ l²/N, which scales linearly with total length l."
   },
   {
     "id": "vlsi_087",
@@ -1154,7 +1154,7 @@
       "Silicided polysilicon"
     ],
     "correctIndex": 0,
-    "explanation": "The topmost layer (Metal 6) is the thickest metal layer (e.g. ~1.7 to 2.0 \u00b5m thick), giving it the lowest sheet resistance (typically ~0.02 \u03a9/sq)."
+    "explanation": "The topmost layer (Metal 6) is the thickest metal layer (e.g. ~1.7 to 2.0 µm thick), giving it the lowest sheet resistance (typically ~0.02 Ω/sq)."
   },
   {
     "id": "vlsi_090",
@@ -1167,7 +1167,7 @@
       "Boron ion implantation without annealing"
     ],
     "correctIndex": 0,
-    "explanation": "The salicide process reacts a refractory metal (like Ti, Co, or Ni) with exposed silicon in source/drain regions to form a low-resistance silicide layer (~3-10 \u03a9/sq)."
+    "explanation": "The salicide process reacts a refractory metal (like Ti, Co, or Ni) with exposed silicon in source/drain regions to form a low-resistance silicide layer (~3-10 Ω/sq)."
   },
   {
     "id": "vlsi_091",
@@ -1232,7 +1232,7 @@
       "Copper forms covalent bonds with the gate dielectric"
     ],
     "correctIndex": 0,
-    "explanation": "Copper's higher activation energy (Ea \u2248 0.9-1.1 eV vs 0.5-0.7 eV for Al) makes metal atom displacement under electron momentum transfer much slower."
+    "explanation": "Copper's higher activation energy (Ea ≈ 0.9-1.1 eV vs 0.5-0.7 eV for Al) makes metal atom displacement under electron momentum transfer much slower."
   },
   {
     "id": "vlsi_096",
@@ -1310,7 +1310,7 @@
       "Because it operates at absolute zero"
     ],
     "correctIndex": 0,
-    "explanation": "Transistor channel resistance is inversely proportional to width (R \u221d 1/W). A 10x sized gate has one-tenth the effective output resistance of a 1x unit gate."
+    "explanation": "Transistor channel resistance is inversely proportional to width (R ∝ 1/W). A 10x sized gate has one-tenth the effective output resistance of a 1x unit gate."
   },
   {
     "id": "vlsi_102",
@@ -1359,7 +1359,7 @@
       "Metal resistance increases with temperature due to increased electron-phonon lattice scattering",
       "Metal resistance decreases exponentially with temperature",
       "Metal resistance is completely independent of temperature",
-      "Metal resistance drops to zero above 100\u00b0C"
+      "Metal resistance drops to zero above 100°C"
     ],
     "correctIndex": 0,
     "explanation": "Metals have a positive temperature coefficient of resistance (TCR). Thermal vibrations (phonons) scatter conduction electrons more frequently at higher temperatures, increasing resistivity."
@@ -1382,18 +1382,18 @@
     "topic": "Lumped RC Models & Elmore Delay Calculation",
     "question": "What are the three common lumped-element circuit topologies used to approximate a distributed RC wire segment?",
     "options": [
-      "The L-model, the \u03c0-model (pi-model), and the T-model",
+      "The L-model, the π-model (pi-model), and the T-model",
       "The Delta-model, the Wye-model, and the Bridge-model",
       "The Series-model, the Shunt-model, and the Ground-model",
       "The Active-model, the Passive-model, and the Hybrid-model"
     ],
     "correctIndex": 0,
-    "explanation": "Distributed RC lines are approximated by lumped networks arranged in L, \u03c0 (capacitances split at both ends), or T (resistances split on both sides) configurations."
+    "explanation": "Distributed RC lines are approximated by lumped networks arranged in L, π (capacitances split at both ends), or T (resistances split on both sides) configurations."
   },
   {
     "id": "vlsi_108",
     "topic": "Lumped RC Models & Elmore Delay Calculation",
-    "question": "How many segments of an L-model are required to achieve the same simulation accuracy as a 3-segment \u03c0-model (within ~3%)?",
+    "question": "How many segments of an L-model are required to achieve the same simulation accuracy as a 3-segment π-model (within ~3%)?",
     "options": [
       "Approximately 100 segments of an L-model",
       "Only 1 segment of an L-model",
@@ -1401,12 +1401,12 @@
       "L-models can never reach 3% accuracy regardless of segments"
     ],
     "correctIndex": 0,
-    "explanation": "A 3-segment \u03c0-model matches distributed wire response to within 3% accuracy, whereas a simple asymmetric L-model requires approximately 100 segments for the same precision."
+    "explanation": "A 3-segment π-model matches distributed wire response to within 3% accuracy, whereas a simple asymmetric L-model requires approximately 100 segments for the same precision."
   },
   {
     "id": "vlsi_109",
     "topic": "Lumped RC Models & Elmore Delay Calculation",
-    "question": "How is the capacitance distributed in a single-segment \u03c0-model (pi-model) of total resistance R and total capacitance C?",
+    "question": "How is the capacitance distributed in a single-segment π-model (pi-model) of total resistance R and total capacitance C?",
     "options": [
       "A series resistor R with C/2 shunted at the input and C/2 shunted at the output",
       "A series resistor R with all capacitance C lumped at the input",
@@ -1414,7 +1414,7 @@
       "Two series resistors of R/2 with C lumped in the center"
     ],
     "correctIndex": 0,
-    "explanation": "In a symmetric \u03c0-model, the total capacitance C is divided equally between the input and output terminals (C/2 each), with the full resistance R in between."
+    "explanation": "In a symmetric π-model, the total capacitance C is divided equally between the input and output terminals (C/2 each), with the full resistance R in between."
   },
   {
     "id": "vlsi_110",
@@ -1432,15 +1432,15 @@
   {
     "id": "vlsi_111",
     "topic": "Lumped RC Models & Elmore Delay Calculation",
-    "question": "What is the fundamental mathematical definition of the Elmore delay \u03c4_Di at node i in an arbitrary RC tree?",
+    "question": "What is the fundamental mathematical definition of the Elmore delay τ_Di at node i in an arbitrary RC tree?",
     "options": [
-      "\u03c4_Di = \u2211 (C_k * R_ik) summed over all nodes k, where R_ik is the shared path resistance from the source",
-      "\u03c4_Di = R_total * C_total / 2",
-      "\u03c4_Di = \u2211 (R_k / C_k)",
-      "\u03c4_Di = max(R_k * C_k)"
+      "τ_Di = ∑ (C_k * R_ik) summed over all nodes k, where R_ik is the shared path resistance from the source",
+      "τ_Di = R_total * C_total / 2",
+      "τ_Di = ∑ (R_k / C_k)",
+      "τ_Di = max(R_k * C_k)"
     ],
     "correctIndex": 0,
-    "explanation": "Elmore delay calculates the first moment of the impulse response: \u03c4_Di = \u2211 C_k * R_ik, where R_ik is the resistance of the path shared from the root to both node i and node k."
+    "explanation": "Elmore delay calculates the first moment of the impulse response: τ_Di = ∑ C_k * R_ik, where R_ik is the resistance of the path shared from the root to both node i and node k."
   },
   {
     "id": "vlsi_112",
@@ -1460,26 +1460,26 @@
     "topic": "Lumped RC Models & Elmore Delay Calculation",
     "question": "For a uniform distributed RC wire of total resistance R and total capacitance C, what is the exact Elmore delay from driver to end?",
     "options": [
-      "\u03c4 = (R * C) / 2 = 0.5 * r * c * L\u00b2",
-      "\u03c4 = R * C",
-      "\u03c4 = 2 * R * C",
-      "\u03c4 = (R * C) / 4"
+      "τ = (R * C) / 2 = 0.5 * r * c * L²",
+      "τ = R * C",
+      "τ = 2 * R * C",
+      "τ = (R * C) / 4"
     ],
     "correctIndex": 0,
-    "explanation": "Integrating the distributed resistance and capacitance yields an Elmore delay of \u03c4 = (R * C) / 2 = 0.5 * r * c * L\u00b2."
+    "explanation": "Integrating the distributed resistance and capacitance yields an Elmore delay of τ = (R * C) / 2 = 0.5 * r * c * L²."
   },
   {
     "id": "vlsi_114",
     "topic": "Lumped RC Models & Elmore Delay Calculation",
     "question": "What partial differential equation describes the time and spatial evolution of voltage along a distributed RC line?",
     "options": [
-      "The 1D Diffusion Equation: \u2202\u00b2V/\u2202x\u00b2 = r * c * (\u2202V/\u2202t)",
-      "The Classical Wave Equation: \u2202\u00b2V/\u2202x\u00b2 = L * C * (\u2202\u00b2V/\u2202t\u00b2)",
-      "Schrodinger's Equation: i*\u210f*(\u2202\u03c8/\u2202t) = H*\u03c8",
-      "Poisson's Equation: \u2207\u00b2V = -\u03c1 / \u03b5"
+      "The 1D Diffusion Equation: ∂²V/∂x² = r * c * (∂V/∂t)",
+      "The Classical Wave Equation: ∂²V/∂x² = L * C * (∂²V/∂t²)",
+      "Schrodinger's Equation: i*ℏ*(∂ψ/∂t) = H*ψ",
+      "Poisson's Equation: ∇²V = -ρ / ε"
     ],
     "correctIndex": 0,
-    "explanation": "When inductance is negligible, distributed interconnect lines behave purely diffusively, governed by the diffusion equation \u2202\u00b2V/\u2202x\u00b2 = r*c*(\u2202V/\u2202t)."
+    "explanation": "When inductance is negligible, distributed interconnect lines behave purely diffusively, governed by the diffusion equation ∂²V/∂x² = r*c*(∂V/∂t)."
   },
   {
     "id": "vlsi_115",
@@ -1492,20 +1492,20 @@
       "Distributed delay is exactly twice lumped delay"
     ],
     "correctIndex": 0,
-    "explanation": "For a lumped network, the 50% rise time is ln(2)*RC \u2248 0.69 RC. For a distributed RC line, the diffusion delay to 50% is approximately 0.38 RC (or 0.38 * r * c * L\u00b2)."
+    "explanation": "For a lumped network, the 50% rise time is ln(2)*RC ≈ 0.69 RC. For a distributed RC line, the diffusion delay to 50% is approximately 0.38 RC (or 0.38 * r * c * L²)."
   },
   {
     "id": "vlsi_116",
     "topic": "Lumped RC Models & Elmore Delay Calculation",
     "question": "What is the 10%-to-90% rise time (tr) of a distributed RC line in terms of total wire RC?",
     "options": [
-      "tr \u2248 0.9 * RC",
-      "tr \u2248 2.2 * RC",
-      "tr \u2248 0.38 * RC",
-      "tr \u2248 5.0 * RC"
+      "tr ≈ 0.9 * RC",
+      "tr ≈ 2.2 * RC",
+      "tr ≈ 0.38 * RC",
+      "tr ≈ 5.0 * RC"
     ],
     "correctIndex": 0,
-    "explanation": "While a lumped RC circuit has tr = ln(9)*RC \u2248 2.2 RC, a distributed RC line charges with a steeper initial wavefront, yielding tr \u2248 0.9 RC."
+    "explanation": "While a lumped RC circuit has tr = ln(9)*RC ≈ 2.2 RC, a distributed RC line charges with a steeper initial wavefront, yielding tr ≈ 0.9 RC."
   },
   {
     "id": "vlsi_117",
@@ -1518,7 +1518,7 @@
       "Rs has zero effect on Elmore delay"
     ],
     "correctIndex": 0,
-    "explanation": "Because the source resistance Rs is common to the path of every single node in the tree, its contribution to Elmore delay is Rs * \u2211 C_k = Rs * C_total."
+    "explanation": "Because the source resistance Rs is common to the path of every single node in the tree, its contribution to Elmore delay is Rs * ∑ C_k = Rs * C_total."
   },
   {
     "id": "vlsi_118",
@@ -1577,18 +1577,18 @@
     "topic": "Lumped RC Models & Elmore Delay Calculation",
     "question": "What happens to the voltage step response at distance x = L/4 compared to the far end x = L along an RC wire?",
     "options": [
-      "Voltage at x = L/4 rises much earlier and faster because delay scales with the square of distance (x\u00b2)",
+      "Voltage at x = L/4 rises much earlier and faster because delay scales with the square of distance (x²)",
       "Both locations respond with identical voltage at all times",
       "Voltage at x = L/4 rises slower than at x = L",
       "Voltage at x = L/4 oscillates with high frequency ringing"
     ],
     "correctIndex": 0,
-    "explanation": "Because diffusion delay scales as x\u00b2, points close to the driver (like L/4) begin rising almost immediately, whereas the far end (L) experiences a noticeable dead time (latency) followed by a gradual rise."
+    "explanation": "Because diffusion delay scales as x², points close to the driver (like L/4) begin rising almost immediately, whereas the far end (L) experiences a noticeable dead time (latency) followed by a gradual rise."
   },
   {
     "id": "vlsi_123",
     "topic": "Lumped RC Models & Elmore Delay Calculation",
-    "question": "In a 3-segment \u03c0-model of a wire, how many individual resistors and capacitors are present in the schematic?",
+    "question": "In a 3-segment π-model of a wire, how many individual resistors and capacitors are present in the schematic?",
     "options": [
       "3 series resistors and 6 shunt capacitors (or 4 capacitors if interior nodes are merged)",
       "3 resistors and 3 capacitors",
@@ -1596,7 +1596,7 @@
       "6 resistors and 3 capacitors"
     ],
     "correctIndex": 0,
-    "explanation": "A 3-segment \u03c0-model consists of 3 series resistors (each R/3) and 6 half-capacitors (each C/6), which merge at the 2 internal nodes into two C/3 capacitors, plus C/6 at each end."
+    "explanation": "A 3-segment π-model consists of 3 series resistors (each R/3) and 6 half-capacitors (each C/6), which merge at the 2 internal nodes into two C/3 capacitors, plus C/6 at each end."
   },
   {
     "id": "vlsi_124",
@@ -1627,28 +1627,28 @@
   {
     "id": "vlsi_126",
     "topic": "Lumped RC Models & Elmore Delay Calculation",
-    "question": "If a 10x inverter drives a 5 mm long wire modeled by a single-segment \u03c0-model with driver resistance Rdriver and load Cload, what is the total delay formula?",
+    "question": "If a 10x inverter drives a 5 mm long wire modeled by a single-segment π-model with driver resistance Rdriver and load Cload, what is the total delay formula?",
     "options": [
-      "tpd \u2248 Rdriver * (Cwire + Cload) + Rwire * (Cwire/2 + Cload)",
+      "tpd ≈ Rdriver * (Cwire + Cload) + Rwire * (Cwire/2 + Cload)",
       "tpd = Rdriver * Cload",
       "tpd = Rwire * Cwire",
       "tpd = (Rdriver + Rwire) / (Cwire + Cload)"
     ],
     "correctIndex": 0,
-    "explanation": "The driver resistance charges total capacitance (Cwire + Cload), while wire resistance charges downstream capacitance (Cwire/2 from the \u03c0-model plus Cload)."
+    "explanation": "The driver resistance charges total capacitance (Cwire + Cload), while wire resistance charges downstream capacitance (Cwire/2 from the π-model plus Cload)."
   },
   {
     "id": "vlsi_127",
     "topic": "Lumped RC Models & Elmore Delay Calculation",
     "question": "In an RC chain of N identical segments, how does total delay grow as the number of segments N approaches infinity?",
     "options": [
-      "It converges smoothly to the distributed RC value: \u03c4 = 0.5 * R * C",
+      "It converges smoothly to the distributed RC value: τ = 0.5 * R * C",
       "It blows up to infinity",
       "It drops to zero",
       "It oscillates between 0 and 1 ns"
     ],
     "correctIndex": 0,
-    "explanation": "As N -> \u221e, the discrete sum (L/N)\u00b2 * [1 + 2 + ... + N] * r*c = r*c*L\u00b2 * [N*(N+1)/(2*N\u00b2)] converges exactly to 0.5 * r * c * L\u00b2 = RC/2."
+    "explanation": "As N -> ∞, the discrete sum (L/N)² * [1 + 2 + ... + N] * r*c = r*c*L² * [N*(N+1)/(2*N²)] converges exactly to 0.5 * r * c * L² = RC/2."
   },
   {
     "id": "vlsi_128",
@@ -1661,7 +1661,7 @@
       "RC delay becomes negative"
     ],
     "correctIndex": 0,
-    "explanation": "Widening a wire reduces R (R \u221d 1/W) but increases parallel-plate capacitance (C \u221d W). Since one cancels the other, intrinsic wire RC delay is largely independent of width."
+    "explanation": "Widening a wire reduces R (R ∝ 1/W) but increases parallel-plate capacitance (C ∝ W). Since one cancels the other, intrinsic wire RC delay is largely independent of width."
   },
   {
     "id": "vlsi_129",
@@ -1757,15 +1757,15 @@
   {
     "id": "vlsi_136",
     "topic": "Lumped RC Models & Elmore Delay Calculation",
-    "question": "What is the time constant \u03c4 of a simple lumped first-order RC circuit?",
+    "question": "What is the time constant τ of a simple lumped first-order RC circuit?",
     "options": [
-      "\u03c4 = R * C",
-      "\u03c4 = R / C",
-      "\u03c4 = 2 * \u03c0 * R * C",
-      "\u03c4 = 1 / (R * C)"
+      "τ = R * C",
+      "τ = R / C",
+      "τ = 2 * π * R * C",
+      "τ = 1 / (R * C)"
     ],
     "correctIndex": 0,
-    "explanation": "The characteristic time constant of a first-order RC network is \u03c4 = R * C, representing the time required to charge to ~63.2% of a voltage step."
+    "explanation": "The characteristic time constant of a first-order RC network is τ = R * C, representing the time required to charge to ~63.2% of a voltage step."
   },
   {
     "id": "vlsi_137",
@@ -1778,20 +1778,20 @@
       "The supply voltage VDD"
     ],
     "correctIndex": 0,
-    "explanation": "In \u03c4_Di = \u2211 Ck * Rik, each capacitor Ck is weighted strictly by the resistance of the path it shares with target node i from the root source."
+    "explanation": "In τ_Di = ∑ Ck * Rik, each capacitor Ck is weighted strictly by the resistance of the path it shares with target node i from the root source."
   },
   {
     "id": "vlsi_138",
     "topic": "Lumped RC Models & Elmore Delay Calculation",
-    "question": "Why does an unbuffered wire's 50% delay scale as 0.38*rc*L\u00b2 instead of 0.5*rc*L\u00b2?",
+    "question": "Why does an unbuffered wire's 50% delay scale as 0.38*rc*L² instead of 0.5*rc*L²?",
     "options": [
-      "Because 0.5*rc*L\u00b2 is the Elmore delay (mean time), whereas 0.38*rc*L\u00b2 is the exact 50% voltage crossing time of the diffusion equation",
+      "Because 0.5*rc*L² is the Elmore delay (mean time), whereas 0.38*rc*L² is the exact 50% voltage crossing time of the diffusion equation",
       "Because wire resistance decreases by half at 50% voltage",
       "Because dielectric permittivity drops by 24%",
       "Because the other half of the energy is lost to heat"
     ],
     "correctIndex": 0,
-    "explanation": "Elmore delay corresponds to the center of gravity (mean) of the impulse response (0.5 rcL\u00b2). The 50% threshold of the analytical complementary error function solution occurs earlier at ~0.38 rcL\u00b2."
+    "explanation": "Elmore delay corresponds to the center of gravity (mean) of the impulse response (0.5 rcL²). The 50% threshold of the analytical complementary error function solution occurs earlier at ~0.38 rcL²."
   },
   {
     "id": "vlsi_139",
@@ -1804,7 +1804,7 @@
       "Total Elmore delay is unchanged"
     ],
     "correctIndex": 0,
-    "explanation": "Since Elmore delay is linear with respect to branch resistances (\u03c4 = \u2211 Ck * Rik), doubling all resistances doubles the Elmore delay."
+    "explanation": "Since Elmore delay is linear with respect to branch resistances (τ = ∑ Ck * Rik), doubling all resistances doubles the Elmore delay."
   },
   {
     "id": "vlsi_140",
@@ -1817,7 +1817,7 @@
       "Total Elmore delay is unchanged"
     ],
     "correctIndex": 0,
-    "explanation": "Since Elmore delay is linear with respect to node capacitances (\u03c4 = \u2211 Ck * Rik), doubling all capacitances doubles the Elmore delay."
+    "explanation": "Since Elmore delay is linear with respect to node capacitances (τ = ∑ Ck * Rik), doubling all capacitances doubles the Elmore delay."
   },
   {
     "id": "vlsi_141",
@@ -1839,8 +1839,8 @@
     "options": [
       "1 / S (where S > 1 is the scaling factor)",
       "S (dimensions are increased)",
-      "S\u00b2",
-      "1 / S\u00b2"
+      "S²",
+      "1 / S²"
     ],
     "correctIndex": 0,
     "explanation": "In constant field scaling, all linear device dimensions (gate oxide thickness tox, channel length L, channel width W) are reduced by a factor of 1/S."
@@ -1877,12 +1877,12 @@
     "question": "What happens to chip power density (Power per unit Area, P/A) under ideal Constant Field Scaling?",
     "options": [
       "Power density remains constant (factor 1)",
-      "Power density increases by S\u00b3",
-      "Power density decreases by 1/S\u00b2",
+      "Power density increases by S³",
+      "Power density decreases by 1/S²",
       "Power density drops to zero"
     ],
     "correctIndex": 0,
-    "explanation": "Under constant field scaling, gate power P drops by 1/S\u00b2 while gate area A drops by 1/S\u00b2. Thus, power density P/A = (1/S\u00b2) / (1/S\u00b2) = 1 (remains constant)."
+    "explanation": "Under constant field scaling, gate power P drops by 1/S² while gate area A drops by 1/S². Thus, power density P/A = (1/S²) / (1/S²) = 1 (remains constant)."
   },
   {
     "id": "vlsi_146",
@@ -1902,13 +1902,13 @@
     "topic": "MOSFET Scaling & High-Field Effects",
     "question": "What is the disastrous consequence of Constant Voltage Scaling on chip power density?",
     "options": [
-      "Power density increases by S\u00b3 (leading to catastrophic heat dissipation and melting)",
+      "Power density increases by S³ (leading to catastrophic heat dissipation and melting)",
       "Power density drops to zero",
       "Power density decreases by 1/S",
       "Power density remains perfectly constant"
     ],
     "correctIndex": 0,
-    "explanation": "In constant voltage scaling, current increases by S while dimensions shrink by 1/S. Power per gate increases by S, while area shrinks by 1/S\u00b2, causing power density to explode by S\u00b3!"
+    "explanation": "In constant voltage scaling, current increases by S while dimensions shrink by 1/S. Power per gate increases by S, while area shrinks by 1/S², causing power density to explode by S³!"
   },
   {
     "id": "vlsi_148",
@@ -1921,7 +1921,7 @@
       "Current flows backwards from drain to source"
     ],
     "correctIndex": 0,
-    "explanation": "At high lateral electric fields (Elat > 1-2 V/\u00b5m), carriers collide frequently with silicon lattice optical phonons, causing drift velocity to saturate at vsat (~10^7 cm/s for electrons)."
+    "explanation": "At high lateral electric fields (Elat > 1-2 V/µm), carriers collide frequently with silicon lattice optical phonons, causing drift velocity to saturate at vsat (~10^7 cm/s for electrons)."
   },
   {
     "id": "vlsi_149",
@@ -1941,13 +1941,13 @@
     "topic": "MOSFET Scaling & High-Field Effects",
     "question": "How does Velocity Saturation alter the saturation drain current IDsat relationship with gate overdrive (Vgs - Vt)?",
     "options": [
-      "IDsat becomes linear with (Vgs - Vt) instead of quadratic ((Vgs - Vt)\u00b2)",
-      "IDsat becomes cubic ((Vgs - Vt)\u00b3)",
+      "IDsat becomes linear with (Vgs - Vt) instead of quadratic ((Vgs - Vt)²)",
+      "IDsat becomes cubic ((Vgs - Vt)³)",
       "IDsat becomes exponential (exp(Vgs))",
       "IDsat becomes independent of gate voltage"
     ],
     "correctIndex": 0,
-    "explanation": "In long-channel devices, IDsat \u221d (Vgs - Vt)\u00b2. Under complete velocity saturation, drift velocity is fixed at vsat, so IDsat = W * C_ox * (Vgs - Vt) * vsat, which is strictly linear with gate overdrive!"
+    "explanation": "In long-channel devices, IDsat ∝ (Vgs - Vt)². Under complete velocity saturation, drift velocity is fixed at vsat, so IDsat = W * C_ox * (Vgs - Vt) * vsat, which is strictly linear with gate overdrive!"
   },
   {
     "id": "vlsi_151",
@@ -1978,15 +1978,15 @@
   {
     "id": "vlsi_153",
     "topic": "MOSFET Scaling & High-Field Effects",
-    "question": "What is the Alpha-Power Law (\u03b1-power law) model used for in deep-submicron CMOS?",
+    "question": "What is the Alpha-Power Law (α-power law) model used for in deep-submicron CMOS?",
     "options": [
-      "To model drain current using an empirical velocity saturation index \u03b1 (where 1 \u2264 \u03b1 \u2264 2)",
+      "To model drain current using an empirical velocity saturation index α (where 1 ≤ α ≤ 2)",
       "To calculate radioactive alpha particle decay in silicon packages",
       "To model the power supply ripple in switching regulators",
       "To determine the number of repeaters on a wire"
     ],
     "correctIndex": 0,
-    "explanation": "The \u03b1-power law models short-channel transistors as ID \u221d (Vgs - Vt)^\u03b1, where \u03b1 \u2248 2 for long-channel devices and drops toward \u03b1 \u2248 1 for severely velocity-saturated devices."
+    "explanation": "The α-power law models short-channel transistors as ID ∝ (Vgs - Vt)^α, where α ≈ 2 for long-channel devices and drops toward α ≈ 1 for severely velocity-saturated devices."
   },
   {
     "id": "vlsi_154",
@@ -2007,7 +2007,7 @@
     "question": "How does velocity saturation affect the performance advantage of scaling channel length L in deep submicron?",
     "options": [
       "Diminishing returns: drive current does not increase as 1/L once velocity saturation is reached",
-      "Drive current increases exponentially with 1/L\u00b2",
+      "Drive current increases exponentially with 1/L²",
       "Scaling L reduces transistor speed to zero",
       "Scaling L has zero effect on gate capacitance"
     ],
@@ -2025,20 +2025,20 @@
       "NMOS transistors have thicker gate oxides than PMOS"
     ],
     "correctIndex": 0,
-    "explanation": "Because electron mobility (\u00b5n \u2248 500 cm\u00b2/V\u00b7s) is ~2.5x higher than hole mobility (\u00b5p \u2248 200 cm\u00b2/V\u00b7s), electrons achieve vsat at much lower electric fields (Ec = 2*vsat / \u00b5)."
+    "explanation": "Because electron mobility (µn ≈ 500 cm²/V·s) is ~2.5x higher than hole mobility (µp ≈ 200 cm²/V·s), electrons achieve vsat at much lower electric fields (Ec = 2*vsat / µ)."
   },
   {
     "id": "vlsi_157",
     "topic": "MOSFET Scaling & High-Field Effects",
     "question": "What is the critical electric field Ec in velocity saturation theory?",
     "options": [
-      "The lateral electric field at which carrier drift velocity equals half of vsat (Ec = 2*vsat / \u00b5eff)",
+      "The lateral electric field at which carrier drift velocity equals half of vsat (Ec = 2*vsat / µeff)",
       "The breakdown field of silicon dioxide",
       "The electric field required to ionize silicon atoms",
       "The field at which quantum tunneling begins"
     ],
     "correctIndex": 0,
-    "explanation": "The critical field Ec marks the transition where velocity rolls off significantly from linear Ohm's law behavior: Ec = 2*vsat / \u00b5eff."
+    "explanation": "The critical field Ec marks the transition where velocity rolls off significantly from linear Ohm's law behavior: Ec = 2*vsat / µeff."
   },
   {
     "id": "vlsi_158",
@@ -2048,23 +2048,23 @@
       "Gate delay scales down by 1/S (circuits become S times faster)",
       "Gate delay scales up by S (circuits become slower)",
       "Gate delay remains constant",
-      "Gate delay scales down by 1/S\u2074"
+      "Gate delay scales down by 1/S⁴"
     ],
     "correctIndex": 0,
-    "explanation": "Delay T = (C * V) / I. With C \u221d 1/S, V \u221d 1/S, and I \u221d 1/S, the delay scales as (1/S * 1/S) / (1/S) = 1/S (speed improves by factor S)."
+    "explanation": "Delay T = (C * V) / I. With C ∝ 1/S, V ∝ 1/S, and I ∝ 1/S, the delay scales as (1/S * 1/S) / (1/S) = 1/S (speed improves by factor S)."
   },
   {
     "id": "vlsi_159",
     "topic": "MOSFET Scaling & High-Field Effects",
     "question": "How does constant field scaling affect the Power-Delay Product (PDP) of a logic gate?",
     "options": [
-      "PDP scales down by 1/S\u00b3 (switching energy per operation drops dramatically)",
-      "PDP increases by S\u00b2",
+      "PDP scales down by 1/S³ (switching energy per operation drops dramatically)",
+      "PDP increases by S²",
       "PDP remains constant",
       "PDP scales down by 1/S"
     ],
     "correctIndex": 0,
-    "explanation": "Power scales as 1/S\u00b2 and delay scales as 1/S. Their product (energy per switching event) scales as (1/S\u00b2) * (1/S) = 1/S\u00b3."
+    "explanation": "Power scales as 1/S² and delay scales as 1/S. Their product (energy per switching event) scales as (1/S²) * (1/S) = 1/S³."
   },
   {
     "id": "vlsi_160",
@@ -2077,7 +2077,7 @@
       "Dielectric breakdown of silicon dioxide"
     ],
     "correctIndex": 0,
-    "explanation": "The subthreshold swing is bounded by thermodynamics (kT/q * ln(10) \u2248 60 mV/decade). Lowering VDD requires lowering Vt, which causes exponential leakage current explosions."
+    "explanation": "The subthreshold swing is bounded by thermodynamics (kT/q * ln(10) ≈ 60 mV/decade). Lowering VDD requires lowering Vt, which causes exponential leakage current explosions."
   },
   {
     "id": "vlsi_161",
@@ -2139,7 +2139,7 @@
       "Elat = Vds / L",
       "Elat = Vds * L",
       "Elat = L / Vds",
-      "Elat = Vds\u00b2 / L"
+      "Elat = Vds² / L"
     ],
     "correctIndex": 0,
     "explanation": "Average lateral electric field along the channel is simply drain-to-source voltage divided by physical channel length: Elat = Vds / L."
@@ -2175,13 +2175,13 @@
     "topic": "MOSFET Scaling & High-Field Effects",
     "question": "What is the thermal conductivity implication of packing billions of scaled transistors into a tiny die area?",
     "options": [
-      "Heat removal becomes difficult, creating localized thermal hotspots that can exceed 100\u00b0C and degrade performance",
+      "Heat removal becomes difficult, creating localized thermal hotspots that can exceed 100°C and degrade performance",
       "The chip freezes and requires an electric heater to operate",
       "Thermal conductivity becomes infinite",
       "Silicon turns into liquid metal at room temperature"
     ],
     "correctIndex": 0,
-    "explanation": "High localized power densities create steep thermal gradients and hotspots (>100\u00b0C), degrading mobility, increasing leakage, and jeopardizing reliability."
+    "explanation": "High localized power densities create steep thermal gradients and hotspots (>100°C), degrading mobility, increasing leakage, and jeopardizing reliability."
   },
   {
     "id": "vlsi_169",
@@ -2228,25 +2228,25 @@
     "question": "How does constant field scaling affect the total capacitance of a transistor gate Cgate = Cox * W * L?",
     "options": [
       "Gate capacitance scales down by 1/S",
-      "Gate capacitance increases by S\u00b2",
+      "Gate capacitance increases by S²",
       "Gate capacitance remains constant",
-      "Gate capacitance scales down by 1/S\u00b3"
+      "Gate capacitance scales down by 1/S³"
     ],
     "correctIndex": 0,
-    "explanation": "Cox scales up by S (since tox \u221d 1/S), while area W*L scales down by 1/S\u00b2. Thus, Cgate = Cox * W * L scales as S * (1/S\u00b2) = 1/S."
+    "explanation": "Cox scales up by S (since tox ∝ 1/S), while area W*L scales down by 1/S². Thus, Cgate = Cox * W * L scales as S * (1/S²) = 1/S."
   },
   {
     "id": "vlsi_173",
     "topic": "MOSFET Scaling & High-Field Effects",
-    "question": "What happens to total circuit current on a chip if total transistor count increases by S\u00b2 under constant field scaling?",
+    "question": "What happens to total circuit current on a chip if total transistor count increases by S² under constant field scaling?",
     "options": [
-      "Total current scales as S (Igate \u221d 1/S, multiplied by S\u00b2 transistors)",
+      "Total current scales as S (Igate ∝ 1/S, multiplied by S² transistors)",
       "Total current drops to zero",
       "Total current remains constant at 1 Amp",
-      "Total current scales down by 1/S\u00b3"
+      "Total current scales down by 1/S³"
     ],
     "correctIndex": 0,
-    "explanation": "Each gate draws current scaling by 1/S. With S\u00b2 times more gates on a chip of fixed area, total chip current scales as (1/S) * S\u00b2 = S."
+    "explanation": "Each gate draws current scaling by 1/S. With S² times more gates on a chip of fixed area, total chip current scales as (1/S) * S² = S."
   },
   {
     "id": "vlsi_174",
@@ -2279,39 +2279,39 @@
     "topic": "CLM, Threshold Effects, Leakage & Process Variations",
     "question": "What is Channel Length Modulation (CLM) in a MOSFET?",
     "options": [
-      "The shortening of the effective channel length (L' = L - \u0394L) as drain voltage Vds increases beyond saturation",
+      "The shortening of the effective channel length (L' = L - ΔL) as drain voltage Vds increases beyond saturation",
       "The physical stretching of the silicon wafer due to mechanical pressure",
       "The thermal expansion of polysilicon gates during operation",
       "The variation of gate width along the channel"
     ],
     "correctIndex": 0,
-    "explanation": "In saturation, the pinch-off point moves toward the source as Vds increases, expanding the drain depletion region and shortening the effective conducting channel L' = L - \u0394L."
+    "explanation": "In saturation, the pinch-off point moves toward the source as Vds increases, expanding the drain depletion region and shortening the effective conducting channel L' = L - ΔL."
   },
   {
     "id": "vlsi_177",
     "topic": "CLM, Threshold Effects, Leakage & Process Variations",
     "question": "How does Channel Length Modulation affect saturation drain current IDsat?",
     "options": [
-      "IDsat increases slightly with increasing Vds, modeled by the factor (1 + \u03bb * Vds)",
+      "IDsat increases slightly with increasing Vds, modeled by the factor (1 + λ * Vds)",
       "IDsat decreases to zero as Vds increases",
       "IDsat remains perfectly constant regardless of Vds",
       "IDsat oscillates sinusoidally"
     ],
     "correctIndex": 0,
-    "explanation": "Because channel resistance is proportional to effective length L', reducing L' reduces resistance, causing saturation current to rise with Vds: ID = ID0 * (1 + \u03bb * Vds)."
+    "explanation": "Because channel resistance is proportional to effective length L', reducing L' reduces resistance, causing saturation current to rise with Vds: ID = ID0 * (1 + λ * Vds)."
   },
   {
     "id": "vlsi_178",
     "topic": "CLM, Threshold Effects, Leakage & Process Variations",
-    "question": "How does the channel length modulation parameter lambda (\u03bb) scale with channel length L?",
+    "question": "How does the channel length modulation parameter lambda (λ) scale with channel length L?",
     "options": [
-      "\u03bb is inversely proportional to channel length (\u03bb \u221d 1/L)",
-      "\u03bb is directly proportional to channel length (\u03bb \u221d L)",
-      "\u03bb is proportional to L\u00b2",
-      "\u03bb is independent of channel length"
+      "λ is inversely proportional to channel length (λ ∝ 1/L)",
+      "λ is directly proportional to channel length (λ ∝ L)",
+      "λ is proportional to L²",
+      "λ is independent of channel length"
     ],
     "correctIndex": 0,
-    "explanation": "In short-channel devices, \u0394L represents a much larger fraction of total length L than in long-channel devices. Hence, \u03bb \u221d 1/L, making CLM much more severe in short devices."
+    "explanation": "In short-channel devices, ΔL represents a much larger fraction of total length L than in long-channel devices. Hence, λ ∝ 1/L, making CLM much more severe in short devices."
   },
   {
     "id": "vlsi_179",
@@ -2415,7 +2415,7 @@
       "Current flowing when the chip is powered off at zero volts"
     ],
     "correctIndex": 0,
-    "explanation": "Even when turned 'OFF' (Vgs < Vt), weak inversion carrier diffusion across the source barrier causes exponential subthreshold current: Ids \u221d exp((Vgs - Vt)/(n*vt))."
+    "explanation": "Even when turned 'OFF' (Vgs < Vt), weak inversion carrier diffusion across the source barrier causes exponential subthreshold current: Ids ∝ exp((Vgs - Vt)/(n*vt))."
   },
   {
     "id": "vlsi_187",
@@ -2441,7 +2441,7 @@
       "Approximately 1000 mV/decade"
     ],
     "correctIndex": 0,
-    "explanation": "At 300 K, thermal voltage vt = kT/q \u2248 26 mV. The ideal subthreshold swing (with ideal gate coupling n = 1) is ln(10) * (kT/q) \u2248 2.3 * 26 mV \u2248 60 mV/decade."
+    "explanation": "At 300 K, thermal voltage vt = kT/q ≈ 26 mV. The ideal subthreshold swing (with ideal gate coupling n = 1) is ln(10) * (kT/q) ≈ 2.3 * 26 mV ≈ 60 mV/decade."
   },
   {
     "id": "vlsi_189",
@@ -2467,7 +2467,7 @@
       "Current caused by static electricity on human hands"
     ],
     "correctIndex": 0,
-    "explanation": "When gate dielectric thickness tox shrinks below ~20 \u00c5 (~2 nm), electrons tunnel directly through the quantum potential barrier, creating static gate leakage current Ig."
+    "explanation": "When gate dielectric thickness tox shrinks below ~20 Å (~2 nm), electrons tunnel directly through the quantum potential barrier, creating static gate leakage current Ig."
   },
   {
     "id": "vlsi_191",
@@ -2493,7 +2493,7 @@
       "To increase transistor operating voltage to 100V"
     ],
     "correctIndex": 0,
-    "explanation": "High-k materials have a higher dielectric constant (k \u2248 20-25 for HfO2 vs 3.9 for SiO2), allowing a physically thicker layer that provides equivalent capacitance while blocking tunneling."
+    "explanation": "High-k materials have a higher dielectric constant (k ≈ 20-25 for HfO2 vs 3.9 for SiO2), allowing a physically thicker layer that provides equivalent capacitance while blocking tunneling."
   },
   {
     "id": "vlsi_193",
@@ -2537,7 +2537,7 @@
   {
     "id": "vlsi_196",
     "topic": "CLM, Threshold Effects, Leakage & Process Variations",
-    "question": "How does carrier mobility in silicon vary with temperature over the normal operating range (-40\u00b0C to 125\u00b0C)?",
+    "question": "How does carrier mobility in silicon vary with temperature over the normal operating range (-40°C to 125°C)?",
     "options": [
       "Mobility decreases with increasing temperature due to increased acoustic phonon (lattice vibration) scattering",
       "Mobility increases linearly with temperature",
@@ -2545,17 +2545,17 @@
       "Mobility drops to zero at room temperature"
     ],
     "correctIndex": 0,
-    "explanation": "At higher temperatures, lattice atoms vibrate more vigorously (phonons), scattering mobile electrons and holes more frequently and lowering mobility (\u00b5 \u221d T^(-1.5))."
+    "explanation": "At higher temperatures, lattice atoms vibrate more vigorously (phonons), scattering mobile electrons and holes more frequently and lowering mobility (µ ∝ T^(-1.5))."
   },
   {
     "id": "vlsi_197",
     "topic": "CLM, Threshold Effects, Leakage & Process Variations",
     "question": "How does the magnitude of threshold voltage |Vt| change as temperature increases?",
     "options": [
-      "Threshold voltage magnitude |Vt| decreases linearly with increasing temperature (typically -1 to -2 mV/\u00b0C)",
+      "Threshold voltage magnitude |Vt| decreases linearly with increasing temperature (typically -1 to -2 mV/°C)",
       "Threshold voltage magnitude increases exponentially",
       "Threshold voltage is completely unaffected by temperature",
-      "Threshold voltage doubles for every 10\u00b0C rise"
+      "Threshold voltage doubles for every 10°C rise"
     ],
     "correctIndex": 0,
     "explanation": "As temperature rises, the Fermi potential shifts toward midgap, requiring less surface potential to invert the channel and decreasing |Vt| by ~1 to 2 mV per degree Celsius."
@@ -2568,10 +2568,10 @@
       "Ion decreases with temperature because mobility degradation dominates over the threshold voltage drop",
       "Ion increases exponentially with temperature",
       "Ion remains perfectly constant at all temperatures",
-      "Ion drops to zero at 50\u00b0C"
+      "Ion drops to zero at 50°C"
     ],
     "correctIndex": 0,
-    "explanation": "Although lower Vt slightly increases gate overdrive, the substantial decrease in carrier mobility (\u00b5 \u221d T^-1.5) dominates, reducing saturation drive current Ion and slowing down the circuit."
+    "explanation": "Although lower Vt slightly increases gate overdrive, the substantial decrease in carrier mobility (µ ∝ T^-1.5) dominates, reducing saturation drive current Ion and slowing down the circuit."
   },
   {
     "id": "vlsi_199",
@@ -2581,7 +2581,7 @@
       "Ioff increases dramatically (exponentially) with temperature",
       "Ioff decreases to zero at high temperature",
       "Ioff is completely independent of temperature",
-      "Ioff drops by 50% for every 10\u00b0C rise"
+      "Ioff drops by 50% for every 10°C rise"
     ],
     "correctIndex": 0,
     "explanation": "Both subthreshold leakage and junction diode leakage increase exponentially with temperature, causing standby power dissipation to surge at elevated operating temperatures."
@@ -2610,7 +2610,7 @@
       "Differences in package pin length"
     ],
     "correctIndex": 0,
-    "explanation": "High-activity execution units and clock buffers dissipate significantly more dynamic power per unit area than idle or cache regions, creating thermal hotspots exceeding 100\u00b0C."
+    "explanation": "High-activity execution units and clock buffers dissipate significantly more dynamic power per unit area than idle or cache regions, creating thermal hotspots exceeding 100°C."
   },
   {
     "id": "vlsi_202",
@@ -2697,7 +2697,7 @@
     "options": [
       "Fast NMOS, Fast PMOS (low Vt), highest allowable VDD, and highest operating temperature",
       "Slow NMOS, Slow PMOS, low VDD, and low temperature",
-      "Typical NMOS and PMOS at 0\u00b0C",
+      "Typical NMOS and PMOS at 0°C",
       "Transistors operating with zero supply voltage"
     ],
     "correctIndex": 0,
@@ -2793,5 +2793,1409 @@
     ],
     "correctIndex": 0,
     "explanation": "Sustained negative gate bias at high temperatures breaks Si-H bonds at the interface, generating positive interface traps that increase |Vtp| and cause circuit aging/slowdown."
+  },
+  {
+    "id": "vlsi_216",
+    "topic": "Wire Geometry, Layer Stack & Interconnect Parasitics",
+    "question": "Why did older planar CMOS processes have wire aspect ratios (AR) much less than 1, whereas modern submicron processes have AR around 2?",
+    "options": [
+      "Older processes were limited by lithography and used wide, thin wires; modern processes use tall, skinny wires to lower resistance in a tight pitch",
+      "Older processes had higher supply voltages requiring thicker dielectric to prevent arcing",
+      "Modern processes only use single-layer metal, so height must be doubled",
+      "Aspect ratio in modern processes is kept at AR = 2 purely to maximize interwire capacitive crosstalk"
+    ],
+    "correctIndex": 0,
+    "explanation": "Older technologies had wide wires with AR << 1. Modern submicron processes need high routing density; to keep wire resistance low without occupying horizontal pitch, wires are fabricated tall and narrow (AR ≈ 2)."
+  },
+  {
+    "id": "vlsi_217",
+    "topic": "Wire Geometry, Layer Stack & Interconnect Parasitics",
+    "question": "What is the primary architectural justification for reserving the topmost thick metal layers (e.g., M5-M6+) for global clock and power grids?",
+    "options": [
+      "Top layers are thickest and widest, providing lowest sheet resistance to minimize IR drop and clock skew",
+      "Top layers have the highest capacitance to the substrate, which helps filter logic glitches",
+      "Top layers cannot connect to vias, so they can only route straight lines",
+      "Top layers are made of polysilicon rather than metal, preventing gate oxide breakdown"
+    ],
+    "correctIndex": 0,
+    "explanation": "The upper metal layers in a multilevel stack have the largest thickness and width, offering the lowest resistance per unit length. This makes them ideal for carrying huge VDD/GND currents with minimal IR drop and low-skew clock distribution."
+  },
+  {
+    "id": "vlsi_218",
+    "topic": "Wire Geometry, Layer Stack & Interconnect Parasitics",
+    "question": "What structural role do tungsten (W) plugs play in modern multilevel metallization?",
+    "options": [
+      "They serve as robust vertical contact vias connecting M1 to silicon diffusion and poly gates because tungsten withstands high process temperatures",
+      "They replace copper as the main horizontal wire conductor across all metal layers",
+      "They act as electrical insulators separating adjacent horizontal metal lines",
+      "They absorb magnetic fields to eliminate self-inductance in signal buses"
+    ],
+    "correctIndex": 0,
+    "explanation": "Tungsten is a refractory metal capable of withstanding the high thermal budgets of contact formation. It is deposited via chemical vapor deposition (CVD) to fill high-aspect-ratio contact holes and lower-level vias."
+  },
+  {
+    "id": "vlsi_219",
+    "topic": "Wire Geometry, Layer Stack & Interconnect Parasitics",
+    "question": "How does substituting standard silicon dioxide (k = 3.9) with a low-k dielectric (e.g., k = 2.2) affect interconnect performance?",
+    "options": [
+      "It directly reduces total wire capacitance, thereby reducing RC propagation delay, dynamic power dissipation, and crosstalk",
+      "It increases wire resistance to eliminate inductive ringing",
+      "It eliminates the need for diffusion barriers in copper interconnects",
+      "It raises the threshold voltage of adjacent MOSFETs to prevent subthreshold leakage"
+    ],
+    "correctIndex": 0,
+    "explanation": "Wire capacitance is proportional to the dielectric constant (C ∝ k). Lowering k from 3.9 to ~2.2 slashes capacitance by over 40%, directly lowering RC delay and dynamic switching energy (P = C*V^2*f)."
+  },
+  {
+    "id": "vlsi_220",
+    "topic": "Wire Geometry, Layer Stack & Interconnect Parasitics",
+    "question": "Why is using source/drain diffusion regions as horizontal routing 'runners' strongly discouraged in digital VLSI layout?",
+    "options": [
+      "Diffusion exhibits high sheet resistance (50-200 Ω/sq) and massive junction capacitance (~2 fF/μm) to the substrate",
+      "Diffusion runners cannot conduct direct current (DC)",
+      "Diffusion regions can only be fabricated in circular shapes",
+      "Diffusion runners cause permanent gate oxide dielectric breakdown in driving gates"
+    ],
+    "correctIndex": 0,
+    "explanation": "Diffusion runners suffer from both high sheet resistance and severe parasitic p-n junction capacitance to the substrate (~2 fF/μm), resulting in massive RC delays. Metal layers should always be used for routing."
+  },
+  {
+    "id": "vlsi_221",
+    "topic": "Wire Geometry, Layer Stack & Interconnect Parasitics",
+    "question": "Under what condition does wire self-inductance (L) become critical in on-chip interconnect analysis?",
+    "options": [
+      "On long, wide, low-resistance wires carrying signals with ultra-fast rise times (di/dt is very large)",
+      "Only on minimum-width M1 wires where resistance is highest",
+      "When the clock frequency is below 1 kHz",
+      "When wires are entirely surrounded by vacuum dielectrics"
+    ],
+    "correctIndex": 0,
+    "explanation": "Inductive effects (L*di/dt) emerge when wire resistance is low (wide wires, top metal layers) and transition edges are extremely sharp (high di/dt). On narrow high-resistance wires, resistance dominates and inductance can be neglected."
+  },
+  {
+    "id": "vlsi_222",
+    "topic": "Wire Geometry, Layer Stack & Interconnect Parasitics",
+    "question": "How does the skin effect alter the electrical properties of high-speed on-chip interconnects at multi-gigahertz frequencies?",
+    "options": [
+      "Current crowds toward the outer periphery of the wire, decreasing effective cross-sectional area and causing resistance to increase with the square root of frequency",
+      "Current flows strictly through the center of the conductor, eliminating sidewall capacitance",
+      "The dielectric constant of the surrounding oxide drops to zero",
+      "The wire's physical length contracts under high magnetic flux"
+    ],
+    "correctIndex": 0,
+    "explanation": "At multi-GHz frequencies, the skin depth becomes smaller than the wire thickness. Eddy currents push alternating current to the conductor's outer skin, increasing effective resistance proportional to sqrt(f)."
+  },
+  {
+    "id": "vlsi_223",
+    "topic": "Wire Geometry, Layer Stack & Interconnect Parasitics",
+    "question": "In a 6-layer metal CMOS process, why is M1 routed primarily in one direction (e.g., horizontal) and M2 routed in the orthogonal direction (vertical)?",
+    "options": [
+      "Orthogonal routing simplifies automated routing grids, prevents long parallel coupling runs, and enables efficient Manhattan routing",
+      "Orthogonal layers cannot conduct electrons at the same time",
+      "It cancels magnetic induction through Faraday rotation",
+      "Vertical metal layers are made of copper while horizontal layers are aluminum"
+    ],
+    "correctIndex": 0,
+    "explanation": "Alternating preferred routing directions (horizontal vs vertical) between adjacent metal layers creates a structured Manhattan grid that maximizes automated routing efficiency and avoids long parallel coupling runs between adjacent layers."
+  },
+  {
+    "id": "vlsi_224",
+    "topic": "Wire Geometry, Layer Stack & Interconnect Parasitics",
+    "question": "What is the physical meaning of wire pitch in deep-submicron layout design rules?",
+    "options": [
+      "The minimum center-to-center repeat distance of parallel wires, equal to width plus spacing (w + s)",
+      "The ratio of wire length to height (l / h)",
+      "The slope of the wire sidewall taper after plasma etching",
+      "The voltage threshold at which dielectric breakdown occurs between adjacent tracks"
+    ],
+    "correctIndex": 0,
+    "explanation": "Pitch = width (w) + spacing (s). It represents the spatial frequency of the interconnect tracks and defines the wiring density limit for standard cells."
+  },
+  {
+    "id": "vlsi_225",
+    "topic": "Wire Geometry, Layer Stack & Interconnect Parasitics",
+    "question": "Why does reducing wire width below a certain limit fail to proportionally decrease total wire capacitance?",
+    "options": [
+      "Fringing capacitance from the vertical sidewalls remains constant and dominates over parallel-plate capacitance",
+      "The dielectric constant increases proportionally to inverse width",
+      "Quantum confinement causes the electron mass to expand",
+      "The substrate pulls closer to the wire as width shrinks"
+    ],
+    "correctIndex": 0,
+    "explanation": "As width narrows, parallel-plate capacitance (C ∝ w) shrinks, but fringing capacitance from the sidewalls and corners remains approximately constant. Thus, total capacitance levels off at a minimum floor."
+  },
+  {
+    "id": "vlsi_226",
+    "topic": "Wire Geometry, Layer Stack & Interconnect Parasitics",
+    "question": "What primary trade-off occurs when a designer widens a signal wire in a high-speed critical path?",
+    "options": [
+      "Wire resistance decreases, but total wire capacitance increases, potentially loading the driving gate more heavily",
+      "Both resistance and capacitance decrease simultaneously",
+      "Wire resistance increases due to current crowding at the center",
+      "The wire transitions from copper to polysilicon behavior"
+    ],
+    "correctIndex": 0,
+    "explanation": "Widening a wire reduces its series resistance (R ∝ 1/w), which helps for very long wires, but increases its parallel-plate capacitance (C ∝ w), requiring larger driver transistors."
+  },
+  {
+    "id": "vlsi_227",
+    "topic": "Wire Geometry, Layer Stack & Interconnect Parasitics",
+    "question": "What is the typical capacitance per unit length of an on-chip metal wire compared to a MOSFET gate input capacitance?",
+    "options": [
+      "Wire capacitance is ~0.2 fF/μm, whereas gate capacitance is roughly an order of magnitude larger (~2 fF/μm)",
+      "Wire capacitance is 100x larger than gate capacitance per micron",
+      "Wire capacitance is exactly equal to gate capacitance in all nodes",
+      "Wire capacitance is negligible (< 10^-18 F/cm) compared to gate capacitance"
+    ],
+    "correctIndex": 0,
+    "explanation": "As noted in lecture, typical metal wires exhibit ~0.2 fF/μm of capacitance, whereas thin gate oxide gives transistors ~2 fF/μm of gate capacitance per micron of channel width."
+  },
+  {
+    "id": "vlsi_228",
+    "topic": "Wire Geometry, Layer Stack & Interconnect Parasitics",
+    "question": "In a multilevel interconnect structure, what does the parameter 'h' represent in wire capacitance formulas?",
+    "options": [
+      "The vertical dielectric thickness (separation) between the wire and the underlying conducting plane",
+      "The total thickness of the silicon wafer substrate",
+      "The horizontal spacing to the nearest neighboring wire",
+      "The height of the package pins"
+    ],
+    "correctIndex": 0,
+    "explanation": "In standard interconnect geometry models, 'h' represents the height/thickness of the inter-layer dielectric separating the wire from the ground/substrate plane beneath it."
+  },
+  {
+    "id": "vlsi_229",
+    "topic": "Wire Geometry, Layer Stack & Interconnect Parasitics",
+    "question": "Why are polysilicon lines rarely used for long interconnect runs exceeding a few micrometers?",
+    "options": [
+      "Polysilicon sheet resistance (even with silicide) is orders of magnitude higher than metal layers",
+      "Polysilicon cannot withstand negative voltages",
+      "Polysilicon creates infinite fringing capacitance with the substrate",
+      "Polysilicon lines must always be connected directly to VDD"
+    ],
+    "correctIndex": 0,
+    "explanation": "Polysilicon has a sheet resistance of 50-400 Ω/sq (or 3-10 Ω/sq silicided), whereas metal layers are 0.02-0.08 Ω/sq. Using poly for long runs introduces debilitating RC delays."
+  },
+  {
+    "id": "vlsi_230",
+    "topic": "Wire Geometry, Layer Stack & Interconnect Parasitics",
+    "question": "How does scaling down the minimum feature size affect the relative importance of gate delay versus wire delay in VLSI circuits?",
+    "options": [
+      "Gate delay decreases with scaling, while wire RC delay increases or remains constant, making interconnect the dominant performance limiter",
+      "Gate delay increases with scaling, while wire delay drops to zero",
+      "Both gate delay and wire delay scale down at exactly the same rate",
+      "Interconnect delay disappears completely in deep-submicron designs"
+    ],
+    "correctIndex": 0,
+    "explanation": "Transistor switching speed improves with smaller gate lengths (gate delay decreases), but wire resistance rises as wires shrink while capacitance stays roughly constant, making wire delay the primary bottleneck."
+  },
+  {
+    "id": "vlsi_231",
+    "topic": "Wire Geometry, Layer Stack & Interconnect Parasitics",
+    "question": "What is the effect on total wire capacitance when an interconnect is placed between two quiet conducting planes (e.g. M1 below and M3 above)?",
+    "options": [
+      "Capacitance increases because the wire couples to both the lower plane (Cbot) and the upper plane (Ctop)",
+      "Capacitance drops to zero because the electric fields cancel out completely",
+      "The wire becomes purely inductive with zero capacitance",
+      "The wire's sheet resistance doubles automatically"
+    ],
+    "correctIndex": 0,
+    "explanation": "When sandwiched between adjacent metal layers, total capacitance includes Cbot to layer n-1, Ctop to layer n+1, plus 2*Cadj to lateral neighbors: Ctotal = Ctop + Cbot + 2*Cadj."
+  },
+  {
+    "id": "vlsi_232",
+    "topic": "Wire Geometry, Layer Stack & Interconnect Parasitics",
+    "question": "Why do advanced processes use chemical mechanical polishing (CMP) between successive metal layers?",
+    "options": [
+      "To planarize the surface so photolithographic steppers maintain optical focus across high-aspect-ratio topography",
+      "To melt the copper lines into a single uniform sheet",
+      "To dope the dielectric with donor impurities",
+      "To etch away the silicon substrate beneath the transistors"
+    ],
+    "correctIndex": 0,
+    "explanation": "As multiple metal layers accumulate, surface roughness and height variations build up. CMP flattens the wafer surface so photolithography steppers can focus with high numerical aperture and shallow depth of focus."
+  },
+  {
+    "id": "vlsi_233",
+    "topic": "Wire Geometry, Layer Stack & Interconnect Parasitics",
+    "question": "What is the primary factor limiting the maximum allowable current density (J_max) in metal interconnects?",
+    "options": [
+      "Electromigration, where momentum transfer from flowing electrons physically displaces metal atoms and creates voids",
+      "Dielectric breakdown of the air surrounding the chip package",
+      "Surface recombination of holes in the metal lattice",
+      "The speed of light in silicon dioxide"
+    ],
+    "correctIndex": 0,
+    "explanation": "Electromigration occurs when high current densities dislodge metal ions in the direction of electron flow, causing voids (open circuits) and hillocks (short circuits). Design rules strictly cap current density (mA/μm^2)."
+  },
+  {
+    "id": "vlsi_234",
+    "topic": "Fringing & Interwire Capacitance, Crosstalk & Noise",
+    "question": "At what ratio of wire width to dielectric height (W/H) does fringing capacitance begin to dominate over parallel-plate capacitance?",
+    "options": [
+      "When W/H < 1.5",
+      "When W/H > 10",
+      "When W/H = 5",
+      "Fringing capacitance only dominates when W/H exceeds 100"
+    ],
+    "correctIndex": 0,
+    "explanation": "As shown in Dr. Mosquera's lecture curves, when the width-to-height ratio W/H drops below ~1.5, fringing electric fields from the wire sidewalls become larger than the parallel-plate component."
+  },
+  {
+    "id": "vlsi_235",
+    "topic": "Fringing & Interwire Capacitance, Crosstalk & Noise",
+    "question": "In a 3-wire bus, if line B transitions from 0 to VDD while adjacent line A simultaneously transitions from VDD to 0, what is the effective Miller Coupling Factor (MCF) for line A?",
+    "options": [
+      "MCF = 2, because the voltage swing across the coupling capacitor is 2*VDD",
+      "MCF = 0, because the transitions cancel each other out",
+      "MCF = 1, because one line is transitioning to ground",
+      "MCF = -1, causing negative delay"
+    ],
+    "correctIndex": 0,
+    "explanation": "When adjacent wires switch in opposite directions simultaneously, the differential voltage change across Cadj is 2*VDD. By the Miller effect, effective capacitance doubles (Ceff = Cgnd + 2*Cadj, MCF = 2), creating worst-case delay."
+  },
+  {
+    "id": "vlsi_236",
+    "topic": "Fringing & Interwire Capacitance, Crosstalk & Noise",
+    "question": "What is the effective Miller Coupling Factor (MCF) when two adjacent parallel wires switch in the EXACT same direction at the exact same time?",
+    "options": [
+      "MCF = 0, because the voltage difference across the coupling capacitor remains zero throughout the transition",
+      "MCF = 2, because two signals are switching",
+      "MCF = 1, matching the static quiet neighbor case",
+      "MCF = 4, due to constructive electromagnetic resonance"
+    ],
+    "correctIndex": 0,
+    "explanation": "When both wires transition concurrently in the same direction, delta-V across Cadj is zero throughout the transition. No displacement current flows through Cadj, yielding MCF = 0 and minimal propagation delay."
+  },
+  {
+    "id": "vlsi_237",
+    "topic": "Fringing & Interwire Capacitance, Crosstalk & Noise",
+    "question": "Why does a hold-time race condition analysis in Static Timing Analysis (STA) assume MCF = 0 on coupled interconnects?",
+    "options": [
+      "MCF = 0 represents the fastest possible signal propagation, which could cause a data signal to contaminate a downstream flip-flop before the clock edge",
+      "MCF = 0 represents the slowest possible path, causing setup violations",
+      "MCF = 0 completely eliminates all gate delays in the clock tree",
+      "MCF = 0 is only valid when the chip is powered off"
+    ],
+    "correctIndex": 0,
+    "explanation": "Hold-time analysis checks for fast paths (min-delay corner). If neighbors switch in the same direction, coupling capacitance drops (MCF = 0), accelerating the signal and risking hold-time violations."
+  },
+  {
+    "id": "vlsi_238",
+    "topic": "Fringing & Interwire Capacitance, Crosstalk & Noise",
+    "question": "If a victim wire is completely floating (undriven) and coupled to an aggressor through Cadj, how is the peak noise voltage on the victim calculated?",
+    "options": [
+      "As a pure capacitive voltage divider: ΔV_victim = ΔV_aggressor * [Cadj / (Cgnd_v + Cadj)]",
+      "As an inductive spike proportional to L * di/dt",
+      "The noise voltage is always exactly equal to VDD / 2 regardless of capacitance",
+      "A floating wire cannot experience any capacitive noise"
+    ],
+    "correctIndex": 0,
+    "explanation": "Without an active driver to drain injected charge, the floating victim acts as a capacitive voltage divider: ΔV_victim = ΔV_aggressor * (Cadj / (Cgnd_v + Cadj)). If Cadj ≈ Cgnd_v, noise reaches 50% of VDD."
+  },
+  {
+    "id": "vlsi_239",
+    "topic": "Fringing & Interwire Capacitance, Crosstalk & Noise",
+    "question": "Why is dynamic (domino) logic vastly more susceptible to catastrophic failure from crosstalk noise than complementary static CMOS logic?",
+    "options": [
+      "Dynamic logic evaluates on a high-impedance floating node; an erroneous noise glitch that partially turns on an evaluation FET permanently destroys the stored precharge state",
+      "Dynamic logic does not use PMOS transistors for precharging",
+      "Dynamic logic operates at twice the supply voltage of static CMOS",
+      "Dynamic logic has zero noise margin against thermal noise"
+    ],
+    "correctIndex": 0,
+    "explanation": "In dynamic logic, the evaluated output is stored capacitively on a floating node. A noise spike exceeding Vt can turn on the pulldown tree, discharging the node with no static pullup path to restore the charge until the next cycle."
+  },
+  {
+    "id": "vlsi_240",
+    "topic": "Fringing & Interwire Capacitance, Crosstalk & Noise",
+    "question": "When an aggressor wire switches next to a DRIVEN victim wire, what determines how effectively the victim suppresses the noise glitch?",
+    "options": [
+      "The victim's driver resistance (R_victim) operating in its linear region to sink/source injected charge to the power rail",
+      "The clock frequency of the arithmetic logic unit",
+      "The thickness of the silicon substrate",
+      "The number of floating polysilicon gates in the vicinity"
+    ],
+    "correctIndex": 0,
+    "explanation": "A driven victim has an active transistor in the linear (triode) region connecting it to GND or VDD. A stronger driver (lower R_victim) discharges the injected crosstalk current more rapidly, keeping peak noise low."
+  },
+  {
+    "id": "vlsi_241",
+    "topic": "Fringing & Interwire Capacitance, Crosstalk & Noise",
+    "question": "Why is the effective resistance of an aggressor driver (R_aggressor) typically 2 to 4 times larger than that of a victim driver (R_victim) of the same size during switching?",
+    "options": [
+      "The aggressor driver is transitioning through saturation where current saturates, whereas the victim driver is resting in the linear region with full channel conductance",
+      "The aggressor is always fabricated using PMOS transistors",
+      "The victim driver receives body bias from the substrate to lower its resistance",
+      "The aggressor undergoes carrier freeze-out during high di/dt events"
+    ],
+    "correctIndex": 0,
+    "explanation": "During a transition, the switching aggressor operates in saturation (high effective resistance, behaving like a current source), while the quiet victim rests in the linear region (low channel resistance, strongly tied to rail)."
+  },
+  {
+    "id": "vlsi_242",
+    "topic": "Fringing & Interwire Capacitance, Crosstalk & Noise",
+    "question": "How does increasing the horizontal spacing (s) between adjacent wires help mitigate crosstalk?",
+    "options": [
+      "Interwire capacitance (Cadj) decreases inversely with spacing (Cadj ∝ 1/s), directly reducing capacitive coupling",
+      "Increasing spacing decreases wire sheet resistance",
+      "Increasing spacing converts copper interconnect into gold",
+      "Increasing spacing eliminates fringing capacitance to ground"
+    ],
+    "correctIndex": 0,
+    "explanation": "Interwire coupling capacitance scales inversely with distance (Cadj ∝ 1/s). Doubling the spacing approximately halves Cadj, reducing injected crosstalk voltage and delay jitter."
+  },
+  {
+    "id": "vlsi_243",
+    "topic": "Fringing & Interwire Capacitance, Crosstalk & Noise",
+    "question": "What is the primary operational penalty of shielding critical wires with interleaved VDD or GND lines?",
+    "options": [
+      "Significant routing area overhead, because half the available wiring tracks are consumed by non-signal power/ground shields",
+      "Shields create infinite inductive crosstalk on adjacent nets",
+      "Shielded wires cannot connect to standard cell outputs",
+      "Shields cause thermal runaway by trapping heat between lines"
+    ],
+    "correctIndex": 0,
+    "explanation": "Interleaving shield tracks (e.g., GND-Signal-GND-Signal) consumes 50% or more of available routing tracks, substantially reducing routing density and increasing silicon area."
+  },
+  {
+    "id": "vlsi_244",
+    "topic": "Fringing & Interwire Capacitance, Crosstalk & Noise",
+    "question": "Why does a glitch caused by crosstalk on a static CMOS line increase overall dynamic power dissipation even if it causes no logic failure?",
+    "options": [
+      "The glitch causes downstream gates to partially switch, charging and discharging internal nodal capacitances and inducing short-circuit current",
+      "The glitch permanently lowers the threshold voltage of the receiving gate",
+      "The glitch converts static CMOS gates into dynamic domino gates",
+      "The glitch increases the bulk resistivity of the copper wire"
+    ],
+    "correctIndex": 0,
+    "explanation": "Even if a noise glitch stays within the noise margin and is rejected logically, false transitions propagate into downstream gates, dissipating dynamic energy (CV^2) and causing momentary crowbar short-circuit current."
+  },
+  {
+    "id": "vlsi_245",
+    "topic": "Fringing & Interwire Capacitance, Crosstalk & Noise",
+    "question": "What happens to the noise margin of a digital CMOS gate as power supply voltage (VDD) is aggressively scaled down toward 0.5 V?",
+    "options": [
+      "Noise margins shrink proportionally with VDD, making the circuit far more vulnerable to crosstalk glitches and supply droop",
+      "Noise margins increase because electric fields are smaller",
+      "Noise margins remain strictly constant at 0.5 V in all CMOS technologies",
+      "Noise margins become infinite because subthreshold leakage disappears"
+    ],
+    "correctIndex": 0,
+    "explanation": "Noise margins (NML and NMH) scale roughly proportionally with supply voltage (typically ~0.3-0.4 * VDD). At low VDD, smaller noise spikes can trip downstream logic."
+  },
+  {
+    "id": "vlsi_246",
+    "topic": "Fringing & Interwire Capacitance, Crosstalk & Noise",
+    "question": "How does wire aspect ratio (AR = t/w) influence the ratio of coupling capacitance (Cadj) to ground capacitance (Cgnd)?",
+    "options": [
+      "Higher aspect ratio increases sidewall area (t) relative to bottom area (w), causing Cadj to dominate heavily over Cgnd",
+      "Higher aspect ratio eliminates Cadj completely",
+      "Higher aspect ratio causes Cgnd to increase while Cadj approaches zero",
+      "Aspect ratio has no physical influence on capacitive distribution"
+    ],
+    "correctIndex": 0,
+    "explanation": "As wires become taller (larger t) and narrower (smaller w), sidewall area facing neighbors increases while bottom area facing substrate shrinks, making Cadj exceed Cgnd by 3x to 5x."
+  },
+  {
+    "id": "vlsi_247",
+    "topic": "Fringing & Interwire Capacitance, Crosstalk & Noise",
+    "question": "In a wide synchronous data bus (e.g. 64-bit bus), what physical layout technique is commonly used to prevent worst-case Miller coupling without adding dedicated shields?",
+    "options": [
+      "Swizzling (bus permutation / line re-ordering) to prevent adjacent bits from running parallel across long distances",
+      "Decreasing clock frequency to 1 Hz",
+      "Replacing copper lines with un-silicided polysilicon",
+      "Applying high reverse body bias to the metal wires"
+    ],
+    "correctIndex": 0,
+    "explanation": "Bus swizzling or line transposition swaps the spatial order of bus bits periodically along the routing run. This ensures that no two wires remain worst-case aggressor-victim pairs over long distances."
+  },
+  {
+    "id": "vlsi_248",
+    "topic": "Fringing & Interwire Capacitance, Crosstalk & Noise",
+    "question": "Why does crosstalk delay uncertainty (jitter) complicate setup and hold timing closure in deep-submicron chips?",
+    "options": [
+      "Because data arrival times vary dynamically depending on whether neighboring signals are quiet, switching in-phase, or switching out-of-phase",
+      "Because crosstalk changes the physical length of the silicon die during operation",
+      "Because clock jitter only occurs when all wires are completely shielded",
+      "Because crosstalk causes static timing analysis tools to divide by zero"
+    ],
+    "correctIndex": 0,
+    "explanation": "Since neighboring signal transitions depend on real-time data patterns, the effective wire capacitance fluctuates between Cgnd and Cgnd + 2*Cadj, causing dynamic arrival time jitter that must be budgeted for in timing analysis."
+  },
+  {
+    "id": "vlsi_249",
+    "topic": "Fringing & Interwire Capacitance, Crosstalk & Noise",
+    "question": "What is the primary difference between capacitive crosstalk and inductive crosstalk on parallel wires?",
+    "options": [
+      "Capacitive crosstalk injects noise via displacement current (C * dV/dt), while inductive crosstalk injects noise via magnetic coupling (M * di/dt)",
+      "Capacitive crosstalk only affects DC signals, while inductive crosstalk only affects AC signals",
+      "Capacitive crosstalk only occurs between different metal layers, while inductive crosstalk only occurs within the same layer",
+      "Inductive crosstalk does not exist on silicon integrated circuits"
+    ],
+    "correctIndex": 0,
+    "explanation": "Capacitive coupling is electrostatic, driven by voltage slew rate (dV/dt) through Cadj. Inductive coupling is electromagnetic, driven by current slew rate (di/dt) through mutual inductance M."
+  },
+  {
+    "id": "vlsi_250",
+    "topic": "Fringing & Interwire Capacitance, Crosstalk & Noise",
+    "question": "Why does inserting repeaters (buffers) along a long bus help suppress crosstalk noise?",
+    "options": [
+      "Repeaters restore clean, full-rail logic levels and break long coupling lengths into shorter segments with smaller Cadj",
+      "Repeaters convert digital pulses into analog sinusoidal waves",
+      "Repeaters remove all capacitance from the surrounding dielectric",
+      "Repeaters eliminate the Miller effect by making VDD equal to zero"
+    ],
+    "correctIndex": 0,
+    "explanation": "Breaking long parallel wires into shorter segments reduces the coupled capacitance per stage. Furthermore, each repeater acts as a strong active driver, continuously restoring signal amplitude and noise margins."
+  },
+  {
+    "id": "vlsi_251",
+    "topic": "Fringing & Interwire Capacitance, Crosstalk & Noise",
+    "question": "If a victim line has a driver that is twice as strong (half the resistance R_victim), how does the peak crosstalk noise voltage change?",
+    "options": [
+      "Peak noise voltage is substantially reduced because the lower driver resistance drains injected charge much faster",
+      "Peak noise voltage doubles because drive strength is doubled",
+      "Peak noise voltage is unchanged because noise depends only on capacitance",
+      "The victim line immediately enters thermal runaway"
+    ],
+    "correctIndex": 0,
+    "explanation": "As driver conductance increases (lower R_victim), the RC discharge time constant of the victim node drops, enabling the driver to sink the injected crosstalk current before a large voltage spike can build up."
+  },
+  {
+    "id": "vlsi_252",
+    "topic": "Wire Resistance, Sheet Resistance & Repeaters",
+    "question": "Why is sheet resistance (R_sq) expressed in units of 'ohms per square' (Ω/sq), where the square is dimensionless?",
+    "options": [
+      "Because the resistance of any square sheet of uniform thickness is ρ/t, regardless of whether the square is 1 μm x 1 μm or 1 m x 1 m",
+      "Because all VLSI layout masks must be drawn as perfect geometric squares",
+      "Because the square refers to the square root of the carrier mobility",
+      "Because ohms per square is only applicable to square polysilicon gate contacts"
+    ],
+    "correctIndex": 0,
+    "explanation": "Resistance R = ρ*L / (W*t). For any square, L = W, so L/W = 1 and R = ρ/t. The physical dimensions cancel out, making the resistance of any square dependent solely on resistivity and thickness."
+  },
+  {
+    "id": "vlsi_253",
+    "topic": "Wire Resistance, Sheet Resistance & Repeaters",
+    "question": "If a metal wire has sheet resistance R_sq = 0.05 Ω/sq, length L = 100 μm, and width W = 0.5 μm, what is its total wire resistance?",
+    "options": [
+      "10 Ω (since number of squares = 100 / 0.5 = 200, and R = 0.05 * 200 = 10 Ω)",
+      "0.05 Ω",
+      "100 Ω",
+      "0.5 Ω"
+    ],
+    "correctIndex": 0,
+    "explanation": "Number of squares = L / W = 100 μm / 0.5 μm = 200 squares. Total resistance R = R_sq * (# of squares) = 0.05 Ω/sq * 200 = 10 Ω."
+  },
+  {
+    "id": "vlsi_254",
+    "topic": "Wire Resistance, Sheet Resistance & Repeaters",
+    "question": "Why is copper preferred over aluminum for on-chip interconnects in modern processes?",
+    "options": [
+      "Copper has ~40% lower bulk resistivity (1.7 μΩ*cm vs 2.8 μΩ*cm) and significantly higher electromigration resistance",
+      "Copper is an insulator at room temperature, eliminating leakage",
+      "Copper does not require any chemical etching or CMP during fabrication",
+      "Copper atoms cannot diffuse through silicon or oxide"
+    ],
+    "correctIndex": 0,
+    "explanation": "Copper has lower resistivity (1.7 μΩ*cm vs 2.8 μΩ*cm for Al), allowing thinner lines with lower RC delay. Copper also withstands much higher current densities before electromigration failure occurs."
+  },
+  {
+    "id": "vlsi_255",
+    "topic": "Wire Resistance, Sheet Resistance & Repeaters",
+    "question": "Why must copper interconnects be completely encapsulated with a diffusion barrier layer (e.g. Ta/TaN)?",
+    "options": [
+      "Copper atoms diffuse rapidly into silicon dioxide and silicon, creating deep-level traps that short out p-n junctions and destroy FETs",
+      "Copper oxidizes instantly into an explosive gas in ambient cleanroom air",
+      "The barrier layer provides optical transparency for lithography inspection",
+      "Without the barrier, copper turns into polysilicon during annealing"
+    ],
+    "correctIndex": 0,
+    "explanation": "Copper is a fast diffuser in silicon and SiO2. Unbarriered copper atoms poison silicon active areas, acting as deep recombination centers and causing massive p-n junction leakage."
+  },
+  {
+    "id": "vlsi_256",
+    "topic": "Wire Resistance, Sheet Resistance & Repeaters",
+    "question": "How much does siliciding (polycide formation) typically reduce the sheet resistance of polysilicon gates and diffusion areas?",
+    "options": [
+      "By a factor of 8 to 10 (reducing sheet resistance from 50-400 Ω/sq down to 3-10 Ω/sq)",
+      "By exactly 50%",
+      "Siliciding actually increases sheet resistance to prevent latchup",
+      "By a factor of over 1,000,000, turning poly into a superconductor"
+    ],
+    "correctIndex": 0,
+    "explanation": "Forming silicides (e.g. TiSi2, CoSi2, NiSi) on top of polysilicon drops its sheet resistance from 50-400 Ω/sq down to 3-10 Ω/sq, an improvement factor of 8 to 10x."
+  },
+  {
+    "id": "vlsi_257",
+    "topic": "Wire Resistance, Sheet Resistance & Repeaters",
+    "question": "Why do layout designers place large arrays of small contact vias in parallel rather than a single large via of equivalent total area?",
+    "options": [
+      "Current crowding occurs around the periphery of contacts; multiple small vias maximize perimeter and reduce overall contact resistance while boosting electromigration reliability",
+      "Single large vias cannot conduct DC current",
+      "Lithographic steppers can only print square holes of exactly one fixed size",
+      "Multiple small vias prevent copper atoms from diffusing into the package"
+    ],
+    "correctIndex": 0,
+    "explanation": "Current enters a contact non-uniformly, crowding along the outer edges. Multiple small contacts provide a much larger effective perimeter, distributing current evenly and mitigating electromigration."
+  },
+  {
+    "id": "vlsi_258",
+    "topic": "Wire Resistance, Sheet Resistance & Repeaters",
+    "question": "How does propagation delay scale with wire length (L) for an unbuffered long interconnect wire?",
+    "options": [
+      "Quadratically: delay is proportional to L^2 (t_pd ∝ L^2)",
+      "Linearly: delay is proportional to L (t_pd ∝ L)",
+      "Logarithmically: delay is proportional to ln(L)",
+      "Delay is completely independent of wire length"
+    ],
+    "correctIndex": 0,
+    "explanation": "Because both total resistance (R = r*L) and total capacitance (C = c*L) are proportional to length, their product RC delay scales quadratically: t_pd ∝ r*c*L^2."
+  },
+  {
+    "id": "vlsi_259",
+    "topic": "Wire Resistance, Sheet Resistance & Repeaters",
+    "question": "What is the primary benefit of inserting N optimal repeaters (inverters or buffers) along a long interconnect line?",
+    "options": [
+      "It transforms quadratic delay scaling (L^2) into linear delay scaling (L), drastically reducing total signal propagation time",
+      "It eliminates all dynamic power dissipation across the bus",
+      "It converts the wire into a superconducting waveguide",
+      "It allows the wire to carry bidirectional signals simultaneously without arbitration"
+    ],
+    "correctIndex": 0,
+    "explanation": "By dividing a wire of length L into N segments of length L/N, each segment's delay is proportional to (L/N)^2. The sum of N segments yields a total delay proportional to N * (L/N)^2 = L^2 / N ∝ L."
+  },
+  {
+    "id": "vlsi_260",
+    "topic": "Wire Resistance, Sheet Resistance & Repeaters",
+    "question": "What are the primary design penalties associated with inserting aggressive repeater buffers on long on-chip nets?",
+    "options": [
+      "Increased silicon area, higher dynamic switching power, higher subthreshold leakage, and routing congestion",
+      "Repeater buffers cause the wire resistance to become negative",
+      "Repeater buffers can only operate with PMOS transistors",
+      "Repeater buffers require separate external power supplies"
+    ],
+    "correctIndex": 0,
+    "explanation": "Repeaters consume active silicon area in standard cell rows beneath the wiring tracks, increase dynamic power (charging repeater input capacitances), add static leakage, and block routing channels."
+  },
+  {
+    "id": "vlsi_261",
+    "topic": "Wire Resistance, Sheet Resistance & Repeaters",
+    "question": "How many effective squares of resistance are typically attributed to a 90-degree corner bend in a rectangular interconnect wire?",
+    "options": [
+      "Approximately 0.56 squares (current crowds the inner corner, making it less resistive than a full square)",
+      "Exactly 2.0 squares",
+      "Zero squares",
+      "10.0 squares"
+    ],
+    "correctIndex": 0,
+    "explanation": "At a 90-degree corner, current crowds along the shorter inside corner path. Conformal mapping shows that a square corner contributes approximately 0.56 squares of resistance rather than 1.0 square."
+  },
+  {
+    "id": "vlsi_262",
+    "topic": "Wire Resistance, Sheet Resistance & Repeaters",
+    "question": "What happens to the optimal repeater size as wire capacitance per unit length increases?",
+    "options": [
+      "The optimal repeater size increases (wider transistors) to drive the larger capacitive load with lower driver resistance",
+      "The optimal repeater size decreases to minimum geometry",
+      "Repeaters are completely eliminated",
+      "The repeater size becomes independent of wire parameters"
+    ],
+    "correctIndex": 0,
+    "explanation": "To minimize delay, the driving resistance of the repeater must balance the load it drives. Higher wire capacitance requires larger, wider inverter transistors to source and sink charging currents rapidly."
+  },
+  {
+    "id": "vlsi_263",
+    "topic": "Wire Resistance, Sheet Resistance & Repeaters",
+    "question": "Why is aluminum still occasionally used for top-level bond pads even in all-copper interconnect chips?",
+    "options": [
+      "Aluminum naturally forms a self-passivating native oxide that protects wire bonds, and it bonds reliably with gold or aluminum wire-bond wires",
+      "Aluminum is more conductive than copper at high temperatures",
+      "Copper cannot be bonded to any packaging material",
+      "Aluminum prevents electrons from leaking into the ambient air"
+    ],
+    "correctIndex": 0,
+    "explanation": "Copper oxidizes readily and corrodes without hermetic sealing. Aluminum forms a stable, self-limiting native oxide (Al2O3) and is standard for ultrasonic wire bonding and probe card contacting."
+  },
+  {
+    "id": "vlsi_264",
+    "topic": "Wire Resistance, Sheet Resistance & Repeaters",
+    "question": "What is the typical resistance of an individual inter-metal via in a sub-180 nm CMOS process?",
+    "options": [
+      "2 to 20 Ω per via",
+      "0.0001 Ω per via",
+      "100 kΩ per via",
+      "Vias have zero resistance"
+    ],
+    "correctIndex": 0,
+    "explanation": "As detailed in the lecture slides, individual contacts and vias have typical parasitic resistances ranging from 2 to 20 Ω depending on diameter, barrier thickness, and contact clean quality."
+  },
+  {
+    "id": "vlsi_265",
+    "topic": "Wire Resistance, Sheet Resistance & Repeaters",
+    "question": "Why does doubling the width of an unbuffered long wire fail to significantly improve its intrinsic RC propagation delay?",
+    "options": [
+      "Doubling width halves resistance (R/2) but simultaneously doubles capacitance (2*C), keeping the intrinsic RC product virtually unchanged",
+      "Because wire resistance is independent of width",
+      "Because copper resistivity increases linearly with width",
+      "Because wider wires violate quantum confinement limits"
+    ],
+    "correctIndex": 0,
+    "explanation": "Intrinsic wire delay is governed by r*c. Widening a wire halves resistance per unit length (r = ρ / (w*t)) but increases parallel-plate capacitance proportionally (c ≈ ε*w / h). The product r*c remains roughly constant."
+  },
+  {
+    "id": "vlsi_266",
+    "topic": "Wire Resistance, Sheet Resistance & Repeaters",
+    "question": "In repeater insertion theory, how should repeaters be spaced along a uniform interconnect line for minimum overall latency?",
+    "options": [
+      "Equally spaced into segments of identical length L_opt",
+      "Exponentially spaced, with segments getting progressively longer toward the receiver",
+      "All grouped together at the very start of the wire",
+      "Concentrated solely at the exact midpoint of the wire"
+    ],
+    "correctIndex": 0,
+    "explanation": "For a uniform wire, the optimal delay is achieved when the line is divided into identical, equally spaced segments, each driven by an identically sized buffer."
+  },
+  {
+    "id": "vlsi_267",
+    "topic": "Wire Resistance, Sheet Resistance & Repeaters",
+    "question": "What is the typical sheet resistance range for unsilicided diffusion in an older 180 nm CMOS process?",
+    "options": [
+      "50 to 200 Ω/sq",
+      "0.01 to 0.05 Ω/sq",
+      "1 to 2 kΩ/sq",
+      "Diffusion has zero sheet resistance"
+    ],
+    "correctIndex": 0,
+    "explanation": "As shown in the lecture reference tables, unsilicided diffusion exhibits a high sheet resistance of 50 to 200 Ω/sq, compared to 3-10 Ω/sq when silicided."
+  },
+  {
+    "id": "vlsi_268",
+    "topic": "Wire Resistance, Sheet Resistance & Repeaters",
+    "question": "Why does a 10x inverter driving a long wire have lower total delay than a 1x inverter driving the same wire?",
+    "options": [
+      "The 10x inverter has 10x lower driver output resistance (R_driver), significantly reducing the R_driver * C_wire delay term",
+      "The 10x inverter increases the wire's aspect ratio",
+      "The 10x inverter eliminates the wire's sheet resistance",
+      "The 10x inverter operates at 10x higher supply voltage"
+    ],
+    "correctIndex": 0,
+    "explanation": "Total delay is approximately t_pd = 0.69 * R_driver * C_wire + 0.38 * R_wire * C_wire. Increasing driver size from 1x to 10x slashes R_driver by 10x, drastically speeding up charging of the heavy wire capacitance."
+  },
+  {
+    "id": "vlsi_269",
+    "topic": "Wire Resistance, Sheet Resistance & Repeaters",
+    "question": "Why is gold rarely used as the primary on-chip interconnect metal in mass-market silicon microprocessors?",
+    "options": [
+      "Gold has higher resistivity than copper (2.2 vs 1.7 μΩ*cm), is very expensive, and is difficult to dry-etch or CMP in silicon fabs",
+      "Gold cannot conduct electricity at room temperature",
+      "Gold melts at typical chip operating temperatures (85°C)",
+      "Gold exhibits infinite electromigration at zero current"
+    ],
+    "correctIndex": 0,
+    "explanation": "Gold has higher bulk resistivity (2.2 μΩ*cm) than copper (1.7 μΩ*cm), costs far more, and creates deep-level lifetime killer traps in silicon active regions."
+  },
+  {
+    "id": "vlsi_270",
+    "topic": "Lumped RC Models & Elmore Delay Calculation",
+    "question": "For a distributed RC transmission line, what is the propagation delay to the 50% voltage threshold (t_p) in terms of total line resistance R and capacitance C?",
+    "options": [
+      "t_p = 0.38 * R * C",
+      "t_p = 0.69 * R * C",
+      "t_p = 1.0 * R * C",
+      "t_p = 2.2 * R * C"
+    ],
+    "correctIndex": 0,
+    "explanation": "For a distributed RC line, the 50% rise time is approximately 0.38 RC, compared to 0.69 RC for a single lumped RC network. The factor 0.38 comes from solving the one-dimensional diffusion equation."
+  },
+  {
+    "id": "vlsi_271",
+    "topic": "Lumped RC Models & Elmore Delay Calculation",
+    "question": "What is the 10% to 90% rise time (t_r) of a distributed RC interconnect line?",
+    "options": [
+      "0.9 * R * C",
+      "2.2 * R * C",
+      "0.38 * R * C",
+      "5.0 * R * C"
+    ],
+    "correctIndex": 0,
+    "explanation": "While a lumped RC network has a 10%-90% rise time of 2.2 RC, a distributed RC line has a significantly sharper transition of approximately 0.9 RC due to its distributed spatial diffusion response."
+  },
+  {
+    "id": "vlsi_272",
+    "topic": "Lumped RC Models & Elmore Delay Calculation",
+    "question": "Why is a 3-segment π-model preferred over an L-model when simulating distributed RC wires in SPICE?",
+    "options": [
+      "A 3-segment π-model achieves within 3% accuracy of a continuous distributed line, whereas an L-model requires ~100 segments for the same fidelity",
+      "An L-model cannot be simulated in SPICE due to floating nodes",
+      "A π-model contains inductors while an L-model does not",
+      "The L-model causes numerical division by zero in DC operating point calculations"
+    ],
+    "correctIndex": 0,
+    "explanation": "Because a π-model distributes capacitance symmetrically at both ends of each resistive segment, its approximation of diffusion dynamics converges much faster: 3 π-segments yield ~3% error, while an L-model needs 100 segments."
+  },
+  {
+    "id": "vlsi_273",
+    "topic": "Lumped RC Models & Elmore Delay Calculation",
+    "question": "In an Elmore delay calculation for a tree network, what does the term R_ik represent in the summation τ_Di = Σ (C_k * R_ik)?",
+    "options": [
+      "The shared resistance along the common path from the input source root to both node i and node k",
+      "The resistance of the branch connecting node i directly to node k",
+      "The total resistance of the entire chip",
+      "The input resistance of the driving logic gate"
+    ],
+    "correctIndex": 0,
+    "explanation": "R_ik is defined as the sum of all branch resistances common to both the path from the root source to node i and the path from the root source to node k: R_ik = Σ R_j for R_j ∈ [path(s→i) ∩ path(s→k)]."
+  },
+  {
+    "id": "vlsi_274",
+    "topic": "Lumped RC Models & Elmore Delay Calculation",
+    "question": "If a branch in an RC tree is off the path from the source to node i (an off-path branch), how does its capacitance affect the Elmore delay at node i?",
+    "options": [
+      "Its capacitance is multiplied by the shared path resistance up to the branching point and adds to the total delay at node i",
+      "Off-path capacitances have zero effect on the delay at node i",
+      "Off-path capacitances subtract from the delay at node i",
+      "Off-path capacitances only affect the delay if they contain inductors"
+    ],
+    "correctIndex": 0,
+    "explanation": "Every capacitor C_k in the tree contributes to delay at node i by an amount equal to C_k multiplied by the shared path resistance between node k and node i. Off-path capacitances load the shared upstream trunk."
+  },
+  {
+    "id": "vlsi_275",
+    "topic": "Lumped RC Models & Elmore Delay Calculation",
+    "question": "How is a single uniform wire of resistance R and capacitance C represented in a single-segment π-model for Elmore delay calculations?",
+    "options": [
+      "A resistor R in series, with C/2 lumped to ground at the input and C/2 lumped to ground at the output",
+      "A resistor R/2 in series, with full capacitance C at the output",
+      "A single capacitor C in series with a resistor R to ground",
+      "Three resistors of R/3 with zero capacitance"
+    ],
+    "correctIndex": 0,
+    "explanation": "A single-segment π-model splits the total wire capacitance equally between the two terminals: C/2 at the near end and C/2 at the far end, connected by series resistor R. This yields the exact Elmore delay of R*C/2."
+  },
+  {
+    "id": "vlsi_276",
+    "topic": "Lumped RC Models & Elmore Delay Calculation",
+    "question": "What is the intrinsic Elmore delay of a uniform distributed RC wire of length L with resistance r and capacitance c per unit length?",
+    "options": [
+      "τ = (r * c * L^2) / 2 = R * C / 2",
+      "τ = r * c * L^2 = R * C",
+      "τ = 0.69 * R * C",
+      "τ = R * C / 4"
+    ],
+    "correctIndex": 0,
+    "explanation": "Integrating the incremental resistance and downstream capacitance along the length yields the classic distributed Elmore delay: τ = ∫ (r*x) * (c*dx) = (r * c * L^2) / 2 = R * C / 2."
+  },
+  {
+    "id": "vlsi_277",
+    "topic": "Lumped RC Models & Elmore Delay Calculation",
+    "question": "According to the VLSI design rule of thumb, when can interconnect RC delay be safely ignored in favor of a pure gate delay model?",
+    "options": [
+      "When the wire propagation delay is much smaller than the gate delay (t_pRC << t_pgate), or wire length L << L_crit",
+      "When the wire length exceeds 10 centimeters",
+      "When the wire is routed on M1 rather than M5",
+      "When the clock period is shorter than 100 picoseconds"
+    ],
+    "correctIndex": 0,
+    "explanation": "Interconnect RC delay only needs explicit modeling when t_pRC >> t_pgate. If the wire is short (L << L_crit = sqrt(t_pgate / (0.38*r*c))), the wire acts simply as a lumped capacitive load."
+  },
+  {
+    "id": "vlsi_278",
+    "topic": "Lumped RC Models & Elmore Delay Calculation",
+    "question": "When an input signal's rise time (t_rise) is much LARGER than the wire's intrinsic RC delay (t_rise >> RC), how does the signal propagate through the wire?",
+    "options": [
+      "The signal transitions quasi-statically across the wire; the wire voltage tracks the input with negligible propagation delay",
+      "The wire acts as an underdamped transmission line with massive voltage overshoot",
+      "The wire reflects the signal back to the driver as an echo",
+      "The signal is completely attenuated to zero volts"
+    ],
+    "correctIndex": 0,
+    "explanation": "When t_rise >> RC, the input changes so slowly that the wire charges quasi-statically. Wave propagation effects are absent, and the wire behaves as a single equipotential lumped capacitive node."
+  },
+  {
+    "id": "vlsi_279",
+    "topic": "Lumped RC Models & Elmore Delay Calculation",
+    "question": "If an inverter with effective output resistance R_driver drives a wire of resistance R_w and capacitance C_w terminated by a load C_load, what is the total Elmore delay?",
+    "options": [
+      "t_D = R_driver * (C_w + C_load) + R_w * (C_w / 2 + C_load)",
+      "t_D = (R_driver + R_w) * (C_w + C_load) / 2",
+      "t_D = R_driver * C_load + R_w * C_w",
+      "t_D = R_driver * C_w * C_load"
+    ],
+    "correctIndex": 0,
+    "explanation": "Using a π-model for the wire: the driver resistance R_driver charges all downstream capacitance (C_w + C_load), while the wire resistance R_w charges half the wire capacitance plus the load: R_driver*(C_w + C_load) + R_w*(C_w/2 + C_load)."
+  },
+  {
+    "id": "vlsi_280",
+    "topic": "Lumped RC Models & Elmore Delay Calculation",
+    "question": "Why is the Elmore delay model described as a 'first-moment' approximation?",
+    "options": [
+      "It corresponds to the mean (first moment) of the impulse response h(t) treated as a probability distribution function: τ = ∫ t * h(t) dt",
+      "Because it only applies during the first clock cycle of chip operation",
+      "Because it calculates delay at the first transistor in the netlist",
+      "Because it ignores all capacitors except the first one"
+    ],
+    "correctIndex": 0,
+    "explanation": "In circuit theory, the Elmore delay equals the first moment of the impulse response: τ_D = ∫_0^∞ t * h(t) dt. It represents the centroid of the circuit's transient response curve."
+  },
+  {
+    "id": "vlsi_281",
+    "topic": "Lumped RC Models & Elmore Delay Calculation",
+    "question": "What is the primary limitation of the Elmore delay model in high-speed digital circuit design?",
+    "options": [
+      "It does not account for transmission line inductance, reflections, or non-monotonic step responses (overshoot/ringing)",
+      "It cannot be computed without running numerical differential equation solvers",
+      "It is restricted solely to circuits with PMOS transistors",
+      "It always underestimates delay by a factor of 10x"
+    ],
+    "correctIndex": 0,
+    "explanation": "Elmore delay assumes a dominant single-pole monotonic RC response. It cannot capture inductive ringing, transmission line reflections, or fast-input slew effects, which requires higher-order models (like AWE or SPICE)."
+  },
+  {
+    "id": "vlsi_282",
+    "topic": "Lumped RC Models & Elmore Delay Calculation",
+    "question": "In an RC ladder chain of N identical segments (each with resistance R_seg and capacitance C_seg), what is the Elmore delay to the N-th node?",
+    "options": [
+      "τ_N = R_seg * C_seg * [N * (N + 1) / 2]",
+      "τ_N = N * R_seg * C_seg",
+      "τ_N = (R_seg * C_seg) / N",
+      "τ_N = R_seg^N * C_seg^N"
+    ],
+    "correctIndex": 0,
+    "explanation": "The first resistor charges N capacitors, the second charges N-1, etc. Summing i from 1 to N yields Σ i * R_seg * C_seg = R_seg * C_seg * N*(N+1)/2, which approaches (RC)/2 for large N."
+  },
+  {
+    "id": "vlsi_283",
+    "topic": "Lumped RC Models & Elmore Delay Calculation",
+    "question": "What is the physical equation governing voltage diffusion along a continuous distributed RC line?",
+    "options": [
+      "r * c * (∂V / ∂t) = ∂^2V / ∂x^2 (the one-dimensional diffusion equation)",
+      "L * C * (∂^2V / ∂t^2) = ∂^2V / ∂x^2 (the lossless wave equation)",
+      "V = I * R (Ohm's law without time dependence)",
+      "∂V / ∂x = 0 (infinite velocity equation)"
+    ],
+    "correctIndex": 0,
+    "explanation": "Applying Kirchhoff's laws to an infinitesimal wire segment (resistance r*dx, capacitance c*dx) yields the parabolic partial differential equation of diffusion: r*c * ∂V/∂t = ∂^2V/∂x^2."
+  },
+  {
+    "id": "vlsi_284",
+    "topic": "Lumped RC Models & Elmore Delay Calculation",
+    "question": "Why does a step voltage applied to the input of a distributed RC line take time to produce any noticeable voltage change at the far end (spatial delay)?",
+    "options": [
+      "Because charge must diffuse through successive distributed RC stages, causing response time to increase quadratically with distance x",
+      "Because electromagnetic waves cannot travel through copper",
+      "Because the input voltage must wait for a clock edge to propagate",
+      "Because the dielectric absorbs all the electrons near the input"
+    ],
+    "correctIndex": 0,
+    "explanation": "In a diffusion system, the propagation time constant scales as (r * c * x^2) / 2. Points near the driver (x = L/10) rise rapidly, while far-end points (x = L) experience a long sluggish delay tail."
+  },
+  {
+    "id": "vlsi_285",
+    "topic": "Lumped RC Models & Elmore Delay Calculation",
+    "question": "In a T-model representation of a wire segment of resistance R and capacitance C, how are components arranged?",
+    "options": [
+      "Two series resistors of R/2 with a single capacitor C connected to ground between them",
+      "Two parallel capacitors of C/2 with a single resistor R in between",
+      "A resistor R in parallel with capacitor C",
+      "Three capacitors in series with two grounded resistors"
+    ],
+    "correctIndex": 0,
+    "explanation": "The T-model splits the total resistance into two equal halves (R/2 and R/2) in series, with the entire line capacitance C tied from the central node to ground, forming the shape of a 'T'."
+  },
+  {
+    "id": "vlsi_286",
+    "topic": "Lumped RC Models & Elmore Delay Calculation",
+    "question": "If an RC tree has two parallel branches (branch A and branch B) splitting from a common stem resistor R_stem, how does increasing branch B's load capacitance affect branch A's Elmore delay?",
+    "options": [
+      "Branch A's delay increases because the added capacitance on B must be charged through the shared stem resistor R_stem",
+      "Branch A's delay is completely unaffected because the branches are independent",
+      "Branch A's delay decreases due to current diversion into branch B",
+      "Branch A's delay oscillates at the resonant frequency of the stem"
+    ],
+    "correctIndex": 0,
+    "explanation": "In the Elmore formula, any capacitance C_B on branch B shares the stem resistance R_stem with branch A. Thus, adding capacitance to branch B directly increases delay at branch A by R_stem * ΔC_B."
+  },
+  {
+    "id": "vlsi_287",
+    "topic": "Lumped RC Models & Elmore Delay Calculation",
+    "question": "What happens to the 50% propagation delay of a driving gate when wire resistance R_w is small compared to driver resistance R_driver?",
+    "options": [
+      "The total delay simplifies to t_p ≈ 0.69 * R_driver * (C_w + C_load), behaving as a pure lumped capacitive load",
+      "The total delay drops to zero",
+      "The wire delay dominates over the driver delay",
+      "The circuit exhibits severe inductive ringing"
+    ],
+    "correctIndex": 0,
+    "explanation": "When R_w << R_driver, the wire's internal resistance is negligible, and the driver simply charges the total parallel capacitance (C_w + C_load), yielding standard lumped RC delay: 0.69 * R_driver * C_total."
+  },
+  {
+    "id": "vlsi_288",
+    "topic": "MOSFET Scaling & High-Field Effects",
+    "question": "In classical Constant Field Scaling (Dennard Scaling), by what factor does circuit delay (T = CV/I) scale if dimensions and voltage are scaled by 1/S (S > 1)?",
+    "options": [
+      "Delay scales by 1/S (circuits become S times faster)",
+      "Delay scales by 1/S^2",
+      "Delay remains constant (scaling factor 1)",
+      "Delay increases by factor S (circuits become slower)"
+    ],
+    "correctIndex": 0,
+    "explanation": "In constant field scaling, C scales by 1/S, V scales by 1/S, and I scales by 1/S. Therefore, delay T = (C * V) / I = [(1/S) * (1/S)] / (1/S) = 1/S. Circuit speed increases by factor S."
+  },
+  {
+    "id": "vlsi_289",
+    "topic": "MOSFET Scaling & High-Field Effects",
+    "question": "In Constant Voltage Scaling, what happens to chip power density (Power / Area) as feature size shrinks by factor 1/S?",
+    "options": [
+      "Power density increases by S^3, causing catastrophic chip overheating and thermal failure",
+      "Power density remains constant (factor 1)",
+      "Power density decreases by 1/S^2",
+      "Power density drops to zero"
+    ],
+    "correctIndex": 0,
+    "explanation": "With constant voltage, current I scales by S, so power P = V*I scales by S. Since area A scales by 1/S^2, power density P/A scales by S / (1/S^2) = S^3. This causes extreme heat accumulation."
+  },
+  {
+    "id": "vlsi_288b",
+    "topic": "MOSFET Scaling & High-Field Effects",
+    "question": "Why did classical Dennard (Constant Field) scaling effectively end around 2005?",
+    "options": [
+      "Supply voltage (VDD) could no longer be scaled down because threshold voltage (Vt) scaling stalled due to exponential subthreshold leakage",
+      "Silicon wafers ran out of atoms to scale",
+      "Transistors became so fast that the speed of light in vacuum was exceeded",
+      "CMOS logic gates could no longer implement Boolean NAND operations"
+    ],
+    "correctIndex": 0,
+    "explanation": "Scaling VDD requires scaling Vt to maintain drive current overdrive (Vgs - Vt). However, reducing Vt below ~0.3 V causes subthreshold leakage current to explode exponentially, violating standby power budgets."
+  },
+  {
+    "id": "vlsi_290",
+    "topic": "MOSFET Scaling & High-Field Effects",
+    "question": "What is the physical mechanism behind carrier velocity saturation in short-channel MOSFETs?",
+    "options": [
+      "High lateral electric fields (Elat > Ec) cause carriers to emit optical phonons, scattering off the silicon lattice and limiting drift velocity to vsat",
+      "Electrons collide with the package pins and bounce backward",
+      "The gate dielectric absorbs all kinetic energy from the carriers",
+      "The channel length shrinks to zero, leaving no room for carriers to move"
+    ],
+    "correctIndex": 0,
+    "explanation": "Under strong lateral fields (Elat > 10^4 V/cm), carriers acquire high kinetic energy and scatter by emitting optical phonons into the silicon lattice. This caps electron drift velocity at vsat ≈ 10^7 cm/s."
+  },
+  {
+    "id": "vlsi_291",
+    "topic": "MOSFET Scaling & High-Field Effects",
+    "question": "How does velocity saturation alter the mathematical relationship between saturation drain current (I_Dsat) and gate overdrive (V_gs - V_t)?",
+    "options": [
+      "I_Dsat becomes linearly proportional to (V_gs - V_t) rather than quadratically proportional to (V_gs - V_t)^2",
+      "I_Dsat becomes exponential in (V_gs - V_t)^3",
+      "I_Dsat becomes completely independent of gate voltage",
+      "I_Dsat becomes inversely proportional to gate voltage"
+    ],
+    "correctIndex": 0,
+    "explanation": "In long-channel devices, I_Dsat ∝ (Vgs - Vt)^2. Under full velocity saturation, drift velocity is fixed at vsat, so current is simply charge density times vsat: I_Dsat = W * Cox * vsat * (Vgs - Vt), which is strictly linear."
+  },
+  {
+    "id": "vlsi_292",
+    "topic": "MOSFET Scaling & High-Field Effects",
+    "question": "What is the physical cause of mobility degradation in MOSFETs under high gate bias?",
+    "options": [
+      "The intense vertical electric field (Evert = Vgs / tox) pulls carriers against the rough Si/SiO2 interface, increasing surface scattering",
+      "The gate metal melts and diffuses into the channel",
+      "The drain voltage pinches off the source contact",
+      "Electrons recombine with holes in the gate oxide"
+    ],
+    "correctIndex": 0,
+    "explanation": "High vertical electric field (Evert) attracts inversion carriers tightly against the physical interface between silicon and gate dielectric. Surface roughness scattering significantly degrades effective carrier mobility (μ_eff)."
+  },
+  {
+    "id": "vlsi_293",
+    "topic": "MOSFET Scaling & High-Field Effects",
+    "question": "Why does early saturation occur in short-channel MOSFETs at a drain voltage V_DSAT that is less than (V_gs - V_t)?",
+    "options": [
+      "The lateral electric field reaches the critical field (E_c) for velocity saturation before the channel pinches off at the drain end",
+      "The source contact loses electrical contact with the substrate",
+      "The threshold voltage increases to VDD",
+      "The gate oxide undergoes dielectric breakdown"
+    ],
+    "correctIndex": 0,
+    "explanation": "In long channels, saturation occurs only when Vds = Vgs - Vt (channel pinch-off). In short channels, the lateral field Elat = Vds / L reaches Ec before pinch-off, causing carriers to saturate velocity early at Vdsat < Vgs - Vt."
+  },
+  {
+    "id": "vlsi_294",
+    "topic": "MOSFET Scaling & High-Field Effects",
+    "question": "In the empirical alpha-power law model (I_D ∝ (V_gs - V_t)^α), what is the value of α for a modern deep-submicron short-channel MOSFET?",
+    "options": [
+      "α ≈ 1.0 to 1.3 (reflecting strong velocity saturation)",
+      "α = 2.0 (matching the ideal long-channel Shockley model)",
+      "α = 0.5",
+      "α = 4.0"
+    ],
+    "correctIndex": 0,
+    "explanation": "The parameter α ranges from 2.0 (pure long-channel quadratic behavior) down to ~1.0 for short-channel devices dominated by velocity saturation. Typical sub-90nm nodes exhibit α between 1.1 and 1.3."
+  },
+  {
+    "id": "vlsi_295",
+    "topic": "MOSFET Scaling & High-Field Effects",
+    "question": "How does velocity saturation affect the drive current advantage of NMOS over PMOS in deep-submicron CMOS?",
+    "options": [
+      "The NMOS advantage diminishes because electron velocity saturates more easily than hole velocity, narrowing the effective current ratio from ~3:1 down to ~2:1 or less",
+      "NMOS becomes 10x faster than PMOS",
+      "PMOS current drops to zero while NMOS is unaffected",
+      "Holes achieve a saturation velocity 10x higher than electrons"
+    ],
+    "correctIndex": 0,
+    "explanation": "Low-field electron mobility is ~2.5x higher than hole mobility, but electron saturation velocity (vsat-n ≈ 10^7 cm/s) is only slightly higher than hole saturation velocity (vsat-p ≈ 8x10^6 cm/s). Under velocity saturation, the drive current ratio narrows."
+  },
+  {
+    "id": "vlsi_296",
+    "topic": "MOSFET Scaling & High-Field Effects",
+    "question": "In Constant Field Scaling, how must the substrate doping concentration (N_a) be scaled to keep depletion widths in proportion?",
+    "options": [
+      "Doping concentration must increase by factor S (N_a' = S * N_a)",
+      "Doping concentration must decrease by factor 1/S",
+      "Doping concentration must remain strictly constant",
+      "Doping concentration must be reduced to intrinsic silicon level"
+    ],
+    "correctIndex": 0,
+    "explanation": "Depletion layer thickness scales as sqrt(V / Na). To scale depletion width down by 1/S while voltage scales by 1/S, doping concentration Na must be increased by factor S: sqrt((1/S) / S) = 1/S."
+  },
+  {
+    "id": "vlsi_297",
+    "topic": "MOSFET Scaling & High-Field Effects",
+    "question": "What is the critical electric field (E_c) in semiconductor device physics?",
+    "options": [
+      "The lateral electric field threshold at which carrier drift velocity begins to saturate: E_c = 2 * v_sat / μ_eff",
+      "The electric field required to break dielectric bonds in SiO2",
+      "The vertical electric field that turns on the MOSFET inversion layer",
+      "The magnetic field produced by the clock distribution tree"
+    ],
+    "correctIndex": 0,
+    "explanation": "Critical electric field Ec marks the transition between ohmic low-field transport (v = μ*E) and velocity-saturated transport (v = vsat). Mathematically, Ec = 2*vsat / μ_eff."
+  },
+  {
+    "id": "vlsi_298",
+    "topic": "MOSFET Scaling & High-Field Effects",
+    "question": "Why does velocity saturation make digital circuit delay less sensitive to supply voltage scaling than classical long-channel theory predicts?",
+    "options": [
+      "Because drive current scales linearly with (VDD - Vt) rather than quadratically, preserving higher relative drive current at reduced VDD",
+      "Because velocity saturation eliminates all gate input capacitance",
+      "Because velocity saturation prevents transistors from entering the linear region",
+      "Because supply voltage scaling increases the carrier saturation velocity"
+    ],
+    "correctIndex": 0,
+    "explanation": "Since current scales as (VDD - Vt)^1 rather than (VDD - Vt)^2, lowering VDD causes a much gentler reduction in drive current I_on, allowing circuits to run faster at low voltages than quadratic theory would suggest."
+  },
+  {
+    "id": "vlsi_299",
+    "topic": "MOSFET Scaling & High-Field Effects",
+    "question": "How does gate oxide thickness (t_ox) scaling in Constant Field Scaling affect gate capacitance per unit area (C_ox)?",
+    "options": [
+      "C_ox increases by factor S (C_ox' = S * C_ox) because capacitance is inversely proportional to thickness",
+      "C_ox decreases by factor 1/S",
+      "C_ox remains constant",
+      "C_ox drops to zero"
+    ],
+    "correctIndex": 0,
+    "explanation": "Gate oxide capacitance per unit area is Cox = ε_ox / t_ox. When t_ox scales down by 1/S, Cox increases by factor S. However, since device area (W*L) scales by 1/S^2, total gate capacitance scales by S * (1/S^2) = 1/S."
+  },
+  {
+    "id": "vlsi_299b",
+    "topic": "MOSFET Scaling & High-Field Effects",
+    "question": "What is the effect of high lateral electric field on hot carrier generation near the MOSFET drain?",
+    "options": [
+      "Electrons gain sufficient energy to create electron-hole pairs via impact ionization, producing substrate current and risking oxide trap damage",
+      "Electrons freeze in place, stopping all current flow",
+      "The drain contact turns into an insulator",
+      "Hot carriers cause the chip clock frequency to double"
+    ],
+    "correctIndex": 0,
+    "explanation": "High lateral electric fields accelerate channel electrons into 'hot' carriers. Collisions with the silicon lattice create electron-hole pairs via impact ionization (manifested as substrate current) and inject traps into gate oxide."
+  },
+  {
+    "id": "vlsi_299c",
+    "topic": "MOSFET Scaling & High-Field Effects",
+    "question": "In a historical scaling comparison from Intel 386 to Pentium, why did maximum clock frequency (f_max) scale from 29 MHz to 100 MHz while power per gate dropped from 92 mW to 10 mW?",
+    "options": [
+      "Dimensions and supply voltage were simultaneously scaled down, reducing gate switching delay and dynamic switching energy (CV^2)",
+      "Pentium microprocessors used vacuum tubes instead of CMOS",
+      "Clock frequency increased purely by eliminating all interconnect wires",
+      "The number of metal layers was reduced from 5 to 1"
+    ],
+    "correctIndex": 0,
+    "explanation": "Scaling reduced feature size (L from 1.5 μm to 0.5 μm) and supply voltage (5V to 2.2V). Gate delay dropped from 840 ps to 250 ps, boosting f_max while VDD scaling dramatically cut power per gate."
+  },
+  {
+    "id": "vlsi_299d",
+    "topic": "MOSFET Scaling & High-Field Effects",
+    "question": "What is the Power-Delay Product (PDP) scaling factor under ideal Constant Field Scaling?",
+    "options": [
+      "PDP scales down by 1/S^3 (representing a massive improvement in energy efficiency per switching event)",
+      "PDP scales up by factor S^3",
+      "PDP remains constant",
+      "PDP scales by factor S"
+    ],
+    "correctIndex": 0,
+    "explanation": "PDP represents the energy consumed per switching event: PDP = P * T. Since power P scales by 1/S^2 and delay T scales by 1/S, the PDP scales as (1/S^2) * (1/S) = 1/S^3."
+  },
+  {
+    "id": "vlsi_300",
+    "topic": "CLM, Threshold Effects, Leakage & Process Variations",
+    "question": "What physical event marks the onset of Channel Length Modulation (CLM) in a MOSFET?",
+    "options": [
+      "The channel pinches off at the drain end when Vds reaches saturation, and further increases in Vds expand the depletion region into the channel",
+      "The gate oxide completely breaks down under high vertical field",
+      "The source contact begins conducting directly to the gate",
+      "The threshold voltage drops to zero volts"
+    ],
+    "correctIndex": 0,
+    "explanation": "When Vds > Vgs - Vt (or Vds > Vdsat), the inversion channel pinches off at the drain. The pinch-off point moves toward the source as Vds increases, shortening effective channel length (L' = L - ΔL)."
+  },
+  {
+    "id": "vlsi_301",
+    "topic": "CLM, Threshold Effects, Leakage & Process Variations",
+    "question": "Why is the channel length modulation parameter lambda (λ) inversely proportional to channel length (λ ∝ 1/L)?",
+    "options": [
+      "Because a given physical depletion extension ΔL represents a much larger percentage of total channel length in short transistors than in long transistors",
+      "Because lambda is defined as the physical length divided by thickness",
+      "Because short transistors have lower drain voltages",
+      "Because lambda only applies when channel length exceeds 10 microns"
+    ],
+    "correctIndex": 0,
+    "explanation": "Effective length is L' = L - ΔL. The relative change is ΔL / L. For a given pinch-off depletion width ΔL, a shorter channel L experiences a much larger fractional reduction in length, giving a larger λ."
+  },
+  {
+    "id": "vlsi_302",
+    "topic": "CLM, Threshold Effects, Leakage & Process Variations",
+    "question": "How does Channel Length Modulation affect the output resistance (r_o) of a MOSFET operating in the saturation region?",
+    "options": [
+      "It gives the transistor a finite output resistance (r_o = 1 / (λ * I_D)), causing non-zero slope in the saturation I-V curves",
+      "It makes the output resistance infinite",
+      "It makes the output resistance zero, creating a short circuit",
+      "It converts output resistance into negative resistance"
+    ],
+    "correctIndex": 0,
+    "explanation": "In ideal Shockley models, saturation current is flat (ro = ∞). CLM introduces a slope (Ids ∝ 1 + λ*Vds), resulting in a finite small-signal output resistance ro = 1 / (λ*Id), which limits analog amplifier gain."
+  },
+  {
+    "id": "vlsi_303",
+    "topic": "CLM, Threshold Effects, Leakage & Process Variations",
+    "question": "In a multi-input NAND gate with series-connected NMOS transistors, why do the upper transistors experience body effect?",
+    "options": [
+      "Their source terminals sit at a positive voltage above ground (V_sb > 0) due to voltage drops across lower conducting transistors",
+      "Their gate oxide is physically thicker than the bottom transistor",
+      "Their drain contacts are connected directly to the substrate",
+      "The upper transistors operate in the subthreshold regime at all times"
+    ],
+    "correctIndex": 0,
+    "explanation": "All NMOS bodies are tied to GND. In a series stack, the source of an upper transistor is elevated above GND (Vsb > 0) when lower transistors are on, increasing its threshold voltage Vt via the body effect."
+  },
+  {
+    "id": "vlsi_304",
+    "topic": "CLM, Threshold Effects, Leakage & Process Variations",
+    "question": "How does intentional reverse body biasing (RBB) help manage power in idle CMOS circuits?",
+    "options": [
+      "Applying reverse bias between source and body increases threshold voltage (Vt), exponentially suppressing subthreshold leakage current during standby",
+      "Reverse body bias increases drive current to speed up active computation",
+      "Reverse body bias cools the chip down to absolute zero",
+      "Reverse body bias eliminates the need for power supply rails"
+    ],
+    "correctIndex": 0,
+    "explanation": "Applying RBB (e.g. Vbody < GND for NMOS, Vbody > VDD for PMOS) increases Vsb, shifting Vt upwards via the body effect. Because subthreshold leakage drops exponentially with Vt, standby power is slashed."
+  },
+  {
+    "id": "vlsi_305",
+    "topic": "CLM, Threshold Effects, Leakage & Process Variations",
+    "question": "What is the physical cause of Drain-Induced Barrier Lowering (DIBL) in short-channel MOSFETs?",
+    "options": [
+      "High drain voltage creates an electric field that penetrates deep into the channel, pulling down the source-to-channel potential barrier",
+      "High drain voltage breaks down the reverse-biased source-body diode",
+      "The drain metal melts and forms an alloy with the source",
+      "The gate electrode loses electrostatic control of the channel completely"
+    ],
+    "correctIndex": 0,
+    "explanation": "In short channels, the drain depletion region extends close to the source. High Vds lowers the electrostatic potential barrier at the source junction, allowing electrons to inject into the channel at lower Vgs (lowering Vt)."
+  },
+  {
+    "id": "vlsi_306",
+    "topic": "CLM, Threshold Effects, Leakage & Process Variations",
+    "question": "What is the theoretical thermodynamic limit for subthreshold swing (S) in bulk silicon MOSFETs at room temperature (300 K)?",
+    "options": [
+      "Approximately 60 mV/decade [S = (kT/q) * ln(10)]",
+      "1 mV/decade",
+      "0 mV/decade (instantaneous turn-off)",
+      "1000 mV/decade"
+    ],
+    "correctIndex": 0,
+    "explanation": "Thermal voltage at 300 K is kT/q ≈ 26 mV. The subthreshold swing is S = n * (kT/q) * ln(10). With ideal body factor n = 1, S_min = 26 mV * 2.303 ≈ 60 mV/decade. Real bulk devices exhibit 70-100 mV/decade."
+  },
+  {
+    "id": "vlsi_307",
+    "topic": "CLM, Threshold Effects, Leakage & Process Variations",
+    "question": "Why does subthreshold leakage current increase exponentially with operating temperature?",
+    "options": [
+      "Thermal energy increases carrier diffusion over the source potential barrier, and threshold voltage magnitude (|Vt|) drops linearly with temperature",
+      "Thermal energy causes gate oxide to convert into polysilicon",
+      "Dielectric constant k drops to zero at high temperatures",
+      "Carrier mobility increases exponentially with temperature"
+    ],
+    "correctIndex": 0,
+    "explanation": "Subthreshold current is a diffusion current proportional to exp(q(Vgs - Vt)/(n*k*T)). As temperature rises, thermal energy kT/q increases and |Vt| drops (~1-2 mV/°C), compounding into an exponential leakage surge."
+  },
+  {
+    "id": "vlsi_308",
+    "topic": "CLM, Threshold Effects, Leakage & Process Variations",
+    "question": "What is the primary mechanism of gate oxide leakage in modern nanoscale transistors with dielectric thickness below 2 nm (20 Å)?",
+    "options": [
+      "Direct quantum-mechanical tunneling of carriers through the ultrathin potential energy barrier of the gate dielectric",
+      "Ohmic conduction through metallic impurities",
+      "Electromigration of silicon atoms into the gate terminal",
+      "Frictional heating from electrons rubbing against the oxide"
+    ],
+    "correctIndex": 0,
+    "explanation": "When gate oxide thickness tox drops below ~2 nm (~6 atomic layers), the probability of quantum wave function penetration becomes significant. Carriers tunnel directly through the insulator without thermal excitation."
+  },
+  {
+    "id": "vlsi_309",
+    "topic": "CLM, Threshold Effects, Leakage & Process Variations",
+    "question": "Why do nMOS transistors exhibit significantly higher gate oxide leakage current than pMOS transistors of identical geometry?",
+    "options": [
+      "Electrons have a lower effective mass and face a lower potential barrier height in the conduction band (3.15 eV) than holes in the valence band (4.5 eV)",
+      "nMOS transistors are fabricated with aluminum while pMOS uses copper",
+      "nMOS gate oxides are physically thinner than pMOS gate oxides",
+      "Holes cannot undergo quantum-mechanical tunneling"
+    ],
+    "correctIndex": 0,
+    "explanation": "Conduction band offset for electrons at the Si/SiO2 interface is ~3.15 eV, whereas the valence band offset for holes is ~4.5 eV. The lower barrier and lower effective mass of electrons yield orders of magnitude higher tunneling."
+  },
+  {
+    "id": "vlsi_310",
+    "topic": "CLM, Threshold Effects, Leakage & Process Variations",
+    "question": "How does High-k Metal Gate (HKMG) technology resolve the gate oxide leakage crisis?",
+    "options": [
+      "High-k materials (e.g., HfO2, k ≈ 25) can be made physically much thicker than SiO2 (k = 3.9) while providing the same electrical capacitance, slashing tunneling by orders of magnitude",
+      "High-k materials completely prevent electrons from flowing through the channel",
+      "High-k metal gates allow chips to operate at 100 Volts",
+      "High-k dielectrics absorb subthreshold leakage and convert it into light"
+    ],
+    "correctIndex": 0,
+    "explanation": "Capacitance Cox = k*ε0 / tox. Using a high-k material allows the physical thickness to be increased by factor k_high / k_sio2 (~6x), suppressing direct tunneling exponentially while maintaining high gate control."
+  },
+  {
+    "id": "vlsi_311",
+    "topic": "CLM, Threshold Effects, Leakage & Process Variations",
+    "question": "What is Gate-Induced Drain Leakage (GIDL)?",
+    "options": [
+      "Band-to-band tunneling occurring in the drain depletion region beneath the gate-to-drain overlap under high drain-to-gate electric fields",
+      "Current leaking through the package pins into the printed circuit board",
+      "Short-circuit current that flows only during inverter switching",
+      "Leakage caused by cosmic rays striking the drain contact"
+    ],
+    "correctIndex": 0,
+    "explanation": "When gate voltage is low (OFF) and drain voltage is high (VDD), intense electric fields in the gate-to-drain overlap region bend energy bands severely, inducing band-to-band tunneling from valence to conduction band."
+  },
+  {
+    "id": "vlsi_312",
+    "topic": "CLM, Threshold Effects, Leakage & Process Variations",
+    "question": "Why does digital circuit propagation delay generally INCREASE as chip temperature rises from 25°C to 125°C?",
+    "options": [
+      "Lattice vibration (phonon scattering) increases with temperature, causing carrier mobility to degrade (μ ∝ T^-1.5) and reducing ON drive current",
+      "Wire resistance drops to zero at high temperatures",
+      "Threshold voltage increases to double its room-temperature value",
+      "The dielectric constant of the interconnect drops to zero"
+    ],
+    "correctIndex": 0,
+    "explanation": "Carrier mobility degrades significantly with temperature (μ ∝ T^-1.5) due to increased thermal lattice scattering. Although Vt drops slightly, the mobility degradation dominates, reducing Ion and slowing gates down."
+  },
+  {
+    "id": "vlsi_313",
+    "topic": "CLM, Threshold Effects, Leakage & Process Variations",
+    "question": "What simulation corner combination is critical for verifying whether a digital design meets its minimum clock cycle time (setup time constraints)?",
+    "options": [
+      "Slow-Slow (SS): Slow NMOS, Slow PMOS, lowest supply voltage (V_min), and highest operating temperature (T_max)",
+      "Fast-Fast (FF): Fast NMOS, Fast PMOS, highest supply voltage, and lowest temperature",
+      "Typical-Typical (TT) at room temperature only",
+      "A simulation corner where VDD is set to zero volts"
+    ],
+    "correctIndex": 0,
+    "explanation": "Setup time verification checks maximum propagation delay through combinational paths. Transistors are slowest at the Slow process corner, with minimal supply voltage and maximum operating temperature."
+  },
+  {
+    "id": "vlsi_314",
+    "topic": "CLM, Threshold Effects, Leakage & Process Variations",
+    "question": "What simulation corner combination is critical for verifying that a digital design does not suffer from hold-time race conditions?",
+    "options": [
+      "Fast-Fast (FF): Fast NMOS, Fast PMOS, highest supply voltage (V_max), and lowest operating temperature (T_min)",
+      "Slow-Slow (SS): Slow NMOS, Slow PMOS, lowest supply voltage, and highest temperature",
+      "Typical-Slow (TS) corner",
+      "Hold time is independent of process, voltage, and temperature"
+    ],
+    "correctIndex": 0,
+    "explanation": "Hold-time violations occur when data propagates too fast through logic and overwrites a flip-flop's previous data before the clock hold window closes. This fastest path occurs at the FF corner with high VDD and low temp."
+  },
+  {
+    "id": "vlsi_315",
+    "topic": "CLM, Threshold Effects, Leakage & Process Variations",
+    "question": "What is the primary difference between inter-die process variations and intra-die process variations?",
+    "options": [
+      "Inter-die variations shift parameters globally across different dies or wafers, whereas intra-die variations cause mismatches between adjacent transistors on the same die",
+      "Inter-die variations only affect packaging, while intra-die variations affect silicon",
+      "Inter-die variations only occur in PMOS, while intra-die variations only occur in NMOS",
+      "Intra-die variations disappear completely after wafer dicing"
+    ],
+    "correctIndex": 0,
+    "explanation": "Inter-die (die-to-die, wafer-to-wafer, lot-to-lot) variations affect all transistors on a chip uniformly. Intra-die (on-chip) variations cause spatial mismatches across a single die, inducing clock skew and setup/hold hazards."
+  },
+  {
+    "id": "vlsi_316",
+    "topic": "CLM, Threshold Effects, Leakage & Process Variations",
+    "question": "What physical phenomenon causes Random Dopant Fluctuation (RDF) in nanoscale transistors?",
+    "options": [
+      "Statistical Poisson variation in the exact count and positions of discrete dopant impurity atoms implanted in the tiny channel depletion volume",
+      "Random variation in the thickness of the copper bond wires",
+      "Fluctuations in the speed of light through the cleanroom air",
+      "Irregularities in the packaging plastic mold"
+    ],
+    "correctIndex": 0,
+    "explanation": "In a 20nm transistor channel, there may be fewer than 50 dopant atoms. A random Poisson variation of just ±5 atoms represents a 10% change in channel doping, causing large threshold voltage mismatch (σ_Vt) between identical adjacent gates."
+  },
+  {
+    "id": "vlsi_317",
+    "topic": "CLM, Threshold Effects, Leakage & Process Variations",
+    "question": "How does Line Edge Roughness (LER) impact nanoscale transistor performance?",
+    "options": [
+      "Poly gate edge raggedness causes local channel length (L) to vary across the transistor width, exacerbating DIBL and increasing leakage variation",
+      "LER causes interconnect wires to detach from the substrate",
+      "LER changes the dielectric constant of silicon from 11.7 to 3.9",
+      "LER only affects the external leadframe pins"
+    ],
+    "correctIndex": 0,
+    "explanation": "Due to molecular polymer graininess during lithography and etching, printed gate edges are not atomically straight. Local variations in L across the gate width cause localized short-channel pockets that leak heavily."
+  },
+  {
+    "id": "vlsi_318",
+    "topic": "CLM, Threshold Effects, Leakage & Process Variations",
+    "question": "Why can thermal hotspots on a microprocessor die lead to destructive thermal runaway?",
+    "options": [
+      "Rising localized temperature exponentially increases subthreshold and junction leakage power, which generates additional heat in a positive feedback loop",
+      "High temperature causes silicon to turn into a superconductor",
+      "Hotspots freeze the clock generator at infinite frequency",
+      "Thermal hotspots eliminate all electrical resistance in the power grid"
+    ],
+    "correctIndex": 0,
+    "explanation": "Power dissipation generates heat, raising local temperature. Because leakage currents grow exponentially with temperature, leakage power surges, generating even more heat. Without thermal throttling, this positive feedback causes thermal runaway."
+  },
+  {
+    "id": "vlsi_319",
+    "topic": "CLM, Threshold Effects, Leakage & Process Variations",
+    "question": "Why does subthreshold leakage current differ between the Fast-Fast (FF) corner and the Slow-Slow (SS) corner by orders of magnitude?",
+    "options": [
+      "The FF corner features shorter channel lengths (L_min), thinner gate oxides (t_ox_min), and lower threshold voltages (Vt_min), multiplying exponential leakage",
+      "The FF corner operates with zero power supply voltage",
+      "The SS corner has zero threshold voltage",
+      "Subthreshold leakage is identical across all simulation corners"
+    ],
+    "correctIndex": 0,
+    "explanation": "At the FF corner, process parameters combine to minimize channel length and threshold voltage. Because I_sub ∝ exp(-q*Vt / n*k*T), small reductions in Vt produce exponential increases in leakage current."
   }
 ]

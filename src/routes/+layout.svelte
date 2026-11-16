@@ -80,6 +80,7 @@
   .retro-body {
     position: relative;
     min-height: 100vh;
+    min-height: 100dvh;
     width: 100vw;
     max-width: 100%;
     margin: 0;
@@ -87,6 +88,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow-x: hidden;
   }
 
   .winamp-dock {
@@ -104,16 +106,14 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    min-height: 100dvh;
   }
 
   @media (max-width: 768px) {
     .winamp-dock {
-      position: static;
-      margin-top: 10px;
-      margin-bottom: 8px;
-      width: 100%;
-      display: flex;
-      justify-content: center;
+      position: fixed;
+      bottom: 4px;
+      right: 4px;
     }
   }
 </style>

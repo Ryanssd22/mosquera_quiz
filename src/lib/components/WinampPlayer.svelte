@@ -14,23 +14,35 @@
   let playerContainerId = "winamp-yt-iframe";
   let hasSeekedRandom = $state(false);
 
-  // Generate a random start time offset between 10s and 1500s
-  const initialRandomStart = Math.floor(Math.random() * 1400) + 10;
-
-  function performRandomSeek() {
-    if (player && isReady && !hasSeekedRandom) {
+  function getRandomSeekSeconds() {
+    if (player && isReady) {
       try {
         const duration = player.getDuration();
-        let targetSec = initialRandomStart;
-        if (duration && duration > 120) {
-          targetSec = Math.floor(Math.random() * (duration - 60)) + 15;
+        if (duration && duration > 60) {
+          return Math.floor(Math.random() * (duration - 45)) + 15;
         }
+      } catch (e) {
+        console.log("Error getting duration:", e);
+      }
+    }
+    // Fallback: Kahoot album is ~30+ mins, pick random offset between 15s and 1500s
+    return Math.floor(Math.random() * 1485) + 15;
+  }
+
+  function seekRandom() {
+    if (player && isReady) {
+      try {
+        const targetSec = getRandomSeekSeconds();
         player.seekTo(targetSec, true);
         hasSeekedRandom = true;
       } catch (e) {
         console.log("Seek error:", e);
       }
     }
+  }
+
+  function performRandomSeek() {
+    seekRandom();
   }
 
   onMount(() => {
@@ -53,7 +65,7 @@
             disablekb: 1,
             fs: 0,
             loop: 1,
-            start: initialRandomStart,
+            start: Math.floor(Math.random() * 1400) + 10,
             playlist: 'TyhIVDh-dVo',
             modestbranding: 1,
             rel: 0,
@@ -63,7 +75,7 @@
             onReady: (event) => {
               isReady = true;
               event.target.setVolume(volume);
-              performRandomSeek();
+              seekRandom();
               if (autoPlayOnStart) {
                 try {
                   event.target.playVideo();
@@ -76,7 +88,7 @@
               if (event.data === window.YT.PlayerState.PLAYING) {
                 isPlaying = true;
                 if (!hasSeekedRandom) {
-                  performRandomSeek();
+                  seekRandom();
                 }
               } else if (event.data === window.YT.PlayerState.PAUSED || event.data === window.YT.PlayerState.ENDED) {
                 isPlaying = false;
@@ -102,11 +114,11 @@
     };
   });
 
-  export function playMusic() {
+  export function playMusic(forceRandom = true) {
     if (player && isReady) {
       try {
-        if (!hasSeekedRandom) {
-          performRandomSeek();
+        if (forceRandom || !hasSeekedRandom) {
+          seekRandom();
         }
         player.playVideo();
         isPlaying = true;
@@ -132,6 +144,8 @@
       try {
         player.stopVideo();
         isPlaying = false;
+        // Also seek to a fresh random position so next start is a different track
+        seekRandom();
       } catch (e) {
         console.error("YouTube stop error:", e);
       }
@@ -143,7 +157,8 @@
     if (isPlaying) {
       pauseMusic();
     } else {
-      playMusic();
+      // User pressed play: start at a random timestamp!
+      playMusic(true);
     }
   }
 
@@ -303,5 +318,34 @@
     height: 4px;
     accent-color: #fce69a;
     cursor: pointer;
+  }
+
+  @media (max-width: 768px) {
+    .mini-jukebox {
+      bottom: 4px;
+      right: 4px;
+      height: 24px;
+      padding: 0 6px;
+      gap: 4px;
+      border-radius: 12px;
+      max-width: 220px;
+    }
+
+    .juke-btn {
+      width: 18px;
+      height: 18px;
+    }
+
+    .juke-track-pill {
+      max-width: 80px;
+    }
+
+    .juke-track-text {
+      font-size: 9px;
+    }
+
+    .juke-vol-slider {
+      display: none;
+    }
   }
 </style>

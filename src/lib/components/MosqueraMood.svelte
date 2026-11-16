@@ -456,4 +456,83 @@
     0% { transform: translateY(0) rotate(-3deg); }
     100% { transform: translateY(-6px) rotate(3deg); }
   }
+
+  /* Responsive Mobile / Compact Viewport (Scaled Dr. Mosquera Up!) */
+  @media (max-width: 768px), (max-height: 700px) {
+    .mosquera-stage {
+      max-width: 100%;
+      margin: 0 auto;
+    }
+
+    .gold-rim-inner {
+      width: 140px;
+      height: 140px;
+      padding: 3px;
+      border-radius: 10px;
+    }
+
+    .gold-rim-outer {
+      padding: 3px;
+      border-radius: 12px;
+    }
+
+    .rim-glint {
+      display: none;
+    }
+
+    .speech-plaque {
+      padding: 4px 14px;
+      margin-bottom: 5px;
+      max-width: 95%;
+      border-radius: 14px;
+    }
+
+    .speech-text {
+      font-size: 12px;
+      line-height: 1.3;
+    }
+
+    .mood-bar-container {
+      max-width: 280px;
+      margin-top: 5px;
+      padding: 3px 10px;
+      border-radius: 6px;
+    }
+
+    .mood-bar-track {
+      height: 6px;
+      border-radius: 3px;
+    }
+
+    .mood-label-row {
+      font-size: 10px;
+      margin-top: 2px;
+    }
+
+    .aura-sticker {
+      width: 44px;
+      height: 44px;
+    }
+
+    .aura-sticker.left-taco,
+    .aura-sticker.left-sun {
+      left: -24px;
+      top: 25px;
+      width: 48px;
+      height: 48px;
+    }
+
+    .aura-sticker.right-cat,
+    .aura-sticker.right-sun {
+      right: -24px;
+      top: 25px;
+      width: 48px;
+      height: 48px;
+    }
+
+    .aura-flame {
+      width: 28px;
+      top: 35px;
+    }
+  }
 </style>
