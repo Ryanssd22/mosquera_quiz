@@ -8,7 +8,8 @@
     hasTimeLimit = false,
     timeLimitSeconds = 20,
     onStartGame = () => {},
-    onOpenSettings = () => {}
+    onOpenSettings = () => {},
+    onOpenVersus = () => {}
   } = $props();
 
   function handlePlay() {
@@ -19,6 +20,11 @@
   function handleSettings() {
     playClick();
     onOpenSettings();
+  }
+
+  function handleVersus() {
+    playClick();
+    onOpenVersus();
   }
 </script>
 
@@ -32,7 +38,7 @@
         <img src="/assets/glitter_star.gif" alt="Sparkle" class="star-gif left" />
         <div class="title-text-group">
           <h1 class="game-title">Dr. Mosquerra's Practice VLSI Exam</h1>
-          <p class="subtitle">¿Te atreves con estas preguntas de examen?</p>
+          <p class="subtitle">Can you master these Digital CMOS VLSI questions?</p>
         </div>
         <img src="/assets/glitter_star.gif" alt="Sparkle" class="star-gif right" />
       </div>
@@ -45,7 +51,7 @@
   <div class="center-stage-box">
     <div class="speech-plaque">
       <span class="speech-text">
-        "¡Bienvenidos a Diseño VLSI CMOS Digital! A ver si respondéis bien, hacéis que me sienta orgulloso y llegáis al 100% de felicidad, chavales."
+        "Welcome to Digital CMOS VLSI Design! Let's see if you can answer these right, make me proud, and reach 100% happiness!"
       </span>
     </div>
 
@@ -67,17 +73,17 @@
   <div class="session-info-bar">
     <div class="info-pill">
       <Icon icon="mdi:book-open-page-variant" width="18" class="info-icon" />
-      <span>Temas: <strong>{selectedTopicsCount}</strong></span>
+      <span>Topics: <strong>{selectedTopicsCount}</strong></span>
     </div>
     <div class="pill-divider"></div>
     <div class="info-pill">
       <Icon icon="mdi:help-circle-outline" width="18" class="info-icon" />
-      <span>Preguntas: <strong>{totalQuestionsCount}</strong> (Aleatorias)</span>
+      <span>Questions: <strong>{totalQuestionsCount}</strong> (Randomized)</span>
     </div>
     <div class="pill-divider"></div>
     <div class="info-pill">
       <Icon icon="mdi:timer-outline" width="18" class="info-icon" />
-      <span>Temporizador: <strong>{hasTimeLimit ? `${timeLimitSeconds}s` : 'Desactivado'}</strong></span>
+      <span>Timer: <strong>{hasTimeLimit ? `${timeLimitSeconds}s` : 'Disabled'}</strong></span>
     </div>
   </div>
 
@@ -89,17 +95,24 @@
       <button class="lozenge-outer play-lozenge-btn" onclick={handlePlay}>
         <div class="lozenge-inner play-inner">
           <Icon icon="mdi:play" width="30" class="play-icon" />
-          <span class="play-text">COMENZAR EXAMEN (AL BANQUILLO)</span>
+          <span class="play-text">START SOLO PRACTICE EXAM</span>
         </div>
       </button>
 
       <div class="gold-wing-line right"></div>
     </div>
 
-    <button class="btn-settings-sleek" onclick={handleSettings}>
-      <Icon icon="mdi:cog" width="16" />
-      <span>Ajustes y Elegir Temas</span>
-    </button>
+    <div class="menu-secondary-row">
+      <button class="btn-versus-mode" onclick={handleVersus}>
+        <Icon icon="mdi:sword-cross" width="18" class="versus-icon" />
+        <span>VERSUS MULTIPLAYER (ROOM CODE)</span>
+      </button>
+
+      <button class="btn-settings-sleek" onclick={handleSettings}>
+        <Icon icon="mdi:cog" width="16" />
+        <span>Settings & Topics</span>
+      </button>
+    </div>
   </div>
 </div>
 
@@ -382,6 +395,39 @@
     filter: drop-shadow(0 0 8px rgba(252, 230, 154, 0.8));
   }
 
+  .menu-secondary-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .btn-versus-mode {
+    background: linear-gradient(180deg, #1b387a 0%, #102146 100%);
+    border: 2px solid #f59e0b;
+    border-radius: 6px;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fce69a;
+    padding: 10px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+    transition: all 0.15s;
+  }
+
+  .btn-versus-mode:hover {
+    background: #254d9e;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(245, 158, 11, 0.5);
+  }
+
+  :global(.versus-icon) {
+    color: #f59e0b;
+  }
+
   .btn-settings-sleek {
     background: #0f1c3f;
     border: 1px solid #d4af37;
@@ -414,15 +460,19 @@
     100% { transform: rotate(360deg); }
   }
 
-  /* Responsive Mobile / Single Screen Fitting (ZERO Scroll) */
+  /* Responsive Mobile / Single Screen Fitting (ZERO Scroll, Safe-Area compliant) */
   @media (max-width: 768px), (max-height: 720px) {
     .start-menu-stage {
       height: 100vh;
       height: 100dvh;
       max-height: 100dvh;
       overflow: hidden;
-      padding: 6px 0 8px;
+      padding-top: max(10px, env(safe-area-inset-top));
+      padding-bottom: max(8px, env(safe-area-inset-bottom));
+      padding-left: max(6px, env(safe-area-inset-left));
+      padding-right: max(6px, env(safe-area-inset-right));
       justify-content: space-between;
+      box-sizing: border-box;
     }
 
     .millionaire-title-row {
@@ -516,6 +566,17 @@
     :global(.play-icon) {
       width: 22px;
       height: 22px;
+    }
+
+    .menu-secondary-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-versus-mode {
+      font-size: 11px;
+      padding: 6px 12px;
     }
 
     .btn-settings-sleek {

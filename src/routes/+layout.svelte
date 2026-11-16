@@ -7,16 +7,25 @@
 
   onMount(() => {
     // Attempt auto-playback on first user interaction anywhere on the screen
-    const triggerAudio = () => {
-      if (winampComponent && winampComponent.playMusic) {
-        winampComponent.playMusic();
+    const triggerAudio = (e) => {
+      // Do not trigger autoplay if the user clicked directly on the jukebox controls
+      if (e?.target && e.target.closest && e.target.closest('.mini-jukebox')) {
+        return;
+      }
+      if (
+        winampComponent &&
+        winampComponent.playMusic &&
+        !winampComponent.getIsPlaying() &&
+        !winampComponent.getIsStopped()
+      ) {
+        winampComponent.playMusic(true);
       }
       window.removeEventListener('pointerdown', triggerAudio);
       window.removeEventListener('keydown', triggerAudio);
     };
 
-    window.addEventListener('pointerdown', triggerAudio, { once: true });
-    window.addEventListener('keydown', triggerAudio, { once: true });
+    window.addEventListener('pointerdown', triggerAudio);
+    window.addEventListener('keydown', triggerAudio);
 
     return () => {
       window.removeEventListener('pointerdown', triggerAudio);
@@ -37,9 +46,11 @@
 </div>
 
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,400;1,700&display=swap');
+
   :global(*), :global(*::before), :global(*::after) {
     box-sizing: border-box;
-    font-family: 'Comic Sans MS', 'Comic Sans', 'BBH Bogle', 'Gotham', cursive, sans-serif !important;
+    font-family: 'Comic Neue', 'Comic Sans MS', 'Comic Sans', 'BBH Bogle', 'Gotham', cursive, sans-serif !important;
   }
 
   :global(:root) {

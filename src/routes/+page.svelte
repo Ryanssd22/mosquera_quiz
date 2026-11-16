@@ -5,11 +5,25 @@
   import QuizView from '#lib/components/QuizView.svelte';
   import SettingsModal from '#lib/components/SettingsModal.svelte';
   import VictoryScreen from '#lib/components/VictoryScreen.svelte';
+  import VersusLobbyModal from '#lib/components/VersusLobbyModal.svelte';
+  import VersusGameView from '#lib/components/VersusGameView.svelte';
   import { setSoundEnabled, setSfxVolume } from '#lib/audio/soundFx.js';
 
-  // State: View Navigation ('menu' | 'quiz' | 'victory')
+  // State: View Navigation ('menu' | 'quiz' | 'victory' | 'versus')
   let currentView = $state('menu');
   let isSettingsOpen = $state(false);
+  let isVersusLobbyOpen = $state(false);
+
+  // Versus Mode Session Data
+  let versusSession = $state({
+    isHost: false,
+    peerManager: null,
+    hostEngine: null,
+    roomCode: '',
+    playerId: '',
+    nickname: '',
+    initialPayload: null
+  });
 
   // Questions Database
   let allQuestions = $state(defaultQuestionsData);
@@ -166,6 +180,43 @@
     }
   }
 
+  // Versus Mode Launch
+  function handleStartVersus({ isHost, peerManager, hostEngine, roomCode, playerId, nickname, initialPayload }) {
+    versusSession = {
+      isHost,
+      peerManager,
+      hostEngine,
+      roomCode,
+      playerId,
+      nickname,
+      initialPayload
+    };
+    currentView = 'versus';
+  }
+
+  // Versus Mode Exit
+  function handleExitVersus() {
+    if (versusSession.peerManager) {
+      versusSession.peerManager.destroy();
+    }
+    if (versusSession.hostEngine) {
+      versusSession.hostEngine.destroy();
+    }
+    versusSession = {
+      isHost: false,
+      peerManager: null,
+      hostEngine: null,
+      roomCode: '',
+      playerId: '',
+      nickname: '',
+      initialPayload: null
+    };
+    if (typeof sessionStorage !== 'undefined') {
+      sessionStorage.removeItem('mosq_vs_session');
+    }
+    currentView = 'menu';
+  }
+
   // Filter questions for active topics
   let activeQuestions = $derived.by(() => {
     return allQuestions.filter(q => selectedTopics.includes(q.topic));
@@ -193,6 +244,7 @@
       {timeLimitSeconds}
       onStartGame={handleStartGame}
       onOpenSettings={() => { isSettingsOpen = true; }}
+      onOpenVersus={() => { isVersusLobbyOpen = true; }}
     />
   {:else if currentView === 'quiz'}
     <QuizView
@@ -218,7 +270,26 @@
       onRestart={handleStartGame}
       onBackToMenu={() => { currentView = 'menu'; }}
     />
+  {:else if currentView === 'versus'}
+    <VersusGameView
+      isHost={versusSession.isHost}
+      peerManager={versusSession.peerManager}
+      hostEngine={versusSession.hostEngine}
+      roomCode={versusSession.roomCode}
+      playerId={versusSession.playerId}
+      nickname={versusSession.nickname}
+      initialPayload={versusSession.initialPayload}
+      onExitToMenu={handleExitVersus}
+    />
   {/if}
+
+  <!-- Versus Lobby Modal -->
+  <VersusLobbyModal
+    isOpen={isVersusLobbyOpen}
+    {allTopics}
+    onClose={() => { isVersusLobbyOpen = false; }}
+    onStartVersus={handleStartVersus}
+  />
 
   <!-- Settings & Custom JSON Modal -->
   <SettingsModal

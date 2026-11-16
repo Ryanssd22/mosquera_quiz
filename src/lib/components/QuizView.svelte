@@ -1448,16 +1448,21 @@
       max-height: 100dvh;
       overflow: hidden;
       justify-content: space-between;
-      padding: 2px 0 4px;
+      padding-top: max(8px, env(safe-area-inset-top));
+      padding-bottom: max(6px, env(safe-area-inset-bottom));
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+      box-sizing: border-box;
+      width: 100%;
     }
 
-    /* Top Nav Bar Mobile Optimization */
+    /* Top Nav Bar Mobile Optimization (Safe area compliant) */
     .top-nav-bar {
-      margin: 2px 4px;
-      padding: 4px 8px;
-      gap: 4px;
-      min-height: 36px;
-      border-radius: 6px;
+      margin: 4px 8px;
+      padding: 6px 10px;
+      gap: 6px;
+      min-height: 42px;
+      border-radius: 8px;
     }
 
     .nav-left-actions {
@@ -1465,10 +1470,10 @@
     }
 
     .nav-btn {
-      padding: 4px 6px;
-      font-size: 11px;
-      gap: 3px;
-      border-radius: 4px;
+      padding: 6px 10px;
+      font-size: 13px;
+      gap: 4px;
+      border-radius: 6px;
     }
 
     .btn-label-desktop {
@@ -1476,108 +1481,110 @@
     }
 
     .active-topic-badge {
-      font-size: 11px;
-      gap: 4px;
+      font-size: 12px;
+      gap: 5px;
     }
 
     .topic-name {
-      font-size: 11px;
-      max-width: 150px;
+      font-size: 12px;
+      max-width: 170px;
     }
 
     .topic-count {
-      font-size: 10px;
+      font-size: 11px;
     }
 
     .nav-right-actions {
-      gap: 6px;
+      gap: 8px;
     }
 
     .streak-clean-display {
-      font-size: 14px;
-      gap: 2px;
+      font-size: 16px;
+      gap: 3px;
     }
 
     .streak-num {
-      font-size: 14px;
+      font-size: 16px;
     }
 
     :global(.flame-icon) {
-      width: 18px;
-      height: 18px;
+      width: 22px;
+      height: 22px;
     }
 
-    /* Center Stage Cluster - Extended to screen edges, Kahoot-like presence */
+    /* Center Stage Cluster - Spans 100% full width to the borders with NO margin */
     .stage-cohesive-cluster {
-      gap: 6px;
+      gap: 4px;
       width: 100%;
       max-width: 100%;
-      padding: 0 8px;
+      padding: 0 !important;
+      margin: 0 !important;
       flex: 1;
       justify-content: center;
-      margin: 0 auto;
       overflow: hidden;
       box-sizing: border-box;
     }
 
     .quiz-controls-stage {
-      gap: 6px;
-      width: 100%;
+      gap: 2px !important;
+      width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
     }
 
     .millionaire-row {
       width: 100%;
+      margin: 0 !important;
+      padding: 0 !important;
       display: flex;
       align-items: center;
-      justify-content: space-between;
     }
 
     .question-row {
       width: 100%;
+      margin: 0 0 2px 0 !important;
+      padding: 0 !important;
     }
 
+    .answers-row,
     .option-row {
-      width: 100%;
-      gap: 6px;
+      width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      gap: 2px !important;
+      display: flex !important;
+      align-items: stretch !important;
+      justify-content: space-between !important;
     }
 
-    /* Hide wing lines on mobile so buttons extend out to the border of the screen */
+    /* Hide wing lines on mobile so tiles reach to the border of the screen */
     .gold-wing-line {
-      display: none;
+      display: none !important;
     }
 
     .center-gold-line {
-      display: none;
+      display: none !important;
     }
 
-    /* Question Lozenge Mobile - Full width, large readable text */
+    /* Question Tile Mobile - Square/Rectangular spanning to the border of the site with NO margin */
     .question-lozenge {
-      width: 100%;
-      max-width: 100%;
-      padding: 2.5px;
-      border-radius: 8px;
-      clip-path: polygon(
-        10px 0%,
-        calc(100% - 10px) 0%,
-        100% 50%,
-        calc(100% - 10px) 100%,
-        10px 100%,
-        0% 50%
-      );
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 !important;
+      padding: 2.5px 0 !important;
+      border-radius: 0 !important;
+      clip-path: none !important;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.85);
+      box-sizing: border-box !important;
     }
 
     .question-inner {
-      min-height: 68px;
-      padding: 6px 12px;
-      border-radius: 6px;
-      clip-path: polygon(
-        9px 0%,
-        calc(100% - 9px) 0%,
-        100% 50%,
-        calc(100% - 9px) 100%,
-        9px 100%,
-        0% 50%
-      );
+      min-height: 70px;
+      padding: 8px 12px;
+      border-radius: 0 !important;
+      clip-path: none !important;
+      width: 100%;
+      box-sizing: border-box !important;
     }
 
     .question-qmark {
@@ -1611,44 +1618,44 @@
       margin-bottom: 2px;
     }
 
-    /* Answer Lozenges Mobile - Big, wide, high-contrast, Kahoot-like prominence */
+    /* Answer Tiles Mobile - Uniform Equal Height, Seamless 2x2 Grid (No Background Bleed-Through) */
     .answer-lozenge {
-      flex: 1;
-      width: calc(50% - 3px);
-      max-width: 100%;
-      padding: 2.5px;
-      border-radius: 8px;
-      clip-path: polygon(
-        10px 0%,
-        calc(100% - 10px) 0%,
-        100% 50%,
-        calc(100% - 10px) 100%,
-        10px 100%,
-        0% 50%
-      );
+      flex: 1 1 calc(50% - 1px) !important;
+      width: calc(50% - 1px) !important;
+      max-width: 100% !important;
+      margin: 0 !important;
+      padding: 2.5px !important;
+      border-radius: 0 !important;
+      clip-path: none !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-self: stretch !important;
+      min-height: 98px !important;
+      height: 100% !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+      box-sizing: border-box !important;
     }
 
     .answer-inner {
-      min-height: 76px;
-      padding: 6px 10px 6px 6px;
-      border-radius: 6px;
-      clip-path: polygon(
-        9px 0%,
-        calc(100% - 9px) 0%,
-        100% 50%,
-        calc(100% - 9px) 100%,
-        9px 100%,
-        0% 50%
-      );
+      flex: 1 1 100% !important;
+      height: 100% !important;
+      min-height: 93px !important;
+      padding: 8px 10px 8px 8px !important;
+      border-radius: 0 !important;
+      clip-path: none !important;
+      width: 100% !important;
+      display: flex !important;
+      align-items: center !important;
+      box-sizing: border-box !important;
     }
 
     .option-badge {
-      margin-right: 5px;
+      margin-right: 6px;
       padding-left: 2px;
     }
 
     .badge-letter {
-      font-size: 16px;
+      font-size: 17px;
     }
 
     .option-text {

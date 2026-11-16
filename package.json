@@ -21,6 +21,7 @@
 		"vite": "^8.3.0"
 	},
 	"dependencies": {
-		"@iconify/svelte": "^5.2.4"
+		"@iconify/svelte": "^5.2.4",
+		"peerjs": "^1.5.5"
 	}
 }

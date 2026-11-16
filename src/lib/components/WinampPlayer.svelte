@@ -8,6 +8,7 @@
   let player = $state(null);
   let isReady = $state(false);
   let isPlaying = $state(false);
+  let isStopped = $state(false);
   let volume = $state(65);
   let isMuted = $state(false);
   let trackTitle = $state("Kahoot Album (TyhIVDh-dVo)");
@@ -115,6 +116,7 @@
   });
 
   export function playMusic(forceRandom = true) {
+    isStopped = false;
     if (player && isReady) {
       try {
         if (forceRandom || !hasSeekedRandom) {
@@ -140,16 +142,24 @@
   }
 
   export function stopMusic() {
+    isStopped = true;
+    isPlaying = false;
     if (player && isReady) {
       try {
-        player.stopVideo();
-        isPlaying = false;
-        // Also seek to a fresh random position so next start is a different track
-        seekRandom();
+        // Pausing the video stops audio immediately without triggering loop/reload or seek-ahead autoplay
+        player.pauseVideo();
       } catch (e) {
         console.error("YouTube stop error:", e);
       }
     }
+  }
+
+  export function getIsPlaying() {
+    return isPlaying;
+  }
+
+  export function getIsStopped() {
+    return isStopped;
   }
 
   function handlePlayToggle() {
@@ -208,7 +218,7 @@
 
   <div class="juke-track-pill">
     <Icon icon="mdi:music" width="13" class="juke-music-icon" />
-    <span class="juke-track-text">{isPlaying ? trackTitle : 'Music Paused'}</span>
+    <span class="juke-track-text">{isPlaying ? trackTitle : (isStopped ? 'Music Stopped' : 'Music Paused')}</span>
   </div>
 
   <button class="juke-btn mute-btn" class:muted={isMuted} onclick={handleMuteToggle} title="Mute">
