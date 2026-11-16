@@ -243,14 +243,17 @@
     };
   });
 
-  // Photo layout letter mapping:
-  // Row 1: Left is A: (index 0), Right is C: (index 2)
-  // Row 2: Left is B: (index 1), Right is D: (index 3)
-  const optionLayout = [
-    { label: 'A:', index: 0 },
-    { label: 'C:', index: 2 },
-    { label: 'B:', index: 1 },
-    { label: 'D:', index: 3 }
+  // Millionaire photo grid layout:
+  // Row 1: Option A (index 0) and Option C (index 2)
+  // Row 2: Option B (index 1) and Option D (index 3)
+  const row1Options = [
+    { label: 'A:', idx: 0 },
+    { label: 'C:', idx: 2 }
+  ];
+
+  const row2Options = [
+    { label: 'B:', idx: 1 },
+    { label: 'D:', idx: 3 }
   ];
 </script>
 
@@ -347,58 +350,36 @@
       <div class="millionaire-row answers-row">
         <div class="gold-wing-line left"></div>
 
-        <!-- Option A -->
-        {@const optA = currentQuestion.options[0]}
-        {@const isBlackedOutA = disabledOptionsMap[currentQuestion.id]?.has(optA)}
-        {@const isSelectedA = selectedOptionIndex === 0}
-        {@const isCorrectA = 0 === currentQuestion.correctIndex}
-        <button
-          class="lozenge-outer answer-lozenge"
-          class:answered={isAnswered}
-          class:selected={isSelectedA}
-          class:reveal-correct={isAnswered && isCorrectA}
-          class:reveal-wrong={isAnswered && isSelectedA && !isCorrectA}
-          class:blacked-out={isBlackedOutA}
-          onclick={() => handleOptionClick(0)}
-          disabled={isAnswered || isBlackedOutA}
-        >
-          <div class="lozenge-inner answer-inner">
-            <div class="option-badge">
-              <span class="badge-letter">A:</span>
-            </div>
-            <span class="option-text">{optA}</span>
-            <div class="lozenge-glint tl"></div>
-            <div class="lozenge-glint br"></div>
-          </div>
-        </button>
+        {#each row1Options as item, i}
+          {@const opt = currentQuestion.options[item.idx]}
+          {@const isBlackedOut = disabledOptionsMap[currentQuestion.id]?.has(opt)}
+          {@const isSelected = selectedOptionIndex === item.idx}
+          {@const isCorrectOpt = item.idx === currentQuestion.correctIndex}
 
-        <!-- Center Gold Connector Line -->
-        <div class="center-gold-line"></div>
+          {#if i > 0}
+            <div class="center-gold-line"></div>
+          {/if}
 
-        <!-- Option C -->
-        {@const optC = currentQuestion.options[2]}
-        {@const isBlackedOutC = disabledOptionsMap[currentQuestion.id]?.has(optC)}
-        {@const isSelectedC = selectedOptionIndex === 2}
-        {@const isCorrectC = 2 === currentQuestion.correctIndex}
-        <button
-          class="lozenge-outer answer-lozenge"
-          class:answered={isAnswered}
-          class:selected={isSelectedC}
-          class:reveal-correct={isAnswered && isCorrectC}
-          class:reveal-wrong={isAnswered && isSelectedC && !isCorrectC}
-          class:blacked-out={isBlackedOutC}
-          onclick={() => handleOptionClick(2)}
-          disabled={isAnswered || isBlackedOutC}
-        >
-          <div class="lozenge-inner answer-inner">
-            <div class="option-badge">
-              <span class="badge-letter">C:</span>
+          <button
+            class="lozenge-outer answer-lozenge"
+            class:answered={isAnswered}
+            class:selected={isSelected}
+            class:reveal-correct={isAnswered && isCorrectOpt}
+            class:reveal-wrong={isAnswered && isSelected && !isCorrectOpt}
+            class:blacked-out={isBlackedOut}
+            onclick={() => handleOptionClick(item.idx)}
+            disabled={isAnswered || isBlackedOut}
+          >
+            <div class="lozenge-inner answer-inner">
+              <div class="option-badge">
+                <span class="badge-letter">{item.label}</span>
+              </div>
+              <span class="option-text">{opt}</span>
+              <div class="lozenge-glint tl"></div>
+              <div class="lozenge-glint br"></div>
             </div>
-            <span class="option-text">{optC}</span>
-            <div class="lozenge-glint tl"></div>
-            <div class="lozenge-glint br"></div>
-          </div>
-        </button>
+          </button>
+        {/each}
 
         <div class="gold-wing-line right"></div>
       </div>
@@ -407,58 +388,36 @@
       <div class="millionaire-row answers-row">
         <div class="gold-wing-line left"></div>
 
-        <!-- Option B -->
-        {@const optB = currentQuestion.options[1]}
-        {@const isBlackedOutB = disabledOptionsMap[currentQuestion.id]?.has(optB)}
-        {@const isSelectedB = selectedOptionIndex === 1}
-        {@const isCorrectB = 1 === currentQuestion.correctIndex}
-        <button
-          class="lozenge-outer answer-lozenge"
-          class:answered={isAnswered}
-          class:selected={isSelectedB}
-          class:reveal-correct={isAnswered && isCorrectB}
-          class:reveal-wrong={isAnswered && isSelectedB && !isCorrectB}
-          class:blacked-out={isBlackedOutB}
-          onclick={() => handleOptionClick(1)}
-          disabled={isAnswered || isBlackedOutB}
-        >
-          <div class="lozenge-inner answer-inner">
-            <div class="option-badge">
-              <span class="badge-letter">B:</span>
-            </div>
-            <span class="option-text">{optB}</span>
-            <div class="lozenge-glint tl"></div>
-            <div class="lozenge-glint br"></div>
-          </div>
-        </button>
+        {#each row2Options as item, i}
+          {@const opt = currentQuestion.options[item.idx]}
+          {@const isBlackedOut = disabledOptionsMap[currentQuestion.id]?.has(opt)}
+          {@const isSelected = selectedOptionIndex === item.idx}
+          {@const isCorrectOpt = item.idx === currentQuestion.correctIndex}
 
-        <!-- Center Gold Connector Line -->
-        <div class="center-gold-line"></div>
+          {#if i > 0}
+            <div class="center-gold-line"></div>
+          {/if}
 
-        <!-- Option D -->
-        {@const optD = currentQuestion.options[3]}
-        {@const isBlackedOutD = disabledOptionsMap[currentQuestion.id]?.has(optD)}
-        {@const isSelectedD = selectedOptionIndex === 3}
-        {@const isCorrectD = 3 === currentQuestion.correctIndex}
-        <button
-          class="lozenge-outer answer-lozenge"
-          class:answered={isAnswered}
-          class:selected={isSelectedD}
-          class:reveal-correct={isAnswered && isCorrectD}
-          class:reveal-wrong={isAnswered && isSelectedD && !isCorrectD}
-          class:blacked-out={isBlackedOutD}
-          onclick={() => handleOptionClick(3)}
-          disabled={isAnswered || isBlackedOutD}
-        >
-          <div class="lozenge-inner answer-inner">
-            <div class="option-badge">
-              <span class="badge-letter">D:</span>
+          <button
+            class="lozenge-outer answer-lozenge"
+            class:answered={isAnswered}
+            class:selected={isSelected}
+            class:reveal-correct={isAnswered && isCorrectOpt}
+            class:reveal-wrong={isAnswered && isSelected && !isCorrectOpt}
+            class:blacked-out={isBlackedOut}
+            onclick={() => handleOptionClick(item.idx)}
+            disabled={isAnswered || isBlackedOut}
+          >
+            <div class="lozenge-inner answer-inner">
+              <div class="option-badge">
+                <span class="badge-letter">{item.label}</span>
+              </div>
+              <span class="option-text">{opt}</span>
+              <div class="lozenge-glint tl"></div>
+              <div class="lozenge-glint br"></div>
             </div>
-            <span class="option-text">{optD}</span>
-            <div class="lozenge-glint tl"></div>
-            <div class="lozenge-glint br"></div>
-          </div>
-        </button>
+          </button>
+        {/each}
 
         <div class="gold-wing-line right"></div>
       </div>
@@ -473,11 +432,11 @@
     flex-direction: column;
     justify-content: space-between;
     width: 100%;
-    min-height: calc(100vh - 24px);
+    min-height: calc(100vh - 20px);
     font-family: 'Comic Sans MS', 'Comic Sans', cursive, sans-serif;
     user-select: none;
     box-sizing: border-box;
-    padding-bottom: 20px;
+    padding-bottom: 16px;
   }
 
   /* Top Navigation Bar */
@@ -489,7 +448,7 @@
     border: 1px solid #d4af37;
     border-radius: 8px;
     padding: 8px 20px;
-    margin: 4px 16px 10px;
+    margin: 4px 16px 8px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
     z-index: 20;
   }
@@ -571,7 +530,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 4px 0 10px;
+    margin: 2px 0 8px;
     flex-shrink: 0;
   }
 
@@ -581,7 +540,7 @@
     justify-content: space-between;
     align-items: center;
     max-width: 900px;
-    margin: 0 auto 12px;
+    margin: 0 auto 10px;
     padding: 10px 24px;
     border-radius: 8px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
@@ -651,7 +610,7 @@
   .quiz-controls-stage {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
     width: 100%;
     margin-top: auto;
   }
@@ -816,10 +775,6 @@
   .answer-lozenge:hover:not(:disabled) {
     transform: translateY(-2px);
     filter: drop-shadow(0 0 14px rgba(252, 230, 154, 0.7));
-  }
-
-  .answer-lozenge:hover:not(:disabled) .lozenge-outer {
-    background: linear-gradient(180deg, #ffffff 0%, #fde047 30%, #eab308 100%);
   }
 
   .answer-lozenge:active:not(:disabled) {
