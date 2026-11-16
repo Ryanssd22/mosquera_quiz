@@ -45,22 +45,38 @@
     }
   });
 
-  // Mood-tinted background color shift (subtle and non-blinding)
+  // Mood-tinted background color shift (subtle and non-blinding) + tacky dots color shift
   $effect(() => {
     if (typeof document !== 'undefined') {
       let tint = '#0b132b'; // neutral default
+      let dot1 = 'rgba(80, 140, 255, 0.36)';
+      let dot2 = 'rgba(255, 215, 0, 0.25)';
+
       if (happiness <= 20) {
-        tint = '#1a0e14'; // subtle deep crimson
+        tint = '#1a0c14'; // subtle deep crimson
+        dot1 = 'rgba(239, 68, 68, 0.42)';
+        dot2 = 'rgba(251, 146, 60, 0.28)';
       } else if (happiness <= 40) {
-        tint = '#0d1524'; // subtle deep slate blue
+        tint = '#0d1525'; // subtle deep slate blue
+        dot1 = 'rgba(96, 165, 250, 0.34)';
+        dot2 = 'rgba(148, 163, 184, 0.24)';
       } else if (happiness <= 65) {
         tint = '#0b132b'; // classic deep navy
+        dot1 = 'rgba(80, 140, 255, 0.36)';
+        dot2 = 'rgba(255, 215, 0, 0.25)';
       } else if (happiness <= 85) {
-        tint = '#091c1b'; // subtle deep spruce teal
+        tint = '#081a1a'; // subtle deep spruce teal
+        dot1 = 'rgba(52, 211, 153, 0.42)';
+        dot2 = 'rgba(251, 191, 36, 0.28)';
       } else {
-        tint = '#140d24'; // subtle deep royal purple
+        tint = '#150c26'; // subtle deep royal purple
+        dot1 = 'rgba(192, 132, 252, 0.45)';
+        dot2 = 'rgba(250, 204, 21, 0.32)';
       }
+
       document.documentElement.style.setProperty('--mood-bg-color', tint);
+      document.documentElement.style.setProperty('--mood-dot-color-1', dot1);
+      document.documentElement.style.setProperty('--mood-dot-color-2', dot2);
     }
   });
 

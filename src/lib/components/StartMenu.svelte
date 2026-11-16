@@ -31,13 +31,10 @@
       <div class="lozenge-inner title-inner">
         <img src="/assets/glitter_star.gif" alt="Sparkle" class="star-gif left" />
         <div class="title-text-group">
-          <h1 class="game-title">Making Dr. Mosquera happy</h1>
-          <p class="subtitle">Digital CMOS VLSI Design Studying & Happiness Simulator</p>
+          <h1 class="game-title">Dr. Mosquerra's Practice VLSI Exam</h1>
+          <p class="subtitle">Do you dare answer these questions?</p>
         </div>
         <img src="/assets/glitter_star.gif" alt="Sparkle" class="star-gif right" />
-
-        <div class="lozenge-glint tl"></div>
-        <div class="lozenge-glint br"></div>
       </div>
     </div>
 
@@ -62,7 +59,7 @@
         <div class="rim-glint top"></div>
         <div class="rim-glint bottom"></div>
       </div>
-      <img src="/assets/happy_sun.png" alt="Happy Sun" class="corner-sun" />
+      <img src="/assets/more_sun.png" alt="Happy Sun" class="corner-sun" />
     </div>
   </div>
 
@@ -93,8 +90,6 @@
         <div class="lozenge-inner play-inner">
           <Icon icon="mdi:play" width="30" class="play-icon" />
           <span class="play-text">START STUDYING (HOT SEAT)</span>
-          <div class="lozenge-glint tl"></div>
-          <div class="lozenge-glint br"></div>
         </div>
       </button>
 
@@ -157,7 +152,9 @@
   .lozenge-inner {
     width: 100%;
     height: 100%;
-    background: linear-gradient(180deg, #1b387e 0%, #13275c 48%, #0d1b42 52%, #08112c 100%);
+    background:
+      radial-gradient(ellipse 85% 65% at 50% 18%, rgba(70, 125, 230, 0.55) 0%, transparent 70%),
+      linear-gradient(180deg, #284da0 0%, #1e3c84 32%, #13275c 52%, #08112c 100%);
     clip-path: polygon(
       26px 0%,
       calc(100% - 26px) 0%,
@@ -170,41 +167,19 @@
     align-items: center;
     position: relative;
     overflow: hidden;
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.4), inset 0 -2px 6px rgba(0, 0, 0, 0.6);
   }
-
-  .lozenge-inner::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 26px;
-    right: 26px;
-    height: 46%;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.02) 100%);
-    pointer-events: none;
-  }
-
-  .lozenge-glint {
-    position: absolute;
-    width: 16px;
-    height: 16px;
-    background: radial-gradient(circle, #ffffff 15%, #ffd700 45%, transparent 75%);
-    pointer-events: none;
-    filter: drop-shadow(0 0 5px #ffffff);
-  }
-
-  .lozenge-glint.tl { top: -4px; left: 32px; }
-  .lozenge-glint.br { bottom: -4px; right: 32px; }
 
   /* Title Lozenge */
   .title-lozenge {
-    width: 78%;
-    max-width: 1100px;
+    width: 82%;
+    max-width: 1250px;
     margin: 0 auto;
   }
 
   .title-inner {
-    min-height: 85px;
-    padding: 12px 32px;
+    min-height: 105px;
+    padding: 16px 40px;
     justify-content: space-between;
   }
 
@@ -214,7 +189,7 @@
   }
 
   .game-title {
-    font-size: 34px;
+    font-size: 38px;
     margin: 0;
     color: #fce69a;
     text-shadow:
@@ -224,16 +199,16 @@
   }
 
   .subtitle {
-    margin: 4px 0 0 0;
-    font-size: 14px;
+    margin: 6px 0 0 0;
+    font-size: 16px;
     font-weight: bold;
     color: #93c5fd;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
   }
 
   .star-gif {
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
   }
 
   /* Center Stage */
@@ -241,21 +216,21 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 8px 0;
+    margin: 12px 0;
   }
 
   .speech-plaque {
     background: linear-gradient(180deg, #182e66 0%, #0d1a3d 100%);
     border: 2px solid #d4af37;
-    border-radius: 20px;
-    padding: 8px 24px;
-    font-size: 14px;
+    border-radius: 24px;
+    padding: 10px 28px;
+    font-size: 15px;
     font-weight: bold;
     color: #fce69a;
-    margin-bottom: 12px;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.7);
+    margin-bottom: 14px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.75);
     text-align: center;
-    max-width: 520px;
+    max-width: 620px;
   }
 
   /* Studio Portrait Frame */
@@ -268,19 +243,19 @@
 
   .gold-rim-outer {
     position: relative;
-    padding: 3px;
+    padding: 4px;
     background: linear-gradient(180deg, #fff3a8 0%, #d4af37 30%, #8a6218 70%, #f7dc87 100%);
-    border-radius: 12px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.8);
+    border-radius: 16px;
+    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.9);
   }
 
   .gold-rim-inner {
     background: #091326;
     border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 9px;
-    padding: 4px;
-    width: 175px;
-    height: 175px;
+    border-radius: 12px;
+    padding: 5px;
+    width: 240px;
+    height: 240px;
     overflow: hidden;
   }
 
@@ -288,7 +263,7 @@
     width: 100%;
     height: 100%;
     background: radial-gradient(circle at 50% 40%, #1e3a78 0%, #0b1733 100%);
-    border-radius: 6px;
+    border-radius: 8px;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -304,44 +279,44 @@
 
   .rim-glint {
     position: absolute;
-    width: 14px;
-    height: 14px;
+    width: 16px;
+    height: 16px;
     background: radial-gradient(circle, #ffffff 15%, #ffd700 45%, transparent 75%);
     pointer-events: none;
     filter: drop-shadow(0 0 4px #ffffff);
   }
 
-  .rim-glint.top { top: -4px; left: 20px; }
-  .rim-glint.bottom { bottom: -4px; right: 20px; }
+  .rim-glint.top { top: -4px; left: 24px; }
+  .rim-glint.bottom { bottom: -4px; right: 24px; }
 
   .corner-sun {
     position: absolute;
-    bottom: -12px;
-    right: -12px;
-    width: 58px;
+    bottom: -14px;
+    right: -14px;
+    width: 68px;
     animation: sunSpin 6s infinite linear;
-    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.7));
+    filter: drop-shadow(0 2px 10px rgba(0,0,0,0.8));
   }
 
   /* Session Info Bar */
   .session-info-bar {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 20px;
     background: linear-gradient(180deg, #101e42 0%, #091228 100%);
     border: 1px solid #d4af37;
-    padding: 8px 24px;
-    font-size: 13px;
+    padding: 10px 32px;
+    font-size: 14px;
     color: #cbd5e1;
-    margin: 8px 0;
-    border-radius: 20px;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.6);
+    margin: 10px 0;
+    border-radius: 24px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.65);
   }
 
   .info-pill {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
   }
 
   :global(.info-icon) {
@@ -350,8 +325,8 @@
 
   .pill-divider {
     width: 1px;
-    height: 16px;
-    background: rgba(212, 175, 55, 0.4);
+    height: 18px;
+    background: rgba(212, 175, 55, 0.45);
   }
 
   /* Actions */
@@ -359,7 +334,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     width: 100%;
   }
 
@@ -370,8 +345,8 @@
   }
 
   .play-lozenge-btn {
-    width: 48%;
-    max-width: 600px;
+    width: 55%;
+    max-width: 720px;
     margin: 0 auto;
     cursor: pointer;
     transition: transform 0.15s, filter 0.15s;
@@ -379,7 +354,7 @@
 
   .play-lozenge-btn:hover {
     transform: translateY(-2px);
-    filter: drop-shadow(0 0 20px rgba(252, 230, 154, 0.8));
+    filter: drop-shadow(0 0 24px rgba(252, 230, 154, 0.85));
   }
 
   .play-lozenge-btn:active {
@@ -387,15 +362,15 @@
   }
 
   .play-inner {
-    min-height: 64px;
-    padding: 10px 32px;
+    min-height: 76px;
+    padding: 12px 36px;
     justify-content: center;
-    gap: 12px;
+    gap: 14px;
     background: linear-gradient(180deg, #1f4294 0%, #163070 48%, #0e1e4c 52%, #0a1436 100%);
   }
 
   .play-text {
-    font-size: 20px;
+    font-size: 22px;
     font-weight: bold;
     color: #ffffff;
     letter-spacing: 0.5px;
@@ -404,7 +379,7 @@
 
   :global(.play-icon) {
     color: #fce69a;
-    filter: drop-shadow(0 0 6px rgba(252, 230, 154, 0.7));
+    filter: drop-shadow(0 0 8px rgba(252, 230, 154, 0.8));
   }
 
   .btn-settings-sleek {
@@ -412,15 +387,15 @@
     border: 1px solid #d4af37;
     border-radius: 6px;
     font-family: 'Comic Sans MS', cursive, sans-serif;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: bold;
     color: #fce69a;
-    padding: 8px 18px;
+    padding: 10px 22px;
     cursor: pointer;
     display: flex;
     align-items: center;
     gap: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.6);
     transition: background 0.15s, transform 0.1s;
   }
 

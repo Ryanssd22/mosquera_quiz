@@ -1,5 +1,5 @@
 <script>
-  import { onMount, onDestroy } from 'svelte';
+  import { onMount, onDestroy, untrack } from 'svelte';
   import Icon from '@iconify/svelte';
   import MosqueraMood from './MosqueraMood.svelte';
   import { playCorrect, playWrong, playCombo, playTick, playClick } from '#lib/audio/soundFx.js';
@@ -27,8 +27,20 @@
   let lastMessage = $state('');
 
   // Map to track eliminated/blacked-out wrong options per question by OPTION TEXT:
-  // { [questionId]: Set<string> }
+  // { [questionId]: string[] }
   let disabledOptionsMap = $state({});
+
+  // Persistent cache for randomized option orders per question so solutions NEVER move positions:
+  // { [questionId]: { options: string[], correctIndex: number } }
+  let questionOrderCache = {};
+
+  // Track wrong attempt count per question:
+  // { [questionId]: number }
+  let questionWrongAttempts = $state({});
+
+  // Track the first wrong option that was marked red:
+  // { [questionId]: string | null }
+  let firstWrongOptionMap = $state({});
 
   // Countdown timer
   let timeLeft = $state(0);
@@ -44,9 +56,18 @@
     return copy;
   }
 
-  // Shuffle the options of a question and re-map the correctIndex
+  // Shuffle the options of a question and re-map the correctIndex,
+  // caching the result so the options NEVER move positions when retried!
   function prepareQuestionWithShuffledOptions(rawQ) {
     if (!rawQ) return null;
+    if (questionOrderCache[rawQ.id]) {
+      return {
+        ...rawQ,
+        options: questionOrderCache[rawQ.id].options,
+        correctIndex: questionOrderCache[rawQ.id].correctIndex
+      };
+    }
+
     const originalOptions = rawQ.options;
     const correctText = originalOptions[rawQ.correctIndex];
 
@@ -55,11 +76,18 @@
     const shuffledOptions = shuffledIndices.map(i => originalOptions[i]);
     const newCorrectIndex = shuffledOptions.indexOf(correctText);
 
-    return {
+    const prepared = {
       ...rawQ,
       options: shuffledOptions,
       correctIndex: newCorrectIndex
     };
+
+    questionOrderCache[rawQ.id] = {
+      options: shuffledOptions,
+      correctIndex: newCorrectIndex
+    };
+
+    return prepared;
   }
 
   // Pick the next question randomized within the active topic
@@ -106,7 +134,20 @@
       rawNextQ = unmastered[randIdx];
     }
 
-    // Randomize the multiple choice options (A, B, C, D)
+    // If this question had a first wrong option from a previous encounter,
+    // move it into disabledOptionsMap so it renders as blacked out on retry!
+    if (firstWrongOptionMap[rawNextQ.id]) {
+      const prevDisabled = disabledOptionsMap[rawNextQ.id] || [];
+      const firstWrong = firstWrongOptionMap[rawNextQ.id];
+      if (!prevDisabled.includes(firstWrong)) {
+        disabledOptionsMap = {
+          ...disabledOptionsMap,
+          [rawNextQ.id]: [...prevDisabled, firstWrong]
+        };
+      }
+    }
+
+    // Lock option positions with prepareQuestionWithShuffledOptions so solutions NEVER move positions!
     currentQuestion = prepareQuestionWithShuffledOptions(rawNextQ);
     selectedOptionIndex = null;
     isAnswered = false;
@@ -145,24 +186,30 @@
   }
 
   function handleOptionClick(index) {
-    if (isAnswered) return;
+    if (isCorrect) return;
     const optionText = currentQuestion?.options[index];
-    // Prevent clicking already blacked-out options
-    if (disabledOptionsMap[currentQuestion?.id]?.has(optionText)) return;
+    const qId = currentQuestion?.id;
+    if (!qId || !optionText) return;
+
+    // Prevent clicking already blacked-out or red-marked wrong options
+    if (disabledOptionsMap[qId]?.includes(optionText)) return;
+    if (firstWrongOptionMap[qId] === optionText) return;
 
     playClick();
     submitAnswer(index, false);
   }
 
   function submitAnswer(index, isTimeout = false) {
-    if (timerInterval) clearInterval(timerInterval);
-    isAnswered = true;
-    selectedOptionIndex = index;
-
+    const qId = currentQuestion.id;
     const correct = !isTimeout && index === currentQuestion.correctIndex;
-    isCorrect = correct;
+    const optionText = index >= 0 ? currentQuestion.options[index] : null;
 
     if (correct) {
+      if (timerInterval) clearInterval(timerInterval);
+      isAnswered = true;
+      isCorrect = true;
+      selectedOptionIndex = index;
+
       if (streak >= 2) {
         playCombo();
         lastEvent = 'combo';
@@ -170,30 +217,50 @@
         playCorrect();
         lastEvent = 'correct';
       }
+
+      onAnswer({
+        questionId: qId,
+        topic: activeTopic,
+        isCorrect: true,
+        selectedOption: index
+      });
     } else {
       playWrong();
       lastEvent = 'wrong';
 
-      // Black out the chosen wrong option by its TEXT so it stays blacked out when retried!
-      if (!isTimeout && index >= 0) {
-        const wrongOptionText = currentQuestion.options[index];
-        if (!disabledOptionsMap[currentQuestion.id]) {
-          disabledOptionsMap[currentQuestion.id] = new Set();
+      const prevCount = questionWrongAttempts[qId] || 0;
+      const newCount = prevCount + 1;
+      questionWrongAttempts = { ...questionWrongAttempts, [qId]: newCount };
+
+      const existingDisabled = disabledOptionsMap[qId] || [];
+
+      if (optionText) {
+        if (newCount === 1) {
+          // 1st one wrong: turn red!
+          firstWrongOptionMap = { ...firstWrongOptionMap, [qId]: optionText };
+        } else {
+          // 2nd (and subsequent) wrong: JUST BLACK OUT instead of turning red!
+          if (!existingDisabled.includes(optionText)) {
+            disabledOptionsMap = {
+              ...disabledOptionsMap,
+              [qId]: [...existingDisabled, optionText]
+            };
+          }
         }
-        disabledOptionsMap[currentQuestion.id].add(wrongOptionText);
       }
 
       if (isTimeout) {
         lastMessage = "Time expired.";
+        isAnswered = true;
       }
-    }
 
-    onAnswer({
-      questionId: currentQuestion.id,
-      topic: activeTopic,
-      isCorrect: correct,
-      selectedOption: index
-    });
+      onAnswer({
+        questionId: qId,
+        topic: activeTopic,
+        isCorrect: false,
+        selectedOption: index
+      });
+    }
   }
 
   function handleNextClick() {
@@ -223,9 +290,12 @@
   }
 
   $effect(() => {
-    if (activeTopic) {
-      loadNextQuestion();
-    }
+    const topic = activeTopic;
+    untrack(() => {
+      if (topic) {
+        loadNextQuestion();
+      }
+    });
   });
 
   onDestroy(() => {
@@ -291,135 +361,146 @@
   </div>
 
   {#if currentQuestion}
-    <!-- Center Stage: Dr. Mosquera (Hot Seat) -->
-    <div class="stage-center-area">
-      <MosqueraMood
-        {happiness}
-        {streak}
-        {lastEvent}
-        {lastMessage}
-      />
-    </div>
-
-    <!-- Feedback Banner (When Answered) -->
-    {#if isAnswered}
-      <div class="feedback-banner" class:correct={isCorrect} class:wrong={!isCorrect}>
-        <div class="feedback-left">
-          <Icon icon={isCorrect ? "mdi:check-circle" : "mdi:alert-circle"} width="28" class="feedback-icon" />
-          <div class="feedback-text-group">
-            <span class="feedback-title">{isCorrect ? "Correct!" : "Incorrect"}</span>
-            {#if currentQuestion.explanation}
-              <p class="feedback-explanation">{currentQuestion.explanation}</p>
-            {/if}
-          </div>
-        </div>
-        <button class="btn-continue" onclick={handleNextClick}>
-          <span>Next</span>
-          <Icon icon="mdi:arrow-right" width="18" />
-        </button>
+    <!-- Cohesive Vertically Centered Stage Cluster (Mosquera grouped right above question) -->
+    <div class="stage-cohesive-cluster">
+      <!-- Center Stage: Dr. Mosquera (Hot Seat) -->
+      <div class="stage-center-area">
+        <MosqueraMood
+          {happiness}
+          {streak}
+          {lastEvent}
+          {lastMessage}
+        />
       </div>
-    {/if}
 
-    <!-- Lower Stage: The Iconic Millionaire Quiz Interface -->
-    <div class="quiz-controls-stage">
-      <!-- 1. Question Box with Full-Width Gold Wing Lines -->
-      <div class="millionaire-row question-row">
-        <div class="gold-wing-line left"></div>
-
-        <div class="lozenge-outer question-lozenge">
-          <div class="lozenge-inner question-inner">
-            <span class="question-qmark left">?</span>
-            <div class="question-content">
-              {#if hasTimeLimit}
-                <span class="timer-tag" class:urgent={timeLeft <= 5}>[{timeLeft}s]</span>
+      <!-- Feedback Banner (When Solved Correctly or When Trying Again) -->
+      {#if isCorrect}
+        <div class="feedback-banner correct">
+          <div class="feedback-left">
+            <Icon icon="mdi:check-circle" width="28" class="feedback-icon" />
+            <div class="feedback-text-group">
+              <span class="feedback-title">Correct!</span>
+              {#if currentQuestion.explanation}
+                <p class="feedback-explanation">{currentQuestion.explanation}</p>
               {/if}
-              <h2 class="question-text">{currentQuestion.question}</h2>
             </div>
-            <span class="question-qmark right">?</span>
-
-            <!-- Corner Glints -->
-            <div class="lozenge-glint tl"></div>
-            <div class="lozenge-glint br"></div>
           </div>
+          <button class="btn-continue" onclick={handleNextClick}>
+            <span>Next</span>
+            <Icon icon="mdi:arrow-right" width="18" />
+          </button>
+        </div>
+      {:else if (questionWrongAttempts[currentQuestion.id] || 0) > 0}
+        <div class="feedback-banner wrong-hint">
+          <div class="feedback-left">
+            <Icon icon="mdi:alert-circle" width="28" class="feedback-icon" />
+            <div class="feedback-text-group">
+              <span class="feedback-title">Incorrect — Try another option!</span>
+              <p class="feedback-explanation">Eliminated wrong options are disabled. Pick another answer or skip.</p>
+            </div>
+          </div>
+          <button class="btn-continue skip-continue" onclick={handleSkipQuestion}>
+            <span>Skip</span>
+            <Icon icon="mdi:skip-next" width="18" />
+          </button>
+        </div>
+      {/if}
+
+      <!-- Lower Stage: The Iconic Millionaire Quiz Interface -->
+      <div class="quiz-controls-stage">
+        <!-- 1. Question Box with Full-Width Gold Wing Lines -->
+        <div class="millionaire-row question-row">
+          <div class="gold-wing-line left"></div>
+
+          <div class="lozenge-outer question-lozenge">
+            <div class="lozenge-inner question-inner">
+              <span class="question-qmark left">?</span>
+              <div class="question-content">
+                {#if hasTimeLimit}
+                  <span class="timer-tag" class:urgent={timeLeft <= 5}>[{timeLeft}s]</span>
+                {/if}
+                <h2 class="question-text">{currentQuestion.question}</h2>
+              </div>
+              <span class="question-qmark right">?</span>
+            </div>
+          </div>
+
+          <div class="gold-wing-line right"></div>
         </div>
 
-        <div class="gold-wing-line right"></div>
-      </div>
+        <!-- 2. Answers Row 1: Option A (left) and Option C (right) -->
+        <div class="millionaire-row answers-row">
+          <div class="gold-wing-line left"></div>
 
-      <!-- 2. Answers Row 1: Option A (left) and Option C (right) -->
-      <div class="millionaire-row answers-row">
-        <div class="gold-wing-line left"></div>
+          {#each row1Options as item, i}
+            {@const opt = currentQuestion.options[item.idx]}
+            {@const isRedWrong = firstWrongOptionMap[currentQuestion.id] === opt}
+            {@const isBlackedOut = (disabledOptionsMap[currentQuestion.id] || []).includes(opt) && !isRedWrong}
+            {@const isSelected = selectedOptionIndex === item.idx}
+            {@const isCorrectOpt = item.idx === currentQuestion.correctIndex}
 
-        {#each row1Options as item, i}
-          {@const opt = currentQuestion.options[item.idx]}
-          {@const isBlackedOut = disabledOptionsMap[currentQuestion.id]?.has(opt)}
-          {@const isSelected = selectedOptionIndex === item.idx}
-          {@const isCorrectOpt = item.idx === currentQuestion.correctIndex}
+            {#if i > 0}
+              <div class="center-gold-line"></div>
+            {/if}
 
-          {#if i > 0}
-            <div class="center-gold-line"></div>
-          {/if}
-
-          <button
-            class="lozenge-outer answer-lozenge"
-            class:answered={isAnswered}
-            class:selected={isSelected}
-            class:reveal-correct={isAnswered && isCorrectOpt}
-            class:reveal-wrong={isAnswered && isSelected && !isCorrectOpt}
-            class:blacked-out={isBlackedOut}
-            onclick={() => handleOptionClick(item.idx)}
-            disabled={isAnswered || isBlackedOut}
-          >
-            <div class="lozenge-inner answer-inner">
-              <div class="option-badge">
-                <span class="badge-letter">{item.label}</span>
+            <button
+              class="lozenge-outer answer-lozenge"
+              class:answered={isCorrect}
+              class:selected={isSelected}
+              class:reveal-correct={isCorrect && isCorrectOpt}
+              class:reveal-wrong={isRedWrong}
+              class:blacked-out={isBlackedOut}
+              onclick={() => handleOptionClick(item.idx)}
+              disabled={isCorrect || isRedWrong || isBlackedOut}
+            >
+              <div class="lozenge-inner answer-inner">
+                <div class="option-badge">
+                  <span class="badge-letter">{item.label}</span>
+                </div>
+                <span class="option-text">{opt}</span>
               </div>
-              <span class="option-text">{opt}</span>
-              <div class="lozenge-glint tl"></div>
-              <div class="lozenge-glint br"></div>
-            </div>
-          </button>
-        {/each}
+            </button>
+          {/each}
 
-        <div class="gold-wing-line right"></div>
-      </div>
+          <div class="gold-wing-line right"></div>
+        </div>
 
-      <!-- 3. Answers Row 2: Option B (left) and Option D (right) -->
-      <div class="millionaire-row answers-row">
-        <div class="gold-wing-line left"></div>
+        <!-- 3. Answers Row 2: Option B (left) and Option D (right) -->
+        <div class="millionaire-row answers-row">
+          <div class="gold-wing-line left"></div>
 
-        {#each row2Options as item, i}
-          {@const opt = currentQuestion.options[item.idx]}
-          {@const isBlackedOut = disabledOptionsMap[currentQuestion.id]?.has(opt)}
-          {@const isSelected = selectedOptionIndex === item.idx}
-          {@const isCorrectOpt = item.idx === currentQuestion.correctIndex}
+          {#each row2Options as item, i}
+            {@const opt = currentQuestion.options[item.idx]}
+            {@const isRedWrong = firstWrongOptionMap[currentQuestion.id] === opt}
+            {@const isBlackedOut = (disabledOptionsMap[currentQuestion.id] || []).includes(opt) && !isRedWrong}
+            {@const isSelected = selectedOptionIndex === item.idx}
+            {@const isCorrectOpt = item.idx === currentQuestion.correctIndex}
 
-          {#if i > 0}
-            <div class="center-gold-line"></div>
-          {/if}
+            {#if i > 0}
+              <div class="center-gold-line"></div>
+            {/if}
 
-          <button
-            class="lozenge-outer answer-lozenge"
-            class:answered={isAnswered}
-            class:selected={isSelected}
-            class:reveal-correct={isAnswered && isCorrectOpt}
-            class:reveal-wrong={isAnswered && isSelected && !isCorrectOpt}
-            class:blacked-out={isBlackedOut}
-            onclick={() => handleOptionClick(item.idx)}
-            disabled={isAnswered || isBlackedOut}
-          >
-            <div class="lozenge-inner answer-inner">
-              <div class="option-badge">
-                <span class="badge-letter">{item.label}</span>
+            <button
+              class="lozenge-outer answer-lozenge"
+              class:answered={isCorrect}
+              class:selected={isSelected}
+              class:reveal-correct={isCorrect && isCorrectOpt}
+              class:reveal-wrong={isRedWrong}
+              class:blacked-out={isBlackedOut}
+              onclick={() => handleOptionClick(item.idx)}
+              disabled={isCorrect || isRedWrong || isBlackedOut}
+            >
+              <div class="lozenge-inner answer-inner">
+                <div class="option-badge">
+                  <span class="badge-letter">{item.label}</span>
+                </div>
+                <span class="option-text">{opt}</span>
               </div>
-              <span class="option-text">{opt}</span>
-              <div class="lozenge-glint tl"></div>
-              <div class="lozenge-glint br"></div>
-            </div>
-          </button>
-        {/each}
+            </button>
+          {/each}
 
-        <div class="gold-wing-line right"></div>
+          <div class="gold-wing-line right"></div>
+        </div>
       </div>
     </div>
   {/if}
@@ -430,25 +511,26 @@
   .millionaire-screen {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     width: 100%;
-    min-height: calc(100vh - 20px);
+    min-height: 100vh;
     font-family: 'Comic Sans MS', 'Comic Sans', cursive, sans-serif;
     user-select: none;
     box-sizing: border-box;
-    padding-bottom: 16px;
+    padding: 8px 0 16px;
   }
 
-  /* Top Navigation Bar */
+  /* Top Navigation Bar with Centered Topic Title */
   .top-nav-bar {
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
     background: linear-gradient(180deg, rgba(16, 30, 66, 0.95) 0%, rgba(9, 18, 40, 0.95) 100%);
     border: 1px solid #d4af37;
     border-radius: 8px;
-    padding: 8px 20px;
-    margin: 4px 16px 8px;
+    padding: 8px 24px;
+    margin: 0 16px 4px 16px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
     z-index: 20;
   }
@@ -467,6 +549,7 @@
     align-items: center;
     gap: 6px;
     transition: background 0.15s, transform 0.1s;
+    z-index: 2;
   }
 
   .nav-btn:hover:not(:disabled) {
@@ -480,29 +563,41 @@
     color: #ffffff;
   }
 
+  /* Centered Topic Badge */
   .active-topic-badge {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 14px;
+    justify-content: center;
+    gap: 10px;
+    font-size: 15px;
     color: #ffffff;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    pointer-events: none;
+    max-width: 65%;
   }
 
   .topic-name {
     font-weight: bold;
     color: #fce69a;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .topic-count {
     color: #4ade80;
     font-weight: bold;
+    flex-shrink: 0;
   }
 
   .nav-right-actions {
     display: flex;
     align-items: center;
     gap: 16px;
+    z-index: 2;
   }
 
   /* Streak Display: Flame Icon and Number Only (no box, no text) */
@@ -525,12 +620,25 @@
     font-size: 22px;
   }
 
+  /* Cohesive Stage Cluster: Mosquera grouped directly above Question Box, vertically centered */
+  .stage-cohesive-cluster {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    max-width: 1720px;
+    margin: auto 0;
+  }
+
   /* Center Stage */
   .stage-center-area {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 2px 0 8px;
+    margin: 0;
     flex-shrink: 0;
   }
 
@@ -539,9 +647,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 900px;
-    margin: 0 auto 10px;
-    padding: 10px 24px;
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 8px 24px;
     border-radius: 8px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
     animation: bannerPop 0.25s ease-out;
@@ -554,9 +663,9 @@
     color: #ffffff;
   }
 
-  .feedback-banner.wrong {
-    background: linear-gradient(180deg, #991b1b 0%, #7f1d1d 100%);
-    border: 2px solid #ef4444;
+  .feedback-banner.wrong-hint {
+    background: linear-gradient(180deg, #854d0e 0%, #713f12 100%);
+    border: 2px solid #facc15;
     color: #ffffff;
   }
 
@@ -606,13 +715,24 @@
     transform: scale(1.04);
   }
 
+  .btn-continue.skip-continue {
+    background: #182852;
+    border: 1px solid #d4af37;
+    color: #fce69a;
+  }
+
+  .btn-continue.skip-continue:hover {
+    background: #253e7a;
+    transform: scale(1.04);
+  }
+
   /* Quiz Controls Stage (Millionaire Studio Design) */
   .quiz-controls-stage {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 14px;
     width: 100%;
-    margin-top: auto;
+    margin-top: 0;
   }
 
   /* Full-width row with wing lines */
@@ -631,24 +751,24 @@
   }
 
   .center-gold-line {
-    width: 44px;
+    width: 48px;
     height: 2px;
     background: linear-gradient(90deg, #cda754, #fce69a, #cda754);
     box-shadow: 0 0 8px rgba(252, 230, 154, 0.5);
     flex-shrink: 0;
   }
 
-  /* Lozenge Shapes (Exact Match to Photo) */
+  /* Lozenge Shapes (Exact Match to Reference Photo - No Rectangular Highlight) */
   .lozenge-outer {
     position: relative;
     padding: 3px;
     background: linear-gradient(180deg, #fff3a8 0%, #d4af37 25%, #855b14 75%, #f7dc87 100%);
     clip-path: polygon(
-      28px 0%,
-      calc(100% - 28px) 0%,
+      32px 0%,
+      calc(100% - 32px) 0%,
       100% 50%,
-      calc(100% - 28px) 100%,
-      28px 100%,
+      calc(100% - 32px) 100%,
+      32px 100%,
       0% 50%
     );
     filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.8));
@@ -660,85 +780,56 @@
   .lozenge-inner {
     width: 100%;
     height: 100%;
-    background: linear-gradient(180deg, #1b387e 0%, #13275c 48%, #0d1b42 52%, #08112c 100%);
+    background:
+      radial-gradient(ellipse 85% 65% at 50% 18%, rgba(70, 125, 230, 0.55) 0%, transparent 70%),
+      linear-gradient(180deg, #284da0 0%, #1e3c84 32%, #13275c 52%, #08112c 100%);
     clip-path: polygon(
-      26px 0%,
-      calc(100% - 26px) 0%,
+      30px 0%,
+      calc(100% - 30px) 0%,
       100% 50%,
-      calc(100% - 26px) 100%,
-      26px 100%,
+      calc(100% - 30px) 100%,
+      30px 100%,
       0% 50%
     );
     display: flex;
     align-items: center;
     position: relative;
     overflow: hidden;
-  }
-
-  /* Top Glossy Highlight */
-  .lozenge-inner::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 26px;
-    right: 26px;
-    height: 46%;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.02) 100%);
-    pointer-events: none;
-  }
-
-  /* Corner Glints */
-  .lozenge-glint {
-    position: absolute;
-    width: 16px;
-    height: 16px;
-    background: radial-gradient(circle, #ffffff 15%, #ffd700 45%, transparent 75%);
-    pointer-events: none;
-    filter: drop-shadow(0 0 5px #ffffff);
-  }
-
-  .lozenge-glint.tl {
-    top: -4px;
-    left: 32px;
-  }
-
-  .lozenge-glint.br {
-    bottom: -4px;
-    right: 32px;
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.4), inset 0 -2px 6px rgba(0, 0, 0, 0.6);
   }
 
   /* Question Lozenge */
   .question-lozenge {
-    width: 86%;
-    max-width: 1400px;
+    width: 92%;
+    max-width: 1600px;
     margin: 0 auto;
   }
 
   .question-inner {
-    min-height: 85px;
-    padding: 10px 32px;
+    min-height: 112px;
+    padding: 16px 48px;
     justify-content: space-between;
   }
 
   .question-qmark {
     color: #fce69a;
-    font-size: 26px;
+    font-size: 32px;
     font-weight: bold;
-    text-shadow: 0 0 10px rgba(252, 230, 154, 0.8);
-    padding: 0 8px;
+    text-shadow: 0 0 12px rgba(252, 230, 154, 0.85);
+    padding: 0 14px;
     flex-shrink: 0;
   }
 
   .question-content {
     flex: 1;
     text-align: center;
-    padding: 0 16px;
+    padding: 0 18px;
   }
 
   .timer-tag {
     display: inline-block;
     color: #38bdf8;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: bold;
     margin-bottom: 4px;
   }
@@ -749,24 +840,24 @@
   }
 
   .question-text {
-    font-size: 20px;
+    font-size: 26px;
     font-weight: bold;
     color: #ffffff;
     margin: 0;
     line-height: 1.35;
-    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95);
   }
 
   /* Answers Lozenge */
   .answer-lozenge {
     flex: 1;
-    max-width: 680px;
+    max-width: 780px;
     cursor: pointer;
   }
 
   .answer-inner {
-    min-height: 64px;
-    padding: 10px 28px 10px 24px;
+    min-height: 82px;
+    padding: 12px 34px 12px 24px;
     display: flex;
     align-items: center;
     text-align: left;
@@ -775,6 +866,12 @@
   .answer-lozenge:hover:not(:disabled) {
     transform: translateY(-2px);
     filter: drop-shadow(0 0 14px rgba(252, 230, 154, 0.7));
+  }
+
+  .answer-lozenge:hover:not(:disabled) .lozenge-inner {
+    background:
+      radial-gradient(ellipse 85% 65% at 50% 18%, rgba(95, 155, 255, 0.7) 0%, transparent 70%),
+      linear-gradient(180deg, #3765c4 0%, #294fa4 32%, #193475 52%, #0b173b 100%);
   }
 
   .answer-lozenge:active:not(:disabled) {
@@ -792,19 +889,19 @@
   }
 
   .badge-letter {
-    color: #fce69a;
-    font-size: 20px;
+    color: #ffd700;
+    font-size: 25px;
     font-weight: bold;
     letter-spacing: 0.5px;
-    text-shadow: 0 0 8px rgba(252, 230, 154, 0.8);
+    text-shadow: 0 0 8px rgba(252, 230, 154, 0.85);
   }
 
   .option-text {
     color: #ffffff;
-    font-size: 17px;
+    font-size: 20px;
     font-weight: bold;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
-    line-height: 1.3;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.95);
+    line-height: 1.32;
     flex: 1;
   }
 
@@ -814,7 +911,9 @@
   }
 
   .answer-lozenge.selected .lozenge-inner {
-    background: linear-gradient(180deg, #c2410c 0%, #9a3412 50%, #7c2d12 100%);
+    background:
+      radial-gradient(ellipse 85% 65% at 50% 18%, rgba(254, 215, 170, 0.6) 0%, transparent 70%),
+      linear-gradient(180deg, #d97706 0%, #b45309 35%, #78350f 100%) !important;
   }
 
   .answer-lozenge.reveal-correct {
@@ -824,7 +923,9 @@
   }
 
   .answer-lozenge.reveal-correct .lozenge-inner {
-    background: linear-gradient(180deg, #15803d 0%, #166534 50%, #14532d 100%) !important;
+    background:
+      radial-gradient(ellipse 85% 65% at 50% 18%, rgba(187, 247, 208, 0.6) 0%, transparent 70%),
+      linear-gradient(180deg, #16a34a 0%, #15803d 35%, #14532d 100%) !important;
   }
 
   .answer-lozenge.reveal-wrong {
@@ -833,7 +934,9 @@
   }
 
   .answer-lozenge.reveal-wrong .lozenge-inner {
-    background: linear-gradient(180deg, #b91c1c 0%, #991b1b 50%, #7f1d1d 100%) !important;
+    background:
+      radial-gradient(ellipse 85% 65% at 50% 18%, rgba(254, 202, 202, 0.6) 0%, transparent 70%),
+      linear-gradient(180deg, #dc2626 0%, #b91c1c 35%, #7f1d1d 100%) !important;
   }
 
   /* Blacked out wrong choices on retry */

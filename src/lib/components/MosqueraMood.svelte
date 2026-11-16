@@ -24,16 +24,16 @@
     enraged: [
       "Review the lecture slides on interconnect delay!",
       "Incorrect. Recheck your boundary conditions.",
-      "Zero credit. That violates the scaling rules!",
-      "Check your RC time constant calculations.",
-      "Subthreshold leakage is out of control!"
+      "No?!",
+      "ES TERRIBLE! ES TERRIBLE! ES TERRIBLE!",
+      "If you were Ian, I would be laughing uncontrollaby right now"
     ],
     sad: [
       "Not quite. Think about the physical capacitive coupling.",
       "Check your Elmore delay path sum again.",
       "Remember: velocity saturation changes the I-V curve.",
-      "Re-evaluate the crosstalk impact on the victim line.",
-      "Let's review this concept once more."
+      "Complex no?",
+      "ES TERRIBLE!"
     ],
     neutral: [
       "Digital CMOS VLSI Design - Lecture Quiz",
@@ -71,24 +71,24 @@
   {#if moodTier === 'enraged'}
     <div class="aura-container">
       <img src="/assets/retro_fire.gif" alt="Flames" class="aura-flame left" />
-      <img src="/assets/angry_sun.png" alt="Angry Sun" class="aura-sticker right" />
+      <img src="/assets/cat.webp" alt="Confused Meme Cat" class="aura-sticker right-cat" />
       <img src="/assets/retro_fire.gif" alt="Flames" class="aura-flame right-flame" />
     </div>
   {:else if moodTier === 'sad'}
     <div class="aura-container">
       <img src="/assets/sad_taco.png" alt="Sad Taco" class="aura-sticker left-taco" />
-      <img src="/assets/pngtree-d-very-sad-face-emoji-in-yellow-colour-on-transparent-background-png-image_16061301.png" alt="Sad Face" class="aura-sticker right" />
+      <img src="/assets/cat.webp" alt="Confused Meme Cat" class="aura-sticker right-cat" />
       <img src="/assets/raindrops.gif" alt="Rain" class="aura-rain" />
     </div>
   {:else if moodTier === 'happy'}
     <div class="aura-container">
-      <img src="/assets/Happy_smiley_face.png" alt="Happy Face" class="aura-sticker left" />
+      <img src="/assets/more_sun.png" alt="Happy Sun" class="aura-sticker left-sun" />
       <img src="/assets/glitter_star.gif" alt="Sparkle" class="aura-star right" />
     </div>
   {:else if moodTier === 'ascended'}
     <div class="aura-container">
-      <img src="/assets/happy_sun.png" alt="Happy Sun" class="aura-sticker left" />
-      <img src="/assets/happy_sun.png" alt="Happy Sun" class="aura-sticker right mirror" />
+      <img src="/assets/more_sun.png" alt="Happy Sun" class="aura-sticker left-sun" />
+      <img src="/assets/sun.png" alt="Glorious Sun" class="aura-sticker right-sun spin-slow" />
       <img src="/assets/glitter_star.gif" alt="Star" class="aura-star top-left" />
       <img src="/assets/glitter_star.gif" alt="Star" class="aura-star top-right" />
     </div>
@@ -151,12 +151,12 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
-    max-width: 460px;
+    max-width: 640px;
     margin: 0 auto;
     user-select: none;
   }
 
-  /* Ambient Aura Stickers */
+  /* Ambient Mood Stickers */
   .aura-container {
     position: absolute;
     inset: 0;
@@ -166,28 +166,58 @@
 
   .aura-sticker {
     position: absolute;
-    width: 54px;
-    height: 54px;
+    width: 72px;
+    height: 72px;
     object-fit: contain;
-    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.7));
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.85));
     animation: stickerFloat 2.5s ease-in-out infinite alternate;
   }
 
   .aura-sticker.left {
-    top: 30px;
-    left: -24px;
+    top: 45px;
+    left: -40px;
   }
 
   .aura-sticker.left-taco {
+    top: 55px;
+    left: -58px;
+    width: 95px;
+    height: 70px;
+  }
+
+  .aura-sticker.right-cat {
     top: 40px;
-    left: -35px;
-    width: 70px;
-    height: 50px;
+    right: -58px;
+    width: 80px;
+    height: 80px;
+  }
+
+  .aura-sticker.left-sun {
+    top: 35px;
+    left: -58px;
+    width: 85px;
+    height: 85px;
+  }
+
+  .aura-sticker.right-sun {
+    top: 35px;
+    right: -58px;
+    width: 90px;
+    height: 90px;
+  }
+
+  .spin-slow {
+    animation: sunSpin 24s linear infinite, stickerFloat 3s ease-in-out infinite alternate;
+  }
+
+  @keyframes sunSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
   }
 
   .aura-sticker.right {
-    top: 30px;
-    right: -24px;
+    top: 45px;
+    right: -40px;
   }
 
   .aura-sticker.mirror {
@@ -196,49 +226,49 @@
 
   .aura-flame {
     position: absolute;
-    top: 40px;
-    width: 36px;
-    height: 46px;
+    top: 50px;
+    width: 50px;
+    height: 64px;
   }
 
-  .aura-flame.left { left: -5px; }
-  .aura-flame.right-flame { right: -5px; }
+  .aura-flame.left { left: -14px; }
+  .aura-flame.right-flame { right: -14px; }
 
   .aura-rain {
     position: absolute;
-    top: 60px;
-    left: 5px;
-    width: 28px;
+    top: 85px;
+    left: -5px;
+    width: 38px;
   }
 
   .aura-star {
     position: absolute;
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
   }
-  .aura-star.right { top: 20px; right: 0; }
-  .aura-star.top-left { top: 0px; left: 15px; }
-  .aura-star.top-right { top: 0px; right: 15px; }
+  .aura-star.right { top: 30px; right: -12px; }
+  .aura-star.top-left { top: -6px; left: 12px; }
+  .aura-star.top-right { top: -6px; right: 12px; }
 
   /* Speech Plaque (Millionaire Style) */
   .speech-plaque {
     background: linear-gradient(180deg, #182e66 0%, #0d1a3d 100%);
     border: 2px solid #d4af37;
-    border-radius: 20px;
-    padding: 6px 18px;
-    margin-bottom: 8px;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    border-radius: 24px;
+    padding: 10px 28px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.25);
     text-align: center;
-    max-width: 440px;
+    max-width: 620px;
     z-index: 5;
   }
 
   .speech-text {
-    font-size: 13px;
+    font-size: 16px;
     color: #fce69a;
     font-weight: bold;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
-    line-height: 1.3;
+    line-height: 1.35;
   }
 
   /* Studio Hot Seat Frame */
@@ -251,21 +281,21 @@
 
   .gold-rim-outer {
     position: relative;
-    padding: 3px;
+    padding: 4px;
     background: linear-gradient(180deg, #fff3a8 0%, #d4af37 30%, #8a6218 70%, #f7dc87 100%);
-    border-radius: 12px;
+    border-radius: 16px;
     box-shadow:
-      0 8px 25px rgba(0, 0, 0, 0.8),
-      0 0 15px rgba(212, 175, 55, 0.3);
+      0 10px 32px rgba(0, 0, 0, 0.9),
+      0 0 24px rgba(212, 175, 55, 0.4);
   }
 
   .gold-rim-inner {
     background: #091326;
     border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 9px;
-    padding: 4px;
-    width: 170px;
-    height: 170px;
+    border-radius: 12px;
+    padding: 5px;
+    width: 250px;
+    height: 250px;
     overflow: hidden;
   }
 
@@ -351,21 +381,22 @@
   /* Mood Bar */
   .mood-bar-container {
     width: 100%;
-    margin-top: 8px;
+    max-width: 520px;
+    margin-top: 10px;
     background: linear-gradient(180deg, #101e42 0%, #091228 100%);
     border: 1px solid #d4af37;
-    border-radius: 6px;
-    padding: 5px 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+    border-radius: 8px;
+    padding: 6px 14px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.7);
     z-index: 5;
   }
 
   .mood-bar-track {
     width: 100%;
-    height: 8px;
+    height: 10px;
     background: #050a16;
-    border: 1px solid rgba(212, 175, 55, 0.3);
-    border-radius: 3px;
+    border: 1px solid rgba(212, 175, 55, 0.35);
+    border-radius: 4px;
     overflow: hidden;
   }
 

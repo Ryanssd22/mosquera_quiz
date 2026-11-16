@@ -10,12 +10,30 @@
   let isPlaying = $state(false);
   let volume = $state(65);
   let isMuted = $state(false);
-  let isMinimized = $state(false);
-  let trackTitle = $state("Dr. Mosquera - Kahoot Theme (TyhIVDh-dVo)");
+  let trackTitle = $state("Kahoot Album (TyhIVDh-dVo)");
   let playerContainerId = "winamp-yt-iframe";
+  let hasSeekedRandom = $state(false);
+
+  // Generate a random start time offset between 10s and 1500s
+  const initialRandomStart = Math.floor(Math.random() * 1400) + 10;
+
+  function performRandomSeek() {
+    if (player && isReady && !hasSeekedRandom) {
+      try {
+        const duration = player.getDuration();
+        let targetSec = initialRandomStart;
+        if (duration && duration > 120) {
+          targetSec = Math.floor(Math.random() * (duration - 60)) + 15;
+        }
+        player.seekTo(targetSec, true);
+        hasSeekedRandom = true;
+      } catch (e) {
+        console.log("Seek error:", e);
+      }
+    }
+  }
 
   onMount(() => {
-    // Check if YouTube API is already loaded or inject it
     if (!window.YT) {
       const tag = document.createElement('script');
       tag.src = "https://www.youtube.com/iframe_api";
@@ -35,6 +53,7 @@
             disablekb: 1,
             fs: 0,
             loop: 1,
+            start: initialRandomStart,
             playlist: 'TyhIVDh-dVo',
             modestbranding: 1,
             rel: 0,
@@ -44,6 +63,7 @@
             onReady: (event) => {
               isReady = true;
               event.target.setVolume(volume);
+              performRandomSeek();
               if (autoPlayOnStart) {
                 try {
                   event.target.playVideo();
@@ -53,9 +73,11 @@
               }
             },
             onStateChange: (event) => {
-              // 1 = PLAYING, 2 = PAUSED, 0 = ENDED
               if (event.data === window.YT.PlayerState.PLAYING) {
                 isPlaying = true;
+                if (!hasSeekedRandom) {
+                  performRandomSeek();
+                }
               } else if (event.data === window.YT.PlayerState.PAUSED || event.data === window.YT.PlayerState.ENDED) {
                 isPlaying = false;
               }
@@ -83,6 +105,9 @@
   export function playMusic() {
     if (player && isReady) {
       try {
+        if (!hasSeekedRandom) {
+          performRandomSeek();
+        }
         player.playVideo();
         isPlaying = true;
       } catch (e) {
@@ -150,97 +175,40 @@
       }
     }
   }
-
-  function toggleMinimize() {
-    playClick();
-    isMinimized = !isMinimized;
-  }
 </script>
 
-<!-- Hidden YouTube IFrame Container (100% Client-Side Audio Playback) -->
+<!-- Hidden YouTube IFrame Container -->
 <div class="yt-hidden-wrapper" aria-hidden="true">
   <div id={playerContainerId}></div>
 </div>
 
-<div class="winamp-container" class:minimized={isMinimized}>
-  <!-- Winamp Title Bar -->
-  <div
-    class="winamp-titlebar"
-    onclick={toggleMinimize}
-    onkeydown={(e) => { if (e.key === 'Enter' || e.key === ' ') toggleMinimize(); }}
-    role="button"
-    tabindex="0"
-  >
-    <div class="titlebar-left">
-      <Icon icon="mdi:lightning-bolt" width="14" class="winamp-bolt" />
-      <span class="winamp-title-text">WINAMP 2.91 - [Dr. Mosquera Jukebox]</span>
-    </div>
-    <div class="titlebar-buttons">
-      <button class="winamp-btn-tiny" onclick={(e) => { e.stopPropagation(); toggleMinimize(); }} title="Toggle View">
-        <Icon icon={isMinimized ? "mdi:chevron-up" : "mdi:chevron-down"} width="12" />
-      </button>
-    </div>
+<!-- Ultra-Compact Floating Jukebox Mini-Bar (Never overlaps answers) -->
+<div class="mini-jukebox">
+  <button class="juke-btn play-btn" class:active={isPlaying} onclick={handlePlayToggle} title={isPlaying ? "Pause" : "Play"}>
+    <Icon icon={isPlaying ? "mdi:pause" : "mdi:play"} width="15" />
+  </button>
+  <button class="juke-btn stop-btn" onclick={handleStop} title="Stop">
+    <Icon icon="mdi:stop" width="14" />
+  </button>
+
+  <div class="juke-track-pill">
+    <Icon icon="mdi:music" width="13" class="juke-music-icon" />
+    <span class="juke-track-text">{isPlaying ? trackTitle : 'Music Paused'}</span>
   </div>
 
-  {#if !isMinimized}
-    <div class="winamp-body">
-      <!-- Main LCD Display -->
-      <div class="winamp-lcd">
-        <div class="lcd-top-row">
-          <span class="lcd-kbps">128 KBPS</span>
-          <span class="lcd-khz">44 KHZ</span>
-          <span class="lcd-stereo">STEREO</span>
-          <span class="lcd-yt-badge">YOUTUBE CLIENT AUDIO</span>
-        </div>
-        <div class="lcd-marquee-wrapper">
-          <div class="lcd-marquee" class:scrolling={isPlaying}>
-            {isPlaying ? `NOW PLAYING: ${trackTitle}` : `PAUSED: ${trackTitle}`}
-          </div>
-        </div>
-        <div class="lcd-bottom-row">
-          <div class="lcd-visualizer">
-            {#if isPlaying}
-              <img src="/assets/winamp_eq.gif" alt="Equalizer" class="eq-gif" />
-            {:else}
-              <div class="eq-paused">PAUSED</div>
-            {/if}
-          </div>
-          <div class="lcd-status-light" class:active={isPlaying}>
-            {isPlaying ? 'PLAY' : 'READY'}
-          </div>
-        </div>
-      </div>
+  <button class="juke-btn mute-btn" class:muted={isMuted} onclick={handleMuteToggle} title="Mute">
+    <Icon icon={isMuted ? "mdi:volume-off" : "mdi:volume-high"} width="14" />
+  </button>
 
-      <!-- Controls Panel -->
-      <div class="winamp-controls">
-        <button class="winamp-button" class:active={isPlaying} onclick={handlePlayToggle} title={isPlaying ? "Pause" : "Play"}>
-          <Icon icon={isPlaying ? "mdi:pause" : "mdi:play"} width="13" />
-          <span>{isPlaying ? 'PAUSE' : 'PLAY'}</span>
-        </button>
-        <button class="winamp-button" onclick={handleStop} title="Stop">
-          <Icon icon="mdi:stop" width="13" />
-          <span>STOP</span>
-        </button>
-        <button class="winamp-button mute-btn" class:muted={isMuted} onclick={handleMuteToggle} title="Mute">
-          <Icon icon={isMuted ? "mdi:volume-off" : "mdi:volume-high"} width="13" />
-          <span>{isMuted ? 'MUTED' : 'VOL'}</span>
-        </button>
-
-        <div class="volume-box">
-          <span class="vol-label">VOL:</span>
-          <input
-            type="range"
-            min="0"
-            max="100"
-            value={volume}
-            oninput={handleVolumeChange}
-            class="vol-slider"
-          />
-          <span class="vol-value">{volume}%</span>
-        </div>
-      </div>
-    </div>
-  {/if}
+  <input
+    type="range"
+    min="0"
+    max="100"
+    value={volume}
+    oninput={handleVolumeChange}
+    class="juke-vol-slider"
+    title="Volume: {volume}%"
+  />
 </div>
 
 <style>
@@ -255,223 +223,85 @@
     pointer-events: none;
   }
 
-  .winamp-container {
-    font-family: 'Comic Sans MS', 'Comic Sans', cursive, sans-serif;
-    width: 320px;
-    background: #1e2638;
-    border: 2px solid #334155;
-    border-radius: 6px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
+  /* Ultra-Compact Jukebox Bar */
+  .mini-jukebox {
+    position: fixed;
+    bottom: 8px;
+    right: 12px;
+    height: 32px;
+    background: rgba(10, 20, 48, 0.94);
+    border: 1px solid #d4af37;
+    border-radius: 16px;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.8), 0 0 10px rgba(212, 175, 55, 0.3);
+    z-index: 9999;
     user-select: none;
-    z-index: 1000;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    backdrop-filter: blur(6px);
   }
 
-  .winamp-container.minimized {
-    width: 250px;
-  }
-
-  .winamp-titlebar {
-    background: #0f172a;
-    color: #f1f5f9;
-    font-size: 11px;
-    font-weight: bold;
-    padding: 5px 8px;
+  .juke-btn {
+    background: #182e66;
+    border: 1px solid #d4af37;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: center;
+    color: #fce69a;
     cursor: pointer;
-    border-bottom: 1px solid #334155;
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
+    padding: 0;
+    transition: background 0.15s, transform 0.1s;
   }
 
-  .titlebar-left {
+  .juke-btn:hover {
+    background: #254b9e;
+    transform: scale(1.08);
+  }
+
+  .juke-btn.active {
+    background: #15803d;
+    border-color: #4ade80;
+    color: #ffffff;
+  }
+
+  .juke-btn.muted {
+    background: #7f1d1d;
+    border-color: #ef4444;
+    color: #f87171;
+  }
+
+  .juke-track-pill {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
+    max-width: 170px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
   }
 
-  :global(.winamp-bolt) {
-    color: #facc15;
+  :global(.juke-music-icon) {
+    color: #fce69a;
+    flex-shrink: 0;
   }
 
-  .winamp-btn-tiny {
-    background: #334155;
-    color: #e2e8f0;
-    border: 1px solid #475569;
-    border-radius: 3px;
-    padding: 2px 4px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .winamp-body {
-    padding: 8px;
-    background: #111827;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-  }
-
-  /* LCD Display */
-  .winamp-lcd {
-    background: #061208;
-    border: 1px solid #166534;
-    border-radius: 4px;
-    padding: 6px;
-    color: #4ade80;
-    margin-bottom: 8px;
-  }
-
-  .lcd-top-row {
-    display: flex;
-    justify-content: space-between;
-    font-size: 9px;
-    color: #22c55e;
-    border-bottom: 1px solid #14532d;
-    padding-bottom: 3px;
-    margin-bottom: 4px;
-    font-family: monospace;
-  }
-
-  .lcd-yt-badge {
-    color: #facc15;
+  .juke-track-text {
+    font-size: 11px;
     font-weight: bold;
-  }
-
-  .lcd-marquee-wrapper {
+    color: #e2e8f0;
     overflow: hidden;
-    white-space: nowrap;
-    height: 18px;
-    background: #022c11;
-    border: 1px solid #14532d;
-    border-radius: 2px;
-    margin-bottom: 4px;
+    text-overflow: ellipsis;
   }
 
-  .lcd-marquee {
-    display: inline-block;
-    font-size: 11px;
-    font-weight: bold;
-    color: #86efac;
-    text-shadow: 0 0 4px #22c55e;
-    padding-left: 6px;
-  }
-
-  .lcd-marquee.scrolling {
-    animation: winampScroll 16s linear infinite;
-  }
-
-  @keyframes winampScroll {
-    0% { transform: translateX(100%); }
-    100% { transform: translateX(-100%); }
-  }
-
-  .lcd-bottom-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 18px;
-  }
-
-  .lcd-visualizer {
-    height: 16px;
-    display: flex;
-    align-items: center;
-  }
-
-  .eq-gif {
-    height: 16px;
-    image-rendering: pixelated;
-  }
-
-  .eq-paused {
-    font-size: 10px;
-    color: #15803d;
-    font-family: monospace;
-  }
-
-  .lcd-status-light {
-    font-size: 10px;
-    font-weight: bold;
-    color: #475569;
-  }
-
-  .lcd-status-light.active {
-    color: #4ade80;
-    text-shadow: 0 0 6px #22c55e;
-  }
-
-  /* Controls Panel */
-  .winamp-controls {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    flex-wrap: wrap;
-  }
-
-  .winamp-button {
-    background: #1e293b;
-    color: #e2e8f0;
-    border: 1px solid #475569;
-    border-radius: 4px;
-    font-family: 'Comic Sans MS', cursive, sans-serif;
-    font-size: 11px;
-    font-weight: bold;
-    padding: 4px 8px;
+  .juke-vol-slider {
+    width: 50px;
+    height: 4px;
+    accent-color: #fce69a;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    transition: background 0.15s, border-color 0.15s;
-  }
-
-  .winamp-button:hover {
-    background: #334155;
-    border-color: #64748b;
-  }
-
-  .winamp-button.active {
-    background: #0f766e;
-    border-color: #14b8a6;
-    color: #ffffff;
-  }
-
-  .winamp-button.muted {
-    background: #7f1d1d;
-    border-color: #ef4444;
-    color: #fef2f2;
-  }
-
-  .volume-box {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    margin-left: auto;
-  }
-
-  .vol-label {
-    color: #cbd5e1;
-    font-size: 10px;
-    font-weight: bold;
-  }
-
-  .vol-slider {
-    width: 60px;
-    height: 5px;
-    accent-color: #22c55e;
-    cursor: pointer;
-  }
-
-  .vol-value {
-    color: #86efac;
-    font-size: 10px;
-    font-family: monospace;
-    width: 28px;
-    text-align: right;
   }
 </style>

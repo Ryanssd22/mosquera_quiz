@@ -44,6 +44,8 @@
 
   :global(:root) {
     --mood-bg-color: #0c1836;
+    --mood-dot-color-1: rgba(80, 140, 255, 0.36);
+    --mood-dot-color-2: rgba(255, 215, 0, 0.25);
   }
 
   :global(body) {
@@ -52,23 +54,23 @@
     background-color: var(--mood-bg-color, #0c1836);
     background-image:
       radial-gradient(circle at 50% 40%, rgba(27, 54, 118, 0.85) 0%, rgba(13, 26, 60, 0.95) 55%, rgba(6, 11, 24, 1) 100%),
-      radial-gradient(rgba(255, 255, 255, 0.12) 1.2px, transparent 1.2px),
-      radial-gradient(rgba(255, 255, 255, 0.06) 1.2px, transparent 1.2px);
+      radial-gradient(circle, var(--mood-dot-color-1, rgba(80, 140, 255, 0.36)) 2.2px, transparent 2.2px),
+      radial-gradient(circle, var(--mood-dot-color-2, rgba(255, 215, 0, 0.25)) 1.8px, transparent 1.8px);
     background-size: 100% 100%, 36px 36px, 18px 18px;
     background-position: 0 0, 0 0, 18px 18px;
-    animation: subtleDotSway 14s ease-in-out infinite alternate;
-    transition: background-color 1s ease;
+    animation: tackyDotSway 7s ease-in-out infinite alternate;
+    transition: background-color 0.8s ease;
     min-height: 100vh;
     color: #ffffff;
     overflow-x: hidden;
   }
 
-  @keyframes subtleDotSway {
+  @keyframes tackyDotSway {
     0% {
       background-position: 0 0, 0px 0px, 18px 18px;
     }
     50% {
-      background-position: 0 0, 9px 7px, 27px 25px;
+      background-position: 0 0, 18px 14px, 36px 32px;
     }
     100% {
       background-position: 0 0, 0px 0px, 18px 18px;
